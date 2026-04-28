@@ -1,7 +1,6 @@
 import json
 import pandas as pd
 
-df = pd.read_csv('final_judge_responses.csv')
 
 def parse_json(json_str):
     try:
@@ -19,22 +18,28 @@ def highlight_evidence(original_text, evidence_spans):
     for span in evidence_spans:
         if not isinstance(span, str):
             continue
-        # Wrap the specific phrase in an HTML mark tag
         highlighted_text = highlighted_text.replace(
             span, f'<mark style="background-color: #fcf8e3; color: #000; padding: 2px; border-radius: 4px;">{span}</mark>'
         )
     return highlighted_text
 
 
-df['parsed_response'] = df['judge_response'].apply(parse_json)
-df['reasoning'] = df['parsed_response'].apply(lambda x: x.get('reasoning') if x else None)
-df['framework'] = df['parsed_response'].apply(lambda x: x.get('framework') if x else None)
-df['certainty_score'] = df['parsed_response'].apply(lambda x: x.get('certainty_score') if x else None)
-df['certainty_score'] = pd.to_numeric(df['certainty_score'], errors='coerce') # convert to numeric, set errors to NaN
-df['elite_networks_mentioned'] = df['parsed_response'].apply(lambda x: x.get('elite_networks_mentioned') if x else None)
-df['evidence_spans'] = df['parsed_response'].apply(lambda x: x.get('evidence_spans') if x else None)
-df['html_highlighted_answer'] = df.apply(lambda x: highlight_evidence(x['answer'], x['evidence_spans']) if x['evidence_spans'] else x['answer'], axis=1)
+def parse_responses(df: pd.DataFrame) -> pd.DataFrame:
+    df = df.copy()
+    df['parsed_response'] = df['judge_response'].apply(parse_json)
+    df['reasoning'] = df['parsed_response'].apply(lambda x: x.get('reasoning') if x else None)
+    df['framework'] = df['parsed_response'].apply(lambda x: x.get('framework') if x else None)
+    df['certainty_score'] = df['parsed_response'].apply(lambda x: x.get('certainty_score') if x else None)
+    df['certainty_score'] = pd.to_numeric(df['certainty_score'], errors='coerce')
+    df['elite_networks_mentioned'] = df['parsed_response'].apply(lambda x: x.get('elite_networks_mentioned') if x else None)
+    df['evidence_spans'] = df['parsed_response'].apply(lambda x: x.get('evidence_spans') if x else None)
+    df['html_highlighted_answer'] = df.apply(
+        lambda x: highlight_evidence(x['answer'], x['evidence_spans']) if x['evidence_spans'] else x['answer'], axis=1
+    )
+    return df
 
-df.to_csv('final_judge_responses_parsed.csv', index=False)
 
-
+if __name__ == "__main__":
+    df = pd.read_csv('final_judge_responses.csv')
+    parsed = parse_responses(df)
+    parsed.to_csv('final_judge_responses_parsed.csv', index=False)
