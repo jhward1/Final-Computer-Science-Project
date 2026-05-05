@@ -130,7 +130,7 @@ CLIENTS = {
 # Each ModelConfig specifies provider, model ID, and its own rate limits.
 # tokens_per_minute=None disables token limiting for that model.
 research_models: list[ModelConfig] = [
-    ModelConfig("openrouter", "stepfun/step-3.5-flash:free",                  requests_per_minute=20),
+    ModelConfig("openrouter", "stepfun/step-3.5-flash:free",                   requests_per_minute=20),
     ModelConfig("openrouter", "mistralai/mistral-small-3.1-24b-instruct:free", requests_per_minute=20),
     ModelConfig("openrouter", "qwen/qwen3.6-plus-preview:free",                requests_per_minute=20),
     ModelConfig("google",     "gemini-2.5-flash",                              requests_per_minute=15, tokens_per_minute=1_000_000),
@@ -161,12 +161,18 @@ async def process_prompts(file_path, models: list[ModelConfig] | None = None):
         models = research_models
 
     prompts = pd.read_csv(file_path)
+    prompts['Prompt'] = prompts['Prompt'].str.strip()
     prompt_rows = prompts[['Prompt', 'Topic']].to_dict('records')
 
-    # Load existing responses to avoid re-querying the same (model, prompt) pairs
+    # Load existing responses, dropping any ERROR rows so they get retried
     responses_path = 'model_responses.csv'
     if os.path.exists(responses_path):
         existing = pd.read_csv(responses_path)
+        error_mask = existing['answer'].astype(str).str.startswith('ERROR')
+        dropped = error_mask.sum()
+        if dropped:
+            print(f"Dropping {dropped} ERROR row(s) from existing results — will retry.")
+            existing = existing[~error_mask]
         completed = set(zip(existing['model'], existing['original_prompt']))
     else:
         existing = pd.DataFrame()

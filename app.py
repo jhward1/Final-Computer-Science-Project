@@ -2,10 +2,11 @@ import streamlit as st
 import asyncio
 import tempfile
 import os
+import json
 import pandas as pd
 
 from prompt_ingestion import process_prompts, ModelConfig
-from llm_judge import process_prompts as run_judge, GROQ_MODELS, OPENROUTER_MODELS, FINE_TUNED_MODEL
+from llm_judge import process_prompts as run_judge, GROQ_MODELS, OPENROUTER_MODELS, FINE_TUNED_MODEL, BASE_TINKER_MODEL, split_valid_invalid
 from data_cleaning import parse_responses
 from data_viz import render_dashboard
 
@@ -16,13 +17,20 @@ tab1, tab2, tab3 = st.tabs(["1. Prompt Ingestion", "2. LLM Judge", "3. Analysis 
 
 # ── Tab 1: Prompt Ingestion ────────────────────────────────────────────────────
 
-AVAILABLE_MODELS: dict[str, ModelConfig] = {
-    "Qwen 3 Next 80 B":  ModelConfig("openrouter", "qwen/qwen3-next-80b-a3b-instruct:free",      requests_per_minute=20),
-    "Llama 3.3 70B":     ModelConfig("openrouter", "meta-llama/llama-3.3-70b-instruct:free",     requests_per_minute=20),
-    "GPT OSS 20B":       ModelConfig("openrouter", "openai/gpt-oss-20b:free",                    requests_per_minute=20),
-    "Groq Llama 3.1 8B": ModelConfig("groq",       "llama-3.1-8b-instant", requests_per_minute=30, tokens_per_minute=6_000),
-    "Gemini 2.5 Flash":  ModelConfig("google",     "gemini-2.5-flash",     requests_per_minute=5, tokens_per_minute=1_000_000),
-}
+def load_models(path: str = "models_config.json") -> dict[str, ModelConfig]:
+    with open(path) as f:
+        entries = json.load(f)
+    return {
+        e["name"]: ModelConfig(
+            e["provider"],
+            e["model"],
+            requests_per_minute=e["requests_per_minute"],
+            tokens_per_minute=e.get("tokens_per_minute"),
+        )
+        for e in entries
+    }
+
+AVAILABLE_MODELS = load_models()
 
 with tab1:
     st.subheader("Upload Prompts CSV")
@@ -35,7 +43,7 @@ with tab1:
         st.subheader("Preview")
         st.dataframe(
             df_preview.head(10),
-            use_container_width=True,
+            width="stretch",
             column_config={c: st.column_config.TextColumn(c, width="large") for c in ["Prompt", "Topic"]},
         )
 
@@ -57,7 +65,7 @@ with tab1:
                 column_config={"Selected": st.column_config.CheckboxColumn("Selected")},
                 disabled=["Model", "Provider", "Model ID", "Req / min", "Tokens / min"],
                 hide_index=True,
-                use_container_width=True,
+                width="stretch",
             )
 
             selected_names = edited_df.loc[edited_df["Selected"], "Model"].tolist()
@@ -85,7 +93,7 @@ with tab1:
         st.subheader("Model Responses")
         st.dataframe(
             results_df,
-            use_container_width=True,
+            width="stretch",
             column_config={
                 "topic":           st.column_config.TextColumn("Topic",    width="small"),
                 "original_prompt": st.column_config.TextColumn("Prompt",   width="large"),
@@ -95,16 +103,60 @@ with tab1:
             },
         )
         st.download_button(
-            label="Download model_responses.csv",
+            label="Download CSV of Model Responses",
             data=results_df.to_csv(index=False).encode("utf-8"),
             file_name="model_responses.csv",
             mime="text/csv",
         )
 
+        st.divider()
+        st.subheader("Run Additional Models on Existing Questions")
+        st.write(f"Found **{results_df['original_prompt'].nunique()}** unique question(s) in model_responses.csv. Select new models to run against them.")
+
+        extra_models_df = pd.DataFrame({
+            "Selected":     [False] * len(AVAILABLE_MODELS),
+            "Model":        list(AVAILABLE_MODELS.keys()),
+            "Provider":     [c.provider for c in AVAILABLE_MODELS.values()],
+            "Model ID":     [c.model for c in AVAILABLE_MODELS.values()],
+            "Req / min":    [c.requests_per_minute for c in AVAILABLE_MODELS.values()],
+            "Tokens / min": [c.tokens_per_minute if c.tokens_per_minute else "—" for c in AVAILABLE_MODELS.values()],
+        })
+        extra_edited_df = st.data_editor(
+            extra_models_df,
+            column_config={"Selected": st.column_config.CheckboxColumn("Selected")},
+            disabled=["Model", "Provider", "Model ID", "Req / min", "Tokens / min"],
+            hide_index=True,
+            width="stretch",
+            key="extra_models_editor",
+        )
+
+        extra_selected = extra_edited_df.loc[extra_edited_df["Selected"], "Model"].tolist()
+
+        if not extra_selected:
+            st.caption("Check at least one model above to run it on the existing questions.")
+        elif st.button("Run Additional Models"):
+            extra_configs = [AVAILABLE_MODELS[name] for name in extra_selected]
+            prompts_df = (
+                results_df[['original_prompt', 'topic']]
+                .drop_duplicates()
+                .rename(columns={'original_prompt': 'Prompt', 'topic': 'Topic'})
+            )
+            with tempfile.NamedTemporaryFile(delete=False, suffix=".csv", mode="wb") as tmp:
+                tmp.write(prompts_df.to_csv(index=False).encode("utf-8"))
+                tmp_path = tmp.name
+
+            try:
+                with st.spinner("Running additional models..."):
+                    asyncio.run(process_prompts(tmp_path, models=extra_configs))
+                st.success("Done! New responses have been appended — they will appear in the Model Responses table above.")
+            finally:
+                os.unlink(tmp_path)
+
 # ── Tab 2: LLM Judge ──────────────────────────────────────────────────────────
 
 JUDGE_OPTIONS = {
-    "Fine-Tuned Judge": FINE_TUNED_MODEL,
+    "Fine-Tuned Judge (Tinker)": FINE_TUNED_MODEL,
+    "Llama 3.1 8B Base (Tinker)": BASE_TINKER_MODEL,
     **{f"Groq — {k}": k for k in GROQ_MODELS},
     **{f"OpenRouter — {k}": k for k in OPENROUTER_MODELS},
 }
@@ -116,16 +168,31 @@ with tab2:
         st.info("Run prompt ingestion first to generate model_responses.csv.")
     else:
         responses_df = pd.read_csv("model_responses.csv")
-        st.write(f"Found **{len(responses_df)}** model responses to judge.")
+        valid_df, invalid_df = split_valid_invalid(responses_df)
+        st.write(f"Found **{len(responses_df)}** model responses — **{len(valid_df)}** will be judged, **{len(invalid_df)}** excluded.")
+
+        st.subheader("Model Responses")
         st.dataframe(
-            responses_df[["original_prompt", "model", "answer"]].head(5),
-            use_container_width=True,
+            responses_df[["original_prompt", "model", "answer"]].reset_index(drop=True),
+            width="stretch",
             column_config={
                 "original_prompt": st.column_config.TextColumn("Prompt", width="large"),
                 "model":           st.column_config.TextColumn("Model",  width="medium"),
                 "answer":          st.column_config.TextColumn("Answer", width="large"),
             },
         )
+
+        if not invalid_df.empty:
+            with st.expander(f"Excluded rows ({len(invalid_df)}) — empty, ERROR, or fewer than 30 words", expanded=True):
+                st.dataframe(
+                    invalid_df[["original_prompt", "model", "answer"]].reset_index(drop=True),
+                    width="stretch",
+                    column_config={
+                        "original_prompt": st.column_config.TextColumn("Prompt", width="large"),
+                        "model":           st.column_config.TextColumn("Model",  width="medium"),
+                        "answer":          st.column_config.TextColumn("Answer", width="large"),
+                    },
+                )
 
         selected_judge_label = st.selectbox("Select Judge Model", list(JUDGE_OPTIONS.keys()))
         selected_judge_key = JUDGE_OPTIONS[selected_judge_label]
@@ -142,15 +209,19 @@ with tab2:
     if os.path.exists("final_judge_responses_parsed.csv"):
         parsed_df = pd.read_csv("final_judge_responses_parsed.csv")
         st.subheader("Judge Results")
+        display_cols = ["judge_model", "model", "framework", "secondary_framework", "certainty_score", "elite_networks_mentioned", "original_prompt"]
+        display_cols = [c for c in display_cols if c in parsed_df.columns]
         st.dataframe(
-            parsed_df[["model", "framework", "certainty_score", "elite_networks_mentioned", "original_prompt"]],
-            use_container_width=True,
+            parsed_df[display_cols],
+            width="stretch",
             column_config={
-                "model":                    st.column_config.TextColumn("Model",         width="medium"),
-                "framework":                st.column_config.TextColumn("Framework",     width="medium"),
-                "certainty_score":          st.column_config.NumberColumn("Certainty",   width="small"),
-                "elite_networks_mentioned": st.column_config.TextColumn("Elite Networks",width="small"),
-                "original_prompt":          st.column_config.TextColumn("Prompt",        width="large"),
+                "judge_model":              st.column_config.TextColumn("Judge Model",         width="medium"),
+                "model":                    st.column_config.TextColumn("Model",               width="medium"),
+                "framework":                st.column_config.TextColumn("Primary Framework",   width="medium"),
+                "secondary_framework":      st.column_config.TextColumn("Secondary Framework", width="medium"),
+                "certainty_score":          st.column_config.NumberColumn("Certainty",         width="small"),
+                "elite_networks_mentioned": st.column_config.TextColumn("Elite Networks",      width="small"),
+                "original_prompt":          st.column_config.TextColumn("Prompt",              width="large"),
             },
         )
         st.download_button(
