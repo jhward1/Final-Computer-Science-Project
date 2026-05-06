@@ -42,10 +42,12 @@ OPENROUTER_MODELS = {
     "llama-3.3-70b":   "meta-llama/llama-3.3-70b-instruct:free",
     "gpt-oss-20b":     "openai/gpt-oss-20b:free",
 }
-FINE_TUNED_MODEL = "fine-tuned"
+FINE_TUNED_MODEL  = "fine-tuned"
 BASE_TINKER_MODEL = "base-llama"
-FINE_TUNED_PATH  = "tinker://777867dc-d559-51ed-b9c6-2fffd1b8c878:train:0/sampler_weights/final"
-BASE_MODEL_NAME  = "meta-llama/Llama-3.1-8B-Instruct"
+QWEN3_TINKER_MODEL = "qwen3-30b-tinker"
+FINE_TUNED_PATH   = "tinker://777867dc-d559-51ed-b9c6-2fffd1b8c878:train:0/sampler_weights/final"
+BASE_MODEL_NAME   = "meta-llama/Llama-3.1-8B-Instruct"
+QWEN3_MODEL_NAME  = "Qwen/Qwen3-30B-A3B-Instruct-2507"
 
 JUDGE_MODEL = FINE_TUNED_MODEL  # ← change this to switch judge
 
@@ -218,6 +220,27 @@ async def run_judge_base_tinker(question: str, answer: str, completer: TinkerMes
         return f"ERROR: {str(e)}"
 
 
+def build_qwen3_completer() -> TinkerMessageCompleter:
+    sampling_client = tinker.ServiceClient().create_sampling_client(base_model=QWEN3_MODEL_NAME)
+    renderer_name = model_info.get_recommended_renderer_name(QWEN3_MODEL_NAME)
+    tokenizer = get_tokenizer(QWEN3_MODEL_NAME)
+    renderer = renderers.get_renderer(renderer_name, tokenizer)
+    return TinkerMessageCompleter(sampling_client, renderer, max_tokens=1024, temperature=0.0)
+
+
+async def run_judge_qwen3_tinker(question: str, answer: str, completer: TinkerMessageCompleter) -> str:
+    prompt = build_prompt(question, answer)
+    messages = [
+        {"role": "system", "content": GRADING_FORMAT_PROMPT},
+        {"role": "user", "content": prompt},
+    ]
+    try:
+        response = await completer(messages)
+        return response["content"]
+    except Exception as e:
+        return f"ERROR: {str(e)}"
+
+
 def build_finetuned_completer() -> TinkerMessageCompleter:
     sampling_client = tinker.ServiceClient().create_sampling_client(model_path=FINE_TUNED_PATH)
     renderer_name = model_info.get_recommended_renderer_name(BASE_MODEL_NAME)
@@ -287,6 +310,15 @@ async def process_prompts(judge_model_key: str | None = None):
         async def sem_task(prompt, model, answer):
             async with semaphore:
                 judge_response = await run_judge_base_tinker(prompt, answer, completer)
+                return {"original_prompt": prompt, "model": model, "answer": answer, "judge_model": judge, "judge_response": judge_response}
+
+    elif judge == QWEN3_TINKER_MODEL:
+        completer = build_qwen3_completer()
+        semaphore = asyncio.Semaphore(1)
+
+        async def sem_task(prompt, model, answer):
+            async with semaphore:
+                judge_response = await run_judge_qwen3_tinker(prompt, answer, completer)
                 return {"original_prompt": prompt, "model": model, "answer": answer, "judge_model": judge, "judge_response": judge_response}
 
     elif judge in OPENROUTER_MODELS:
