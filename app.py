@@ -14,7 +14,7 @@ def run_async(coro):
         return executor.submit(asyncio.run, coro).result()
 
 from prompt_ingestion import process_prompts, ModelConfig
-from llm_judge import process_prompts as run_judge, GROQ_MODELS, OPENROUTER_MODELS, FINE_TUNED_MODEL, BASE_TINKER_MODEL, QWEN3_TINKER_MODEL, split_valid_invalid
+from llm_judge import process_prompts as run_judge, OPENROUTER_MODELS, FINE_TUNED_MODEL, BASE_TINKER_MODEL, QWEN3_TINKER_MODEL, split_valid_invalid
 from data_cleaning import parse_responses
 from data_viz import render_dashboard
 from model_selection import fetch_openrouter_models
@@ -213,7 +213,6 @@ JUDGE_OPTIONS = {
     "Fine-Tuned Judge (Tinker)": FINE_TUNED_MODEL,
     "Llama 3.1 8B Base (Tinker)": BASE_TINKER_MODEL,
     "Qwen3 30B A3B (Tinker)": QWEN3_TINKER_MODEL,
-    **{f"Groq — {k}": k for k in GROQ_MODELS},
     **{f"OpenRouter — {k}": k for k in OPENROUTER_MODELS},
 }
 

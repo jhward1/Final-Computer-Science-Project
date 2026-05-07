@@ -43,13 +43,8 @@ def get_openrouter_client() -> AsyncOpenAI:
 SOURCE_FILE = 'model_responses.csv'
 
 # ── Judge model selection ──────────────────────────────────────────────────────
-# Set JUDGE_MODEL to one of the GROQ_MODELS or OPENROUTER_MODELS keys,
+# Set JUDGE_MODEL to one of the OPENROUTER_MODELS keys,
 # or to "fine-tuned" to use the locally fine-tuned tinker model.
-GROQ_MODELS = {
-    "llama-3.1-8b":    "llama-3.1-8b-instant",
-    "llama-3.3-70b": "llama-3.3-70b-versatile",
-    "gpt-oss-120b": "openai/gpt-oss-120b"
-}
 OPENROUTER_MODELS = {
     "qwen3-next-80b":  "qwen/qwen3-next-80b-a3b-instruct:free"
 }
@@ -260,13 +255,7 @@ async def process_prompts(judge_model_key: str | None = None):
                 return {"original_prompt": prompt, "model": model, "answer": answer, "judge_model": judge, "judge_response": judge_response}
 
     else:
-        groq_model = GROQ_MODELS[judge]
-        semaphore = asyncio.Semaphore(2)
-
-        async def sem_task(prompt, model, answer):
-            async with semaphore:
-                judge_response = await run_judge_groq(prompt, answer, groq_model)
-                return {"original_prompt": prompt, "model": model, "answer": answer, "judge_model": judge, "judge_response": judge_response}
+        raise ValueError(f"Unknown judge model key: '{judge}'. Use --list-judges to see available options.")
 
     if not tasks:
         print("All valid responses have already been judged. Nothing to do.")
@@ -285,7 +274,6 @@ if __name__ == "__main__":
         "fine-tuned":          FINE_TUNED_MODEL,
         "base-llama":          BASE_TINKER_MODEL,
         "qwen3-tinker":        QWEN3_TINKER_MODEL,
-        **{k: k for k in GROQ_MODELS},
         **{k: k for k in OPENROUTER_MODELS},
     }
 
