@@ -1,0 +1,44 @@
+[
+  {
+    "name": "Groq Llama 3.1 8B",
+    "provider": "groq",
+    "model": "llama-3.1-8b-instant",
+    "requests_per_minute": 30,
+    "tokens_per_minute": 6000
+  },
+  {
+    "name": "Gemini 2.5 Flash",
+    "provider": "google",
+    "model": "gemini-2.5-flash",
+    "requests_per_minute": 5,
+    "tokens_per_minute": 1000000
+  },
+  {
+    "name": "Gemini 2.5 Pro",
+    "provider": "google",
+    "model": "gemini-2.5-pro",
+    "requests_per_minute": 10,
+    "tokens_per_minute": 1000000
+  },
+  {
+    "name": "OpenAI: GPT-5.4 Mini",
+    "provider": "openrouter",
+    "model": "openai/gpt-5.4-mini",
+    "requests_per_minute": 20,
+    "tokens_per_minute": null
+  },
+  {
+    "name": "Anthropic: Claude 3 Haiku",
+    "provider": "openrouter",
+    "model": "anthropic/claude-3-haiku",
+    "requests_per_minute": 20,
+    "tokens_per_minute": null
+  },
+  {
+    "name": "Qwen: Qwen3 Next 80B A3B Instruct (free)",
+    "provider": "openrouter",
+    "model": "qwen/qwen3-next-80b-a3b-instruct:free",
+    "requests_per_minute": 20,
+    "tokens_per_minute": null
+  }
+]

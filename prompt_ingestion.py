@@ -6,6 +6,7 @@ import sys
 import time
 import tiktoken
 import pandas as pd
+import requests
 from dataclasses import dataclass, field
 from dotenv import load_dotenv
 import os
@@ -237,7 +238,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run prompt ingestion against selected models.")
     parser.add_argument("csv", nargs="?", help="Path to the CSV file with Prompt and Topic columns.")
     parser.add_argument("--models", nargs="+", metavar="NAME", help="Names of models to run (from config). Runs all if omitted.")
-    parser.add_argument("--config", default="models_config.json", metavar="PATH", help="Path to models config JSON (default: models_config.json).")
+    parser.add_argument("--config", default="cli_models_config.json", metavar="PATH", help="Path to models config JSON (default: cli_models_config.json).")
     parser.add_argument("--list-models", action="store_true", help="List available models from the config and exit.")
     args = parser.parse_args()
 

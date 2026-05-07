@@ -6,15 +6,11 @@ A Streamlit web application for testing whether large language models (LLMs) exh
 
 ## Project Background
 
-This project originated from a research proposal by Professors Gregory Shaffer and Sergio Puig titled *"What Type of International Order Is Promoted by AI? Investigating Biases in Large Language Models through International Economic Law."*
+This project was built for a research proposal by Professors Gregory Shaffer and Sergio Puig titled *"What Type of International Order Is Promoted by AI? Investigating Biases in Large Language Models through International Economic Law."*
 
-The professors identified a significant concern: LLMs are increasingly used by scholars, students, journalists, and policymakers as authoritative sources on international affairs, but their responses often present contested interpretations as settled facts. For example, when asked why President Trump expressed interest in Greenland, ChatGPT answered that the interest reflects "Arctic geopolitics, great-power competition, and symbolism" — framing one interpretive hypothesis as the definitive explanation, without acknowledging alternatives such as personalist or rent-seeking motivations tied to elite networks.
+The core concern is that LLMs present contested interpretations as settled facts. When asked why President Trump expressed interest in Greenland, for example, ChatGPT framed geopolitical competition as the definitive explanation without acknowledging alternatives such as personalist or rent-seeking motivations. At scale, this systematic privileging of geopolitical frameworks over sociological ones could have real "world-constructing" effects.
 
-The professors drew a parallel to Samuel Huntington's "Clash of Civilizations?", which began as a speculative thesis but was so widely adopted that it arguably helped construct the very conflicts it purported to describe. The concern is that LLMs, operating at enormous scale, could have similar "world-constructing" effects by systematically privileging certain explanatory frameworks — particularly geopolitical and geoeconomic accounts — while marginalizing sociological and political-economy perspectives that emphasize elite networks, personalist power, and rent-seeking behavior.
-
-The proposed research aimed to empirically investigate this bias across three domains of international economic law: the U.S.–China trade war, foreign investment and oil in the Americas, and access to minerals in Ukraine, the Congo, and elsewhere. Responses were to be coded for the type of explanation offered, degree of epistemic certainty, and presence or absence of alternative hypotheses.
-
-This codebase is a tool built to carry out that empirical research program.
+This codebase is a tool built to empirically investigate that bias across domains of international economic law.
 
 ---
 
@@ -170,7 +166,7 @@ Any other columns are ignored. A sample file (`geopolitics_questions_final_1.csv
    - **Llama 3.1 8B Base / Qwen3 30B** via Tinker (also requires internal access)
    - **Groq models** — Llama 3.1 8B and Llama 3.3 70B
    - **OpenRouter models** — Qwen3 80B
-3. Click **Run Judge**. The judge returns a JSON object with the primary framework, secondary framework, certainty score (1–5), whether elite networks were mentioned, and verbatim evidence strings.
+3. Click **Run Judge**. The judge returns a JSON object with the primary framework, secondary framework, certainty score (1–5), whether elite networks were mentioned, and verbatim evidence strings. The rubric used to instruct the judge is defined in `grading_prompt.txt` — edit that file to change the classification criteria without touching any code.
 4. Already-judged (model, prompt, judge) triples are skipped on re-runs, so you can switch judges and accumulate results from multiple judges without overwriting previous work.
 5. Results are parsed and saved to `final_judge_responses_parsed.csv`. A preview table and download button appear below.
 
@@ -200,13 +196,30 @@ The two core scripts can be run directly from the terminal without Streamlit. Th
 
 The same `.env` setup from Option 2 is required. All output files are written to the project directory.
 
+### Managing CLI Models
+
+The CLI uses a separate config file (`cli_models_config.json`) so it stays independent from the Streamlit app's `models_config.json`. Use `models_config_cli.py` to manage it:
+
+```bash
+# Add a model by its OpenRouter ID
+python models_config_cli.py add qwen/qwen3-30b:free
+
+# List all models currently in the CLI config
+python models_config_cli.py list
+
+# Remove a model by its display name
+python models_config_cli.py remove "Qwen 3 30B"
+```
+
+When adding a model, the script fetches its details from OpenRouter (name, context length, knowledge cutoff, pricing), displays them, and prompts you to confirm before writing to `cli_models_config.json`. You can accept the API's suggested display name by pressing Enter, or type a custom name.
+
 ### Prompt Ingestion
 
 ```bash
 # Run all configured models against a CSV of questions
 python prompt_ingestion.py questions.csv
 
-# Run only specific models (names must match models_config.json)
+# Run only specific models (names must match cli_models_config.json)
 python prompt_ingestion.py questions.csv --models "Groq Llama 3.1 8B" "Gemini 2.5 Flash"
 
 # See all available model names
@@ -216,7 +229,7 @@ python prompt_ingestion.py --list-models
 python prompt_ingestion.py questions.csv --config my_models.json
 ```
 
-The script asks for confirmation before making any API calls, showing the total number of requests it will generate. Results are appended to `model_responses.csv`.
+The script asks for confirmation before making any API calls, showing the total number of models, prompts, and responses it will generate. Results are appended to `model_responses.csv`.
 
 ### LLM Judge
 
@@ -253,7 +266,10 @@ This writes `final_judge_responses_parsed.csv`, which can be opened directly in 
 | `data_viz.py` | Renders the analysis dashboard inside the app |
 | `github_storage.py` | Optional GitHub sync for data files |
 | `model_selection.py` | Fetches and filters OpenRouter model catalog |
-| `models_config.json` | Defines which models are available for prompt ingestion |
+| `models_config_cli.py` | CLI tool for managing `cli_models_config.json` |
+| `models_config.json` | Model list used by the Streamlit app |
+| `cli_models_config.json` | Model list used by the CLI scripts |
+| `grading_prompt.txt` | Judge rubric and output format instructions — edit to change how responses are classified |
 | `model_responses.csv` | Output: raw LLM responses |
 | `final_judge_responses.csv` | Output: raw judge evaluations |
 | `final_judge_responses_parsed.csv` | Output: parsed and structured judge results |
