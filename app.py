@@ -302,7 +302,11 @@ with tab2:
             fw = str(row.get("framework", "") or "").strip()
             if not fw or fw.lower() in ("nan", "none", "null", ""):
                 reasons.append("missing primary framework")
-            sec = str(row.get("secondary_framework", "") or "").strip()
+            sec_val = row.get("secondary_framework")
+            if pd.isna(sec_val) if isinstance(sec_val, float) else False:
+                sec = ""
+            else:
+                sec = str(sec_val or "").strip()
             if sec and sec.lower() not in {v.lower() for v in VALID_SECONDARY}:
                 reasons.append(f"invalid secondary framework: {sec}")
             cs = row.get("certainty_score")
