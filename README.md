@@ -20,7 +20,7 @@ The professors' proposal identified four specific research objectives. Here is h
 
 **1. Explanatory Bias — Whether LLMs systematically favor geopolitical explanations over sociological or elite-network-based ones**
 
-The judge LLM is given a structured coding rubric (defined in `llm_judge.py`) that classifies every response into one of three primary frameworks: *Geopolitical* (state-level national security, great-power competition, geoeconomics), *Sociological* (elite networks, rent-seeking, personalist power), or *Economic Protectionism* (trade barriers, producer interests). A secondary framework field captures cases where a response blends two approaches. The Analysis Dashboard aggregates these classifications per model in bar charts, making systematic tendencies visible at a glance.
+The judge LLM is given a structured coding rubric (defined in `llm_judge.py`) that classifies every response into one of three primary frameworks: *Geopolitical* (state-level national security, great-power competition, geoeconomics), *Sociological* (elite networks, rent-seeking, personalist power), or *Economic Protectionism* (trade barriers, producer interests). A secondary framework field captures cases where a response blends two approaches. The Analysis Dashboard aggregates these classifications per model in bar charts, making systematic tendencies visible at a glance. Also, justification of the framework's selection is highlighted in blue in the detailed view of the judge model analysis. 
 
 **2. Framing Effects — How LLMs present contested explanations (as hypotheses vs. settled facts)**
 
@@ -28,7 +28,7 @@ The judge assigns a *Certainty Score* from 1 to 5 using a detailed linguistic ru
 
 **3. Presence or Absence of Alternative Hypotheses — Whether elite-network explanations are acknowledged**
 
-A dedicated boolean field, *Elite Networks Mentioned*, is extracted from every judge evaluation. It is `True` only when a response explicitly references elite networks, rent-seeking, or personalist power dynamics. The dashboard displays this dimension in its own bar chart and filter, making it straightforward to identify which models are most likely to surface (or omit) the sociological alternative hypothesis.
+A dedicated boolean field, *Elite Networks Mentioned*, is extracted from every judge evaluation. It is `True` only when a response explicitly references elite networks, rent-seeking, or personalist power dynamics. The dashboard displays this dimension in its own bar chart and filter, making it straightforward to identify which models are most likely to surface (or omit) this factor.
 
 **4. Comparative Empirical Analysis Across Multiple LLMs**
 
@@ -44,7 +44,7 @@ The tool works in three stages, each corresponding to a tab in the app:
 2. **LLM Judge** — A judge LLM reads each response and classifies it: which explanatory framework does it use (Geopolitical, Sociological, or Economic Protectionism)? How certain is the language? Are elite networks mentioned? Results are saved to `final_judge_responses_parsed.csv`.
 3. **Analysis Dashboard** — Charts and a filterable table let you explore how different models differ in their explanatory tendencies, certainty levels, and secondary frameworks. A side-by-side model comparison view is also available.
 
-The fourth tab lets you browse available models from OpenRouter and configure which models are available as test cases for the prompt ingestion tool.
+The fourth tab is a configuration tab. It lets you browse available models from OpenRouter and configure which models are available as test cases for the prompt ingestion tool.
 
 ---
 
@@ -76,7 +76,7 @@ Open the link in any browser and proceed directly to the usage walkthrough below
 
 > **Note:** These API keys are my personal keys. OpenRouter has been preloaded with $10 so it should be enough for the research scope of this project. Tinker is still using my student allowance. 
 
-> **Note:** The hosted app syncs data to a GitHub backend between sessions, so results from a previous run (model responses, judge evaluations) will be available when you return.
+> **Note:** The hosted app syncs data to a GitHub backend between sessions, so results from a previous run (model responses, judge evaluations) will be available when you return. These are synced to a dedicated branch on my GitHub. 
 
 ---
 
@@ -114,7 +114,7 @@ TINKER_API_KEY=your_tinker_key_here
 - **Gemini** — https://aistudio.google.com/app/apikey — Google's Gemini models
 - **Tinker** — API key provided by Thinking Machines; required only if using the Fine-Tuned Judge, Base Llama, or Qwen3 Tinker judge options
 
-You only need keys for the providers whose models you plan to use. The app will not error at startup for missing keys — it will only fail if you actually try to call a model from that provider. But, an OpenRouter key and a Tinker key are highly recommended as those are the main services for testing models and calling judges. 
+You only need keys for the providers whose models you plan to use. The app will not error at startup for missing keys — it will only fail if you actually try to call a model from that provider. But, an OpenRouter key and a Tinker key are highly recommended as those are the main services for testing models and calling judges. The app will be unable to run a judge without either an OpenRouter or Tinker API key. 
 
 ### GitHub Sync (optional)
 
@@ -144,14 +144,14 @@ This walkthrough applies whether you are using the hosted app or a local instanc
 
 ### Prepare Your Questions CSV
 
-Create a CSV file with exactly these two columns (case-sensitive):
+Create a CSV file with exactly these two columns (it is not case sensitive):
 
 | Prompt | Topic |
 |---|---|
 | Why did the United States impose tariffs on Chinese goods? | Trade Policy |
 | What explains the rise of economic nationalism in Europe? | Geopolitics |
 
-Any other columns are ignored. A sample file (`geopolitics_questions_final_1.csv`) is included in the project and can be used as a template.
+Any other columns are ignored. A sample file (`test_questions.csv`) is included in the project and can be used as a template.
 
 ### Step 1 — Model Config (Tab 4)
 
