@@ -13,6 +13,10 @@ FRAMEWORK_PALETTE = {
     "None":                  "#C0C0C0",
 }
 
+def _build_palette(values) -> dict:
+    """Return a palette covering all values, falling back to grey for unknowns."""
+    return {v: FRAMEWORK_PALETTE.get(v, "#AAAAAA") for v in values}
+
 
 def render_dashboard(df: pd.DataFrame):
     df['certainty_score'] = pd.to_numeric(df['certainty_score'], errors='coerce')
@@ -95,7 +99,7 @@ def render_dashboard(df: pd.DataFrame):
                     .reset_index(name='count')
                 )
                 fig2, ax2 = plt.subplots()
-                sns.barplot(data=framework_counts, x='model', y='count', hue='framework', ax=ax2, palette=FRAMEWORK_PALETTE)
+                sns.barplot(data=framework_counts, x='model', y='count', hue='framework', ax=ax2, palette=_build_palette(framework_counts['framework'].unique()))
                 ax2.set_xlabel("Model")
                 ax2.set_ylabel("Count")
                 ax2.tick_params(axis='x', rotation=30)
@@ -121,7 +125,7 @@ def render_dashboard(df: pd.DataFrame):
                     .reset_index(name='count')
                 )
                 fig3, ax3 = plt.subplots()
-                sns.barplot(data=sec_counts, x='model', y='count', hue='secondary_framework', ax=ax3, palette=FRAMEWORK_PALETTE)
+                sns.barplot(data=sec_counts, x='model', y='count', hue='secondary_framework', ax=ax3, palette=_build_palette(sec_counts['secondary_framework'].unique()))
                 ax3.set_xlabel("Model")
                 ax3.set_ylabel("Count")
                 ax3.tick_params(axis='x', rotation=30)
