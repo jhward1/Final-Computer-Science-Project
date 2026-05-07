@@ -78,6 +78,7 @@ with tab1:
 
     if csv_bytes is not None:
         df_preview = pd.read_csv(io.BytesIO(csv_bytes))
+        df_preview.rename(columns={c: c.strip().title() for c in df_preview.columns if c.strip().lower() in ('prompt', 'topic')}, inplace=True)
         st.subheader("Preview")
         st.dataframe(
             df_preview.head(10),

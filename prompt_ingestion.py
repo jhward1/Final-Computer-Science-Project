@@ -169,6 +169,7 @@ async def process_prompts(file_path, models: list[ModelConfig] | None = None):
         models = research_models
 
     prompts = pd.read_csv(file_path)
+    prompts.rename(columns={c: c.strip().title() for c in prompts.columns if c.strip().lower() in ('prompt', 'topic')}, inplace=True)
     prompts['Prompt'] = prompts['Prompt'].str.strip()
     prompt_rows = prompts[['Prompt', 'Topic']].to_dict('records')
 
