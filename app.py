@@ -292,6 +292,69 @@ with tab2:
             mime="text/csv",
         )
 
+        # ── Error row removal ─────────────────────────────────────────────────
+        VALID_FRAMEWORKS  = {"Geopolitical", "Sociological", "Economic Protectionism"}
+        VALID_SECONDARY   = VALID_FRAMEWORKS | {"None", "null", ""}
+        VALID_ELITE       = {"true", "false", "True", "False"}
+
+        def _is_problematic(row) -> str | None:
+            reasons = []
+            fw = str(row.get("framework", "") or "").strip()
+            if not fw or fw.lower() in ("nan", "none", "null", ""):
+                reasons.append("missing primary framework")
+            sec = str(row.get("secondary_framework", "") or "").strip()
+            if sec and sec.lower() not in {v.lower() for v in VALID_SECONDARY}:
+                reasons.append(f"invalid secondary framework: {sec}")
+            cs = row.get("certainty_score")
+            if cs is None or (isinstance(cs, float) and pd.isna(cs)):
+                reasons.append("missing certainty score")
+            elite = str(row.get("elite_networks_mentioned", "") or "").strip()
+            if elite and elite not in VALID_ELITE:
+                reasons.append(f"invalid elite networks value: {elite}")
+            return "; ".join(reasons) if reasons else None
+
+        parsed_df["_issue"] = parsed_df.apply(_is_problematic, axis=1)
+        problem_df = parsed_df[parsed_df["_issue"].notna()].copy()
+
+        if not problem_df.empty:
+            with st.expander(f"⚠ Problematic rows ({len(problem_df)}) — review and remove", expanded=False):
+                st.caption("Check rows to remove them from the results. Only rows with parsing issues are shown here.")
+                problem_display = problem_df[["_issue"] + [c for c in display_cols if c in problem_df.columns]].reset_index(drop=True)
+                problem_display.insert(0, "Remove", False)
+                edited_problems = st.data_editor(
+                    problem_display,
+                    column_config={
+                        "Remove":  st.column_config.CheckboxColumn("Remove", width="small"),
+                        "_issue":  st.column_config.TextColumn("Issue",           width="large"),
+                        "model":   st.column_config.TextColumn("Model",           width="medium"),
+                        "framework": st.column_config.TextColumn("Primary Framework", width="medium"),
+                        "secondary_framework": st.column_config.TextColumn("Secondary Framework", width="medium"),
+                        "certainty_score": st.column_config.NumberColumn("Certainty", width="small"),
+                        "elite_networks_mentioned": st.column_config.TextColumn("Elite Networks", width="small"),
+                        "original_prompt": st.column_config.TextColumn("Prompt", width="large"),
+                    },
+                    disabled=[c for c in problem_display.columns if c != "Remove"],
+                    hide_index=True,
+                    width="stretch",
+                    key="problem_rows_editor",
+                )
+
+                rows_to_remove = edited_problems[edited_problems["Remove"]].index.tolist()
+                st.caption(f"**{len(rows_to_remove)}** row(s) selected for removal.")
+
+                if st.button("Remove Selected Rows", disabled=len(rows_to_remove) == 0):
+                    original_indices = problem_df.iloc[rows_to_remove].index
+                    cleaned_df = parsed_df.drop(index=original_indices).drop(columns=["_issue"])
+                    cleaned_df.to_csv("final_judge_responses_parsed.csv", index=False)
+                    if is_configured():
+                        try:
+                            push("final_judge_responses_parsed.csv", "Remove problematic judge rows via Streamlit")
+                        except Exception as e:
+                            st.warning(f"GitHub sync failed: {e}")
+                    st.success(f"Removed {len(rows_to_remove)} row(s). Reload the tab to see updated results.")
+        else:
+            parsed_df.drop(columns=["_issue"], inplace=True)
+
 # ── Tab 3: Analysis Dashboard ──────────────────────────────────────────────────
 
 with tab3:
