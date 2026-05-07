@@ -66,7 +66,7 @@ def render_dashboard(df: pd.DataFrame):
                 avg_certainty = filtered_df.groupby('model')['certainty_score'].mean().reset_index()
                 avg_certainty.columns = ['model', 'avg_certainty']
                 fig1, ax1 = plt.subplots()
-                sns.barplot(data=avg_certainty, y='model', x='avg_certainty', ax=ax1, palette='Blues_d')
+                sns.barplot(data=avg_certainty, y='model', x='avg_certainty', ax=ax1, hue='model', palette='Blues_d', legend=False)
                 ax1.set_xlabel("Avg Certainty Score")
                 ax1.set_ylabel("Model")
                 ax1.set_xlim(0, max_score)
