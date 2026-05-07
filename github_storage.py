@@ -80,7 +80,8 @@ def push(path: str, message: str = "Update via Streamlit app") -> bool:
         json=payload,
         timeout=15,
     )
-    r.raise_for_status()
+    if not r.ok:
+        raise RuntimeError(f"GitHub push failed ({r.status_code}): {r.text}")
     return True
 
 

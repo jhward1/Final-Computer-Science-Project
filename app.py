@@ -54,12 +54,19 @@ with tab1:
     uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
 
     if uploaded_file is not None:
-        csv_bytes = uploaded_file.read()
-        st.session_state["uploaded_csv"] = csv_bytes
-        with open("current_prompts.csv", "wb") as f:
-            f.write(csv_bytes)
-        if is_configured():
-            push("current_prompts.csv", "Update current_prompts.csv via Streamlit")
+        if st.session_state.get("uploaded_file_id") != uploaded_file.file_id:
+            csv_bytes = uploaded_file.read()
+            st.session_state["uploaded_csv"] = csv_bytes
+            st.session_state["uploaded_file_id"] = uploaded_file.file_id
+            with open("current_prompts.csv", "wb") as f:
+                f.write(csv_bytes)
+            if is_configured():
+                try:
+                    push("current_prompts.csv", "Update current_prompts.csv via Streamlit")
+                except Exception as e:
+                    st.warning(f"GitHub sync failed: {e}")
+        else:
+            csv_bytes = st.session_state["uploaded_csv"]
     elif "uploaded_csv" in st.session_state:
         csv_bytes = st.session_state["uploaded_csv"]
     elif os.path.exists("current_prompts.csv"):
@@ -114,7 +121,10 @@ with tab1:
                     with st.spinner("Running prompt ingestion (this may take a few minutes)..."):
                         run_async(process_prompts(tmp_path, models=selected_models))
                     if is_configured():
-                        push("model_responses.csv", "Update model_responses.csv via Streamlit")
+                        try:
+                            push("model_responses.csv", "Update model_responses.csv via Streamlit")
+                        except Exception as e:
+                            st.warning(f"GitHub sync failed: {e}")
                     st.success("Done! Results saved to model_responses.csv")
                 finally:
                     os.unlink(tmp_path)
@@ -181,7 +191,10 @@ with tab1:
                 with st.spinner("Running additional models..."):
                     run_async(process_prompts(tmp_path, models=extra_configs))
                 if is_configured():
-                    push("model_responses.csv", "Update model_responses.csv via Streamlit")
+                    try:
+                        push("model_responses.csv", "Update model_responses.csv via Streamlit")
+                    except Exception as e:
+                        st.warning(f"GitHub sync failed: {e}")
                 st.success("Done! New responses have been appended — they will appear in the Model Responses table above.")
             finally:
                 os.unlink(tmp_path)
@@ -240,8 +253,11 @@ with tab2:
             parsed_df = parse_responses(judge_df)
             parsed_df.to_csv("final_judge_responses_parsed.csv", index=False)
             if is_configured():
-                push("final_judge_responses.csv",        "Update final_judge_responses.csv via Streamlit")
-                push("final_judge_responses_parsed.csv", "Update final_judge_responses_parsed.csv via Streamlit")
+                try:
+                    push("final_judge_responses.csv",        "Update final_judge_responses.csv via Streamlit")
+                    push("final_judge_responses_parsed.csv", "Update final_judge_responses_parsed.csv via Streamlit")
+                except Exception as e:
+                    st.warning(f"GitHub sync failed: {e}")
             st.success("Judging complete! Results parsed and saved.")
 
     if os.path.exists("final_judge_responses_parsed.csv"):
@@ -408,7 +424,10 @@ with tab4:
             with open("models_config.json", "w") as f:
                 json.dump(updated_config, f, indent=2)
             if is_configured():
-                push("models_config.json", "Update models_config.json via Streamlit")
+                try:
+                    push("models_config.json", "Update models_config.json via Streamlit")
+                except Exception as e:
+                    st.warning(f"GitHub sync failed: {e}")
 
             st.session_state["available_models"] = load_models()
 
