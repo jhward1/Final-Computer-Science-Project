@@ -104,11 +104,13 @@ Create a `.env` file in the project root with keys for whichever providers you i
 OPENROUTER_API_KEY=your_openrouter_key_here
 GROQ_API_KEY=your_groq_key_here
 GEMINI_API_KEY=your_gemini_key_here
+TINKER_API_KEY=your_tinker_key_here
 ```
 
 - **OpenRouter** — https://openrouter.ai/keys — broad model catalog via a single endpoint
 - **Groq** — https://console.groq.com/keys — fast inference on open-source models
 - **Gemini** — https://aistudio.google.com/app/apikey — Google's Gemini models
+- **Tinker** — API key provided by Thinking Machines; required only if using the Fine-Tuned Judge, Base Llama, or Qwen3 Tinker judge options
 
 You only need keys for the providers whose models you plan to use. The app will not error at startup for missing keys — it will only fail if you actually try to call a model from that provider.
 
