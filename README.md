@@ -262,6 +262,50 @@ This writes `final_judge_responses_parsed.csv`, which can be opened directly in 
 
 ---
 
+## Judge Fine-Tuning Pipeline
+
+The fine-tuned judge model was created by training a base LLM on synthetic examples generated specifically for this classification task. The pipeline has three steps:
+
+### Step 1 — Generate a training set with Claude
+
+`claude_prompt_training_set.txt` contains a prompt that was submitted directly to Claude. The prompt instructs Claude to generate 50 synthetic question-and-answer pairs covering geopolitics and international economic law, and to annotate each answer with:
+
+- A randomly chosen primary framework (`Geopolitical`, `Sociological`, or `Economic Protectionism`)
+- An optional secondary framework
+- A certainty score (1–5)
+- Whether elite networks are mentioned (`true`/`false`)
+- Verbatim certainty strings and framework strings extracted from the answer
+
+Claude returns this as a CSV with columns: `Prompt`, `Topic`, `Model Answer`, `primary_framework`, `secondary_framework`, `certainty score`, `elite_networks`, `certainty_strings`, `framework_strings`.
+
+### Step 2 — Convert the CSV to JSONL
+
+`csv_to_jsonl.py` converts the training CSV into the JSONL format required for fine-tuning. Each row becomes a conversation with a user turn (the prompt + model answer) and an assistant turn (the judge's JSON classification):
+
+```bash
+python csv_to_jsonl.py training_set.csv
+# Output: judge_prompts_and_answers.jsonl
+```
+
+Each line in the output file looks like:
+```json
+{"messages": [{"role": "user", "content": "Analyze the following..."}, {"role": "assistant", "content": "{\"primary_framework\": \"Geopolitical\", ...}"}]}
+```
+
+### Step 3 — Fine-tune the model
+
+`judge_train.py` uses the Tinker SDK from Thinking Machines to fine-tune a base model (currently `meta-llama/Llama-3.1-8B-Instruct`) on the JSONL training data using LoRA:
+
+```bash
+python judge_train.py
+```
+
+When training completes, the script prints a sampler path. Paste this path into `FINE_TUNED_PATH` in `llm_judge.py` and set `JUDGE_MODEL = FINE_TUNED_MODEL` to use the new model as the default judge. The fine-tuned model will also appear as **Fine-Tuned Judge (Tinker)** in the Streamlit dashboard.
+
+> **Note:** `judge_train.py` requires a Tinker API key and access to the Thinking Machines Tinker service.
+
+---
+
 ## File Reference
 
 | File | Purpose |
@@ -277,6 +321,9 @@ This writes `final_judge_responses_parsed.csv`, which can be opened directly in 
 | `models_config.json` | Model list used by the Streamlit app |
 | `cli_models_config.json` | Model list used by the CLI scripts |
 | `grading_prompt.txt` | Judge rubric and output format instructions — edit to change how responses are classified |
+| `claude_prompt_training_set.txt` | Prompt submitted to Claude to generate the judge training set |
+| `csv_to_jsonl.py` | Converts a training CSV to JSONL format for fine-tuning |
+| `judge_train.py` | Fine-tunes a base model on the JSONL training data using Tinker |
 | `model_responses.csv` | Output: raw LLM responses (not version controlled) |
 | `final_judge_responses.csv` | Output: raw judge evaluations (not version controlled) |
 | `final_judge_responses_parsed.csv` | Output: parsed and structured judge results (not version controlled) |
