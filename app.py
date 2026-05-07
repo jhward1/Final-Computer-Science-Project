@@ -9,11 +9,12 @@ from prompt_ingestion import process_prompts, ModelConfig
 from llm_judge import process_prompts as run_judge, GROQ_MODELS, OPENROUTER_MODELS, FINE_TUNED_MODEL, BASE_TINKER_MODEL, QWEN3_TINKER_MODEL, split_valid_invalid
 from data_cleaning import parse_responses
 from data_viz import render_dashboard
+from model_selection import fetch_openrouter_models
 
 st.set_page_config(page_title="LLM Bias Analysis Tool", layout="wide")
 st.title("LLM Bias Analysis Tool")
 
-tab1, tab2, tab3 = st.tabs(["1. Prompt Ingestion", "2. LLM Judge", "3. Analysis Dashboard"])
+tab1, tab2, tab3, tab4 = st.tabs(["1. Prompt Ingestion", "2. LLM Judge", "3. Analysis Dashboard", "4. Model Config"])
 
 # ── Tab 1: Prompt Ingestion ────────────────────────────────────────────────────
 
@@ -241,3 +242,138 @@ with tab3:
     else:
         dashboard_df = pd.read_csv("final_judge_responses_parsed.csv")
         render_dashboard(dashboard_df)
+
+# ── Tab 4: Model Config ────────────────────────────────────────────────────────
+
+@st.cache_data(ttl=3600, show_spinner="Fetching models from OpenRouter…")
+def get_openrouter_models() -> list[dict]:
+    return fetch_openrouter_models()
+
+
+with tab4:
+    st.subheader("Configure Prompt Ingestion Models")
+    st.write(
+        "Browse OpenRouter models, filter by provider and release date, then save your "
+        "selection to **models_config.json**. Non-OpenRouter entries (Groq, Google) are preserved."
+    )
+
+    try:
+        or_models = get_openrouter_models()
+    except Exception as e:
+        st.error(f"Failed to fetch OpenRouter models: {e}")
+        or_models = []
+
+    if or_models:
+        # ── Filters ──────────────────────────────────────────────────────────
+        all_provider_labels = sorted({m["provider_label"] for m in or_models})
+        label_to_slug: dict[str, str] = {m["provider_label"]: m["provider_slug"] for m in or_models}
+
+        dated = [m for m in or_models if m["created"] is not None]
+        min_date = min(m["created"] for m in dated)
+        max_date = max(m["created"] for m in dated)
+
+        filter_col1, filter_col2, filter_col3 = st.columns([2, 3, 1])
+        with filter_col1:
+            selected_labels = st.multiselect(
+                "Provider",
+                all_provider_labels,
+                default=all_provider_labels,
+                key="mc_providers",
+            )
+        with filter_col2:
+            date_range = st.slider(
+                "Release date range",
+                min_value=min_date,
+                max_value=max_date,
+                value=(min_date, max_date),
+                key="mc_dates",
+            )
+        with filter_col3:
+            free_only = st.checkbox("Free only", key="mc_free")
+
+        selected_slugs = {label_to_slug[lbl] for lbl in selected_labels}
+
+        filtered = [
+            m for m in or_models
+            if m["provider_slug"] in selected_slugs
+            and (m["created"] is None or date_range[0] <= m["created"] <= date_range[1])
+            and (not free_only or m["is_free"])
+        ]
+
+        st.caption(f"Showing **{len(filtered)}** of {len(or_models)} OpenRouter models")
+
+        # ── Pre-select models already in config ───────────────────────────────
+        existing_ids = {c.model for c in AVAILABLE_MODELS.values()}
+        existing_rpm = {c.model: c.requests_per_minute for c in AVAILABLE_MODELS.values()}
+        existing_tpm = {c.model: c.tokens_per_minute for c in AVAILABLE_MODELS.values()}
+
+        mc_df = pd.DataFrame({
+            "Selected":        pd.array([m["id"] in existing_ids for m in filtered], dtype="boolean"),
+            "Name":            [m["name"] for m in filtered],
+            "Model ID":        [m["id"] for m in filtered],
+            "Provider":        [m["provider_label"] for m in filtered],
+            "Free":            pd.array([m["is_free"] for m in filtered], dtype="boolean"),
+            "Context":         [m["context_length"] for m in filtered],
+            "Released":        [m["created"] for m in filtered],
+            "Knowledge Cutoff":[m["knowledge_cutoff"] for m in filtered],
+            "Input Price":     [m["input_price"] * 1_000_000 if m["input_price"] is not None else None for m in filtered],
+            "Output Price":    [m["output_price"] * 1_000_000 if m["output_price"] is not None else None for m in filtered],
+            "Req / min":       [existing_rpm.get(m["id"], 20) for m in filtered],
+            "Tokens / min":    [existing_tpm.get(m["id"]) for m in filtered],
+        })
+
+        edited_mc = st.data_editor(
+            mc_df,
+            column_config={
+                "Selected":     st.column_config.CheckboxColumn("Selected", width="small"),
+                "Name":         st.column_config.TextColumn("Name",         width="large"),
+                "Model ID":     st.column_config.TextColumn("Model ID",     width="large"),
+                "Provider":     st.column_config.TextColumn("Provider",     width="medium"),
+                "Free":         st.column_config.CheckboxColumn("Free",     width="small"),
+                "Context":      st.column_config.NumberColumn("Context",    width="small"),
+                "Released":         st.column_config.DateColumn("Released",          width="small"),
+                "Knowledge Cutoff": st.column_config.TextColumn("Knowledge Cutoff",     width="small"),
+                "Input Price":      st.column_config.NumberColumn("Input ($/M tok)",   width="small", format="%.4f"),
+                "Output Price":     st.column_config.NumberColumn("Output ($/M tok)",  width="small", format="%.4f"),
+                "Req / min":        st.column_config.NumberColumn("Req / min",         width="small", min_value=1),
+                "Tokens / min":     st.column_config.NumberColumn("Tokens / min",     width="small"),
+            },
+            disabled=["Name", "Model ID", "Provider", "Free", "Context", "Released", "Knowledge Cutoff", "Input Price", "Output Price"],
+            hide_index=True,
+            width="stretch",
+            key="mc_editor",
+        )
+
+        selected_mc = edited_mc[edited_mc["Selected"]]
+        st.caption(f"**{len(selected_mc)}** model(s) selected")
+
+        if st.button("Save to models_config.json"):
+            visible_ids = set(edited_mc["Model ID"])
+            with open("models_config.json") as f:
+                current_config: list[dict] = json.load(f)
+            # Keep non-openrouter entries AND openrouter entries not visible in the current filter
+            preserved = [
+                e for e in current_config
+                if e.get("provider") != "openrouter" or e["model"] not in visible_ids
+            ]
+
+            new_entries = [
+                {
+                    "name":               row["Name"],
+                    "provider":           "openrouter",
+                    "model":              row["Model ID"],
+                    "requests_per_minute": int(row["Req / min"]) if pd.notna(row["Req / min"]) else 20,
+                    "tokens_per_minute":  int(row["Tokens / min"]) if pd.notna(row["Tokens / min"]) else None,
+                }
+                for _, row in selected_mc.iterrows()
+            ]
+
+            updated_config = preserved + new_entries
+            with open("models_config.json", "w") as f:
+                json.dump(updated_config, f, indent=2)
+
+            st.success(
+                f"Saved **{len(new_entries)}** OpenRouter model(s) to models_config.json "
+                f"(+ {len(preserved)} non-OpenRouter entries preserved). "
+                "Reload the app to use the updated list in Prompt Ingestion."
+            )

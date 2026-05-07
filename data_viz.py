@@ -18,7 +18,7 @@ def render_dashboard(df: pd.DataFrame):
         st.markdown("Use the filters below to explore the model responses and judge evaluations.")
 
         all_judge_models = df['judge_model'].dropna().unique().tolist() if 'judge_model' in df.columns else []
-        selected_judge_models = st.multiselect("Judge Model(s)", all_judge_models, default=all_judge_models)
+        selected_judge_model = st.selectbox("Judge Model", all_judge_models if all_judge_models else [None])
 
         with st.expander("Filter Options", expanded=True):
             f_col1, f_col2, f_col3 = st.columns(3)
@@ -46,8 +46,8 @@ def render_dashboard(df: pd.DataFrame):
         ]
         if selected_frameworks:
             filtered_df = filtered_df[filtered_df['framework'].isin(selected_frameworks)]
-        if 'judge_model' in df.columns and selected_judge_models:
-            filtered_df = filtered_df[filtered_df['judge_model'].isin(selected_judge_models)]
+        if 'judge_model' in df.columns and selected_judge_model:
+            filtered_df = filtered_df[filtered_df['judge_model'] == selected_judge_model]
         if evidence_search:
             filtered_df = filtered_df[filtered_df['evidence_spans'].str.contains(evidence_search, case=False, na=False)]
 
