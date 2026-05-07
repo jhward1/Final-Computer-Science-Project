@@ -335,8 +335,8 @@ When training completes, the script prints a sampler path. Paste this path into 
 ## Inactive Files
 |File | Purpose |
 |---|---|
-|grading_tool.py | Tool to use streamlit to grade model answers - ultimately not used|
-|training_set_generation.py | Attempt at generating training set data with python but abandonded for the Claude option|
+|`grading_tool.py` | Tool to use streamlit to grade model answers - ultimately not used|
+|`training_set_generation.py` | Attempt at generating training set data with python but abandonded for the Claude option|
 
 
 ---
