@@ -70,7 +70,7 @@ pip install -r requirements.txt
 
 The easiest way to use this tool is through the hosted Streamlit deployment, which requires no installation and has all API keys pre-configured:
 
-**https://final-computer-science-project-ksj928lpmjkagfjqsewfgz.streamlit.app**
+**https://final-computer-science-project-egvthvrmrwzvhzazihhappo.streamlit.app**
 
 Open the link in any browser and proceed directly to the usage walkthrough below. No account, API key, or local setup is needed.
 
