@@ -44,7 +44,7 @@ The tool works in three stages, each corresponding to a tab in the app:
 2. **LLM Judge** — A judge LLM reads each response and classifies it: which explanatory framework does it use (Geopolitical, Sociological, or Economic Protectionism)? How certain is the language? Are elite networks mentioned? Results are saved to `final_judge_responses_parsed.csv`.
 3. **Analysis Dashboard** — Charts and a filterable table let you explore how different models differ in their explanatory tendencies, certainty levels, and secondary frameworks. A side-by-side model comparison view is also available.
 
-A fourth tab lets you browse and configure which models are used for prompt ingestion.
+The fourth tab lets you browse available models from OpenRouter and configure which models are available as test cases for the prompt ingestion tool.
 
 ---
 
