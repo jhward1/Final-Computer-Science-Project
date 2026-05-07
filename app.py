@@ -319,8 +319,16 @@ with tab2:
         if not problem_df.empty:
             with st.expander(f"⚠ Problematic rows ({len(problem_df)}) — review and remove", expanded=False):
                 st.caption("Check rows to remove them from the results. Only rows with parsing issues are shown here.")
+
+                p_col_all, p_col_none, _ = st.columns([1, 1, 8])
+                if p_col_all.button("Check All", key="check_all_problems"):
+                    st.session_state["problems_all_selected"] = True
+                if p_col_none.button("Uncheck All", key="uncheck_all_problems"):
+                    st.session_state["problems_all_selected"] = False
+
+                default_remove = st.session_state.get("problems_all_selected", False)
                 problem_display = problem_df[["_issue"] + [c for c in display_cols if c in problem_df.columns]].reset_index(drop=True)
-                problem_display.insert(0, "Remove", False)
+                problem_display.insert(0, "Remove", default_remove)
                 edited_problems = st.data_editor(
                     problem_display,
                     column_config={
