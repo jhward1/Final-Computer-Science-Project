@@ -272,9 +272,10 @@ This writes `final_judge_responses_parsed.csv`, which can be opened directly in 
 | `models_config.json` | Model list used by the Streamlit app |
 | `cli_models_config.json` | Model list used by the CLI scripts |
 | `grading_prompt.txt` | Judge rubric and output format instructions — edit to change how responses are classified |
-| `model_responses.csv` | Output: raw LLM responses |
-| `final_judge_responses.csv` | Output: raw judge evaluations |
-| `final_judge_responses_parsed.csv` | Output: parsed and structured judge results |
+| `model_responses.csv` | Output: raw LLM responses (not version controlled) |
+| `final_judge_responses.csv` | Output: raw judge evaluations (not version controlled) |
+| `final_judge_responses_parsed.csv` | Output: parsed and structured judge results (not version controlled) |
+| `current_prompts.csv` | Most recently uploaded prompts CSV, persisted via GitHub sync (not version controlled) |
 
 ---
 
@@ -286,7 +287,9 @@ This writes `final_judge_responses_parsed.csv`, which can be opened directly in 
 
 **Tinker judge models** — The Fine-Tuned Judge, Base Llama, and Qwen3 Tinker options require access to Anthropic's internal Tinker inference service. These will fail with a connection error unless you are running the app within the Anthropic network.
 
-**GitHub sync fails silently** — If `GITHUB_TOKEN` or `GITHUB_REPO` are not set, sync is skipped without any error. If they are set but incorrect, you will see a Python exception in the terminal (not in the Streamlit UI).
+**GitHub sync fails silently** — If `GITHUB_TOKEN` or `GITHUB_REPO` are not set, sync is skipped without any error. If they are set but incorrect, you will see a warning in the Streamlit UI with the HTTP error details.
+
+**CSV files are not version controlled** — All `.csv` and `.jsonl` files are listed in `.gitignore` and will not appear in `git status` or be committed. Data persistence between sessions is handled entirely by the GitHub sync feature in `github_storage.py`. If you are running locally without GitHub sync configured, output files are written to disk and persist until you delete them manually.
 
 ---
 
