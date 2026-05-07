@@ -90,8 +90,15 @@ with tab1:
             st.error(f"CSV is missing required column(s): {', '.join(missing)}")
         else:
             st.subheader("Select Models")
+            col_all, col_none = st.columns([1, 1])
+            if col_all.button("Check All", key="check_all_models"):
+                st.session_state["models_all_selected"] = True
+            if col_none.button("Uncheck All", key="uncheck_all_models"):
+                st.session_state["models_all_selected"] = False
+
+            all_selected = st.session_state.get("models_all_selected", True)
             models_df = pd.DataFrame({
-                "Selected":     [True] * len(AVAILABLE_MODELS),
+                "Selected":     [all_selected] * len(AVAILABLE_MODELS),
                 "Model":        list(AVAILABLE_MODELS.keys()),
                 "Provider":     [c.provider for c in AVAILABLE_MODELS.values()],
                 "Model ID":     [c.model for c in AVAILABLE_MODELS.values()],
