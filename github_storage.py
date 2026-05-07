@@ -6,6 +6,7 @@ import streamlit as st
 
 PERSISTED_FILES = [
     "models_config.json",
+    "current_prompts.csv",
     "model_responses.csv",
     "final_judge_responses.csv",
     "final_judge_responses_parsed.csv",

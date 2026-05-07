@@ -54,9 +54,20 @@ with tab1:
     uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
 
     if uploaded_file is not None:
-        st.session_state["uploaded_csv"] = uploaded_file.read()
-
-    csv_bytes = st.session_state.get("uploaded_csv")
+        csv_bytes = uploaded_file.read()
+        st.session_state["uploaded_csv"] = csv_bytes
+        with open("current_prompts.csv", "wb") as f:
+            f.write(csv_bytes)
+        if is_configured():
+            push("current_prompts.csv", "Update current_prompts.csv via Streamlit")
+    elif "uploaded_csv" in st.session_state:
+        csv_bytes = st.session_state["uploaded_csv"]
+    elif os.path.exists("current_prompts.csv"):
+        with open("current_prompts.csv", "rb") as f:
+            csv_bytes = f.read()
+        st.session_state["uploaded_csv"] = csv_bytes
+    else:
+        csv_bytes = None
 
     if csv_bytes is not None:
         df_preview = pd.read_csv(io.BytesIO(csv_bytes))
