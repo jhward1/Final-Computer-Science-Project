@@ -10,7 +10,7 @@ This project was built for a research proposal by Professors Gregory Shaffer and
 
 The core concern is that LLMs present contested interpretations as settled facts. When asked why President Trump expressed interest in Greenland, for example, ChatGPT framed geopolitical competition as the definitive explanation without acknowledging alternatives such as personalist or rent-seeking motivations. At scale, this systematic privileging of geopolitical frameworks over sociological ones could have real "world-constructing" effects.
 
-This codebase is a tool built to empirically investigate that bias across domains of international economic law.
+This codebase is a tool built to investigate that bias via testing of models through user specified prompts.
 
 ---
 
@@ -181,6 +181,8 @@ Browse the full OpenRouter model catalog, filter by provider and release date, a
 4. Already-judged (model, prompt, judge) triples are skipped on re-runs, so you can switch judges and accumulate results from multiple judges without overwriting previous work.
 5. Results are parsed and saved to `final_judge_responses_parsed.csv`. A preview table and download button appear below.
 
+> **Note** I strongly recommend only using the Tinker based models. The openrouter models that are available do not work effectively and do not generate consistent results in a format that the program expects. The user has the option to delete rows from the judge results that error but it is easier to simply use the Tinker models. 
+
 ### Step 4 — Analysis Dashboard (Tab 3)
 
 The dashboard has two sub-tabs:
@@ -241,7 +243,7 @@ The script asks for confirmation before making any API calls, showing the total 
 ### LLM Judge
 
 ```bash
-# Run the judge using the default model (set in llm_judge.py)
+# Run the judge using the default model (set in llm_judge.py - this is defaulting to the fine-tuned model)
 python llm_judge.py
 
 # Run with a specific judge model
@@ -258,7 +260,7 @@ The script reads from `model_responses.csv` and writes raw judge output to `fina
 python data_cleaning.py
 ```
 
-This writes `final_judge_responses_parsed.csv`, which can be opened directly in the Streamlit dashboard.
+This writes `final_judge_responses_parsed.csv`, which can be opened directly in the Streamlit dashboard or simply viewed as a CSV. The user can use excel or another spreadsheet service to view the data
 
 ---
 
@@ -328,6 +330,14 @@ When training completes, the script prints a sampler path. Paste this path into 
 | `final_judge_responses.csv` | Output: raw judge evaluations (not version controlled) |
 | `final_judge_responses_parsed.csv` | Output: parsed and structured judge results (not version controlled) |
 | `current_prompts.csv` | Most recently uploaded prompts CSV, persisted via GitHub sync (not version controlled) |
+
+
+## Inactive Files
+|File | Purpose |
+|---|---|
+|grading_tool.py | Tool to use streamlit to grade model answers - ultimately not used|
+|training_set_generation.py | Attempt at generating training set data with python but abandonded for the Claude option|
+
 
 ---
 
