@@ -1,11 +1,8 @@
 from openai import AsyncOpenAI
 import asyncio
-import numpy as np
 import pandas as pd
 from dotenv import load_dotenv
 import os
-import csv
-import json
 import random
 from tqdm.asyncio import tqdm # For a nice progress bar
 
@@ -16,17 +13,30 @@ from tinker_cookbook.tokenizer_utils import get_tokenizer
 
 load_dotenv()
 
-groq_client = AsyncOpenAI(
-    base_url="https://api.groq.com/openai/v1",
-    api_key=os.environ["GROQ_API_KEY"],
-    max_retries=0,  # We handle retries manually below
-)
+_groq_client: AsyncOpenAI | None = None
+_openrouter_client: AsyncOpenAI | None = None
 
-openrouter_client = AsyncOpenAI(
-    base_url="https://openrouter.ai/api/v1",
-    api_key=os.environ["OPENROUTER_API_KEY"],
-    max_retries=0,
-)
+
+def get_groq_client() -> AsyncOpenAI:
+    global _groq_client
+    if _groq_client is None:
+        _groq_client = AsyncOpenAI(
+            base_url="https://api.groq.com/openai/v1",
+            api_key=os.environ["GROQ_API_KEY"],
+            max_retries=0,
+        )
+    return _groq_client
+
+
+def get_openrouter_client() -> AsyncOpenAI:
+    global _openrouter_client
+    if _openrouter_client is None:
+        _openrouter_client = AsyncOpenAI(
+            base_url="https://openrouter.ai/api/v1",
+            api_key=os.environ["OPENROUTER_API_KEY"],
+            max_retries=0,
+        )
+    return _openrouter_client
 
 SOURCE_FILE = 'model_responses.csv'
 
@@ -152,7 +162,7 @@ async def run_judge_groq(question: str, answer: str, model: str, retries: int = 
     prompt = build_prompt(question, answer)
     for attempt in range(retries):
         try:
-            response = await groq_client.chat.completions.create(
+            response = await get_groq_client().chat.completions.create(
                 model=model,
                 messages=[
                     {"role": "system", "content": GRADING_FORMAT_PROMPT},
@@ -173,7 +183,7 @@ async def run_judge_openrouter(question: str, answer: str, model: str, retries: 
     prompt = build_prompt(question, answer)
     for attempt in range(retries):
         try:
-            response = await openrouter_client.chat.completions.create(
+            response = await get_openrouter_client().chat.completions.create(
                 model=model,
                 messages=[
                     {"role": "system", "content": GRADING_FORMAT_PROMPT},

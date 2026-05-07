@@ -2,13 +2,10 @@ from openai import AsyncOpenAI
 import asyncio
 import time
 import tiktoken
-import numpy as np
 import pandas as pd
 from dataclasses import dataclass, field
 from dotenv import load_dotenv
 import os
-import csv
-import json
 from tqdm.asyncio import tqdm # progress bar
 
 # This line bypasses the need for the "useEnvFile" setting
@@ -109,23 +106,30 @@ class ModelConfig:
         self.tok_limiter = TokenRateLimiter(max_tokens=self.tokens_per_minute) if self.tokens_per_minute else None
 
 
-CLIENTS = {
-    "openrouter": AsyncOpenAI(
-        base_url="https://openrouter.ai/api/v1",
-        api_key=os.environ["OPENROUTER_API_KEY"],
-        max_retries=3,
-    ),
-    "groq": AsyncOpenAI(
-        base_url="https://api.groq.com/openai/v1",
-        api_key=os.environ["GROQ_API_KEY"],
-        max_retries=3,
-    ),
-    "google": AsyncOpenAI(
-        base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
-        api_key=os.environ["GEMINI_API_KEY"],
-        max_retries=3,
-    ),
-}
+_CLIENTS: dict[str, AsyncOpenAI] | None = None
+
+
+def get_clients() -> dict[str, AsyncOpenAI]:
+    global _CLIENTS
+    if _CLIENTS is None:
+        _CLIENTS = {
+            "openrouter": AsyncOpenAI(
+                base_url="https://openrouter.ai/api/v1",
+                api_key=os.environ["OPENROUTER_API_KEY"],
+                max_retries=3,
+            ),
+            "groq": AsyncOpenAI(
+                base_url="https://api.groq.com/openai/v1",
+                api_key=os.environ["GROQ_API_KEY"],
+                max_retries=3,
+            ),
+            "google": AsyncOpenAI(
+                base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
+                api_key=os.environ["GEMINI_API_KEY"],
+                max_retries=3,
+            ),
+        }
+    return _CLIENTS
 
 # Each ModelConfig specifies provider, model ID, and its own rate limits.
 # tokens_per_minute=None disables token limiting for that model.
@@ -145,7 +149,7 @@ async def query_answer(config: ModelConfig, prompt: str):
     if config.tok_limiter:
         await config.tok_limiter.acquire(input_tokens)
     try:
-        response = await CLIENTS[config.provider].chat.completions.create(model=config.model, messages=messages)
+        response = await get_clients()[config.provider].chat.completions.create(model=config.model, messages=messages)
         actual_total = response.usage.total_tokens if response.usage else input_tokens + 600
         if config.tok_limiter:
             config.tok_limiter.release(input_tokens, actual_total)

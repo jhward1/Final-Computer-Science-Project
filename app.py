@@ -10,9 +10,12 @@ from llm_judge import process_prompts as run_judge, GROQ_MODELS, OPENROUTER_MODE
 from data_cleaning import parse_responses
 from data_viz import render_dashboard
 from model_selection import fetch_openrouter_models
+from github_storage import sync_from_github, push, is_configured
 
 st.set_page_config(page_title="LLM Bias Analysis Tool", layout="wide")
 st.title("LLM Bias Analysis Tool")
+
+sync_from_github()
 
 tab1, tab2, tab3, tab4 = st.tabs(["1. Prompt Ingestion", "2. LLM Judge", "3. Analysis Dashboard", "4. Model Config"])
 
@@ -84,6 +87,8 @@ with tab1:
                 try:
                     with st.spinner("Running prompt ingestion (this may take a few minutes)..."):
                         asyncio.run(process_prompts(tmp_path, models=selected_models))
+                    if is_configured():
+                        push("model_responses.csv", "Update model_responses.csv via Streamlit")
                     st.success("Done! Results saved to model_responses.csv")
                 finally:
                     os.unlink(tmp_path)
@@ -149,6 +154,8 @@ with tab1:
             try:
                 with st.spinner("Running additional models..."):
                     asyncio.run(process_prompts(tmp_path, models=extra_configs))
+                if is_configured():
+                    push("model_responses.csv", "Update model_responses.csv via Streamlit")
                 st.success("Done! New responses have been appended — they will appear in the Model Responses table above.")
             finally:
                 os.unlink(tmp_path)
@@ -206,6 +213,9 @@ with tab2:
             judge_df = pd.read_csv("final_judge_responses.csv")
             parsed_df = parse_responses(judge_df)
             parsed_df.to_csv("final_judge_responses_parsed.csv", index=False)
+            if is_configured():
+                push("final_judge_responses.csv",        "Update final_judge_responses.csv via Streamlit")
+                push("final_judge_responses_parsed.csv", "Update final_judge_responses_parsed.csv via Streamlit")
             st.success("Judging complete! Results parsed and saved.")
 
     if os.path.exists("final_judge_responses_parsed.csv"):
@@ -371,6 +381,8 @@ with tab4:
             updated_config = preserved + new_entries
             with open("models_config.json", "w") as f:
                 json.dump(updated_config, f, indent=2)
+            if is_configured():
+                push("models_config.json", "Update models_config.json via Streamlit")
 
             st.success(
                 f"Saved **{len(new_entries)}** OpenRouter model(s) to models_config.json "
