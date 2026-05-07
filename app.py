@@ -294,7 +294,7 @@ with tab2:
 
         # ── Error row removal ─────────────────────────────────────────────────
         VALID_FRAMEWORKS  = {"Geopolitical", "Sociological", "Economic Protectionism"}
-        VALID_SECONDARY   = VALID_FRAMEWORKS | {"None", "null", ""}
+        VALID_SECONDARY   = VALID_FRAMEWORKS | {"None", "null", "", "nan", "NaN"}
         VALID_ELITE       = {"true", "false", "True", "False"}
 
         def _is_problematic(row) -> str | None:
@@ -351,12 +351,27 @@ with tab2:
                 st.caption(f"**{len(rows_to_remove)}** row(s) selected for removal.")
 
                 if st.button("Remove Selected Rows", disabled=len(rows_to_remove) == 0):
-                    original_indices = problem_df.iloc[rows_to_remove].index
+                    original_indices  = problem_df.iloc[rows_to_remove].index
+                    removed_keys = set(zip(
+                        parsed_df.loc[original_indices, "original_prompt"],
+                        parsed_df.loc[original_indices, "model"],
+                        parsed_df.loc[original_indices, "judge_model"],
+                    ))
+
                     cleaned_df = parsed_df.drop(index=original_indices).drop(columns=["_issue"])
                     cleaned_df.to_csv("final_judge_responses_parsed.csv", index=False)
+
+                    if os.path.exists("final_judge_responses.csv"):
+                        raw_df = pd.read_csv("final_judge_responses.csv")
+                        raw_df = raw_df[~raw_df.apply(
+                            lambda r: (r["original_prompt"], r["model"], r["judge_model"]) in removed_keys, axis=1
+                        )]
+                        raw_df.to_csv("final_judge_responses.csv", index=False)
+
                     if is_configured():
                         try:
                             push("final_judge_responses_parsed.csv", "Remove problematic judge rows via Streamlit")
+                            push("final_judge_responses.csv",        "Remove problematic judge rows via Streamlit")
                         except Exception as e:
                             st.warning(f"GitHub sync failed: {e}")
                     st.success(f"Removed {len(rows_to_remove)} row(s). Reload the tab to see updated results.")
