@@ -2,6 +2,7 @@ import streamlit as st
 import asyncio
 import tempfile
 import os
+import io
 import json
 import pandas as pd
 
@@ -34,7 +35,10 @@ def load_models(path: str = "models_config.json") -> dict[str, ModelConfig]:
         for e in entries
     }
 
-AVAILABLE_MODELS = load_models()
+if "available_models" not in st.session_state:
+    st.session_state["available_models"] = load_models()
+
+AVAILABLE_MODELS = st.session_state["available_models"]
 
 with tab1:
     st.subheader("Upload Prompts CSV")
@@ -43,7 +47,12 @@ with tab1:
     uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
 
     if uploaded_file is not None:
-        df_preview = pd.read_csv(uploaded_file)
+        st.session_state["uploaded_csv"] = uploaded_file.read()
+
+    csv_bytes = st.session_state.get("uploaded_csv")
+
+    if csv_bytes is not None:
+        df_preview = pd.read_csv(io.BytesIO(csv_bytes))
         st.subheader("Preview")
         st.dataframe(
             df_preview.head(10),
@@ -80,8 +89,7 @@ with tab1:
                 selected_models = [AVAILABLE_MODELS[name] for name in selected_names]
 
                 with tempfile.NamedTemporaryFile(delete=False, suffix=".csv", mode="wb") as tmp:
-                    uploaded_file.seek(0)
-                    tmp.write(uploaded_file.read())
+                    tmp.write(csv_bytes)
                     tmp_path = tmp.name
 
                 try:
@@ -384,8 +392,10 @@ with tab4:
             if is_configured():
                 push("models_config.json", "Update models_config.json via Streamlit")
 
+            st.session_state["available_models"] = load_models()
+
             st.success(
                 f"Saved **{len(new_entries)}** OpenRouter model(s) to models_config.json "
                 f"(+ {len(preserved)} non-OpenRouter entries preserved). "
-                "Reload the app to use the updated list in Prompt Ingestion."
+                "The model list in Prompt Ingestion has been updated."
             )
