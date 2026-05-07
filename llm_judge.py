@@ -1,5 +1,7 @@
 from openai import AsyncOpenAI
+import argparse
 import asyncio
+import sys
 import pandas as pd
 from dotenv import load_dotenv
 import os
@@ -44,13 +46,12 @@ SOURCE_FILE = 'model_responses.csv'
 # Set JUDGE_MODEL to one of the GROQ_MODELS or OPENROUTER_MODELS keys,
 # or to "fine-tuned" to use the locally fine-tuned tinker model.
 GROQ_MODELS = {
-    "llama-3.1-8b-instant":    "llama-3.1-8b-instant",
-    "llama-3.3-70b-versatile": "llama-3.3-70b-versatile",
+    "llama-3.1-8b":    "llama-3.1-8b-instant",
+    "llama-3.3-70b": "llama-3.3-70b-versatile",
+    "gpt-oss-120b": "openai/gpt-oss-120b"
 }
 OPENROUTER_MODELS = {
-    "qwen3-next-80b":  "qwen/qwen3-next-80b-a3b-instruct:free",
-    "llama-3.3-70b":   "meta-llama/llama-3.3-70b-instruct:free",
-    "gpt-oss-20b":     "openai/gpt-oss-20b:free",
+    "qwen3-next-80b":  "qwen/qwen3-next-80b-a3b-instruct:free"
 }
 FINE_TUNED_MODEL  = "fine-tuned"
 BASE_TINKER_MODEL = "base-llama"
@@ -59,7 +60,7 @@ FINE_TUNED_PATH   = "tinker://777867dc-d559-51ed-b9c6-2fffd1b8c878:train:0/sampl
 BASE_MODEL_NAME   = "meta-llama/Llama-3.1-8B-Instruct"
 QWEN3_MODEL_NAME  = "Qwen/Qwen3-30B-A3B-Instruct-2507"
 
-JUDGE_MODEL = FINE_TUNED_MODEL  # ← change this to switch judge
+JUDGE_MODEL = QWEN3_MODEL_NAME  # ← change this to switch judge
 
 # ──────────────────────────────────────────────────────────────────────────────
 
@@ -362,4 +363,45 @@ async def process_prompts(judge_model_key: str | None = None):
 
 
 if __name__ == "__main__":
-    asyncio.run(process_prompts())
+    ALL_JUDGES = {
+        "fine-tuned":          FINE_TUNED_MODEL,
+        "base-llama":          BASE_TINKER_MODEL,
+        "qwen3-tinker":        QWEN3_TINKER_MODEL,
+        **{k: k for k in GROQ_MODELS},
+        **{k: k for k in OPENROUTER_MODELS},
+    }
+
+    parser = argparse.ArgumentParser(description="Run the LLM judge against model_responses.csv.")
+    parser.add_argument("--judge", metavar="NAME", default=None,
+                        help=f"Judge model to use (default: {JUDGE_MODEL}). Use --list-judges to see options.")
+    parser.add_argument("--list-judges", action="store_true", help="List available judge models and exit.")
+    args = parser.parse_args()
+
+    if args.list_judges:
+        print("Available judge models:")
+        for name in ALL_JUDGES:
+            marker = "  (default)" if ALL_JUDGES[name] == JUDGE_MODEL else ""
+            print(f"  - {name}{marker}")
+        sys.exit(0)
+
+    judge_key = ALL_JUDGES.get(args.judge) if args.judge else JUDGE_MODEL
+    if args.judge and judge_key is None:
+        print(f"Unknown judge: {args.judge}")
+        print("Run with --list-judges to see available options.")
+        sys.exit(1)
+
+    responses_df = pd.read_csv(SOURCE_FILE)
+    num_responses = len(responses_df)
+
+    print(f"Judge:     {args.judge or JUDGE_MODEL}")
+    print(f"Responses: {num_responses} rows in {SOURCE_FILE}")
+    print(f"This will generate {num_responses} judge evaluation(s).")
+
+    confirm = input("\nProceed? (y/n): ").strip().lower()
+    if confirm != "y":
+        print("Aborted.")
+        sys.exit(0)
+
+    asyncio.run(process_prompts(judge_model_key=judge_key))
+    print("\nJudging complete. Run the following to parse the results:")
+    print("  python data_cleaning.py")

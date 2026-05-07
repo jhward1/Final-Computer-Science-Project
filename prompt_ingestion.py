@@ -1,5 +1,8 @@
 from openai import AsyncOpenAI
+import argparse
 import asyncio
+import json
+import sys
 import time
 import tiktoken
 import pandas as pd
@@ -218,5 +221,64 @@ async def process_prompts(file_path, models: list[ModelConfig] | None = None):
     print(output_df.head())
 
 if __name__ == "__main__":
-    file_name = input("Enter the CSV file name: ").strip()
-    asyncio.run(process_prompts(file_name))
+    def load_models_from_config(path: str) -> dict[str, ModelConfig]:
+        with open(path) as f:
+            entries = json.load(f)
+        return {
+            e["name"]: ModelConfig(
+                e["provider"],
+                e["model"],
+                requests_per_minute=e["requests_per_minute"],
+                tokens_per_minute=e.get("tokens_per_minute"),
+            )
+            for e in entries
+        }
+
+    parser = argparse.ArgumentParser(description="Run prompt ingestion against selected models.")
+    parser.add_argument("csv", nargs="?", help="Path to the CSV file with Prompt and Topic columns.")
+    parser.add_argument("--models", nargs="+", metavar="NAME", help="Names of models to run (from config). Runs all if omitted.")
+    parser.add_argument("--config", default="models_config.json", metavar="PATH", help="Path to models config JSON (default: models_config.json).")
+    parser.add_argument("--list-models", action="store_true", help="List available models from the config and exit.")
+    args = parser.parse_args()
+
+    try:
+        all_models = load_models_from_config(args.config)
+    except FileNotFoundError:
+        print(f"Config file not found: {args.config}")
+        sys.exit(1)
+
+    if args.list_models:
+        print(f"Available models in {args.config}:")
+        for name, cfg in all_models.items():
+            print(f"  - {name}  ({cfg.provider} / {cfg.model})")
+        sys.exit(0)
+
+    if not args.csv:
+        parser.error("csv file is required unless --list-models is specified.")
+
+    if args.models:
+        unknown = [m for m in args.models if m not in all_models]
+        if unknown:
+            print(f"Unknown model(s): {', '.join(unknown)}")
+            print("Run with --list-models to see available options.")
+            sys.exit(1)
+        selected = [all_models[m] for m in args.models]
+    else:
+        selected = list(all_models.values())
+
+    prompts_df = pd.read_csv(args.csv)
+    num_prompts = prompts_df['Prompt'].dropna().nunique()
+    num_models = len(selected)
+    total_responses = num_prompts * num_models
+
+    print(f"\nModels selected ({num_models}):")
+    for m in selected:
+        print(f"  - {m.provider} / {m.model}")
+    print(f"\nThis will run {num_prompts} prompt(s) across {num_models} model(s), generating {total_responses} total responses.")
+
+    confirm = input("\nProceed? (y/n): ").strip().lower()
+    if confirm != "y":
+        print("Aborted.")
+        sys.exit(0)
+
+    asyncio.run(process_prompts(args.csv, models=selected))
