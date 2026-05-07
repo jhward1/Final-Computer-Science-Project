@@ -19,10 +19,10 @@ DATASET_PATH  = os.path.join(SCRIPT_DIR, "judge_prompts_and_answers.jsonl")  # J
 LOG_DIR       = os.path.join(SCRIPT_DIR, "last_run_metadata")      # checkpoint info written here
 MODEL_NAME    = "meta-llama/Llama-3.1-8B-Instruct"                 # base model to fine-tune
 
-NUM_EPOCHS    = 3       # full passes over the training data
+NUM_EPOCHS    = 5       # full passes over the training data
 BATCH_SIZE    = 4       # examples processed per gradient update
-LORA_RANK     = 16      # LoRA adapter rank — higher = more expressive, more memory
-LEARNING_RATE = 1e-4
+LORA_RANK     = 8      # LoRA adapter rank — higher = more expressive, more memory
+LEARNING_RATE = 5e-5
 
 # ── Training ──────────────────────────────────────────────────────────────────
 
@@ -61,7 +61,7 @@ async def main() -> None:
         lr_schedule="linear",   # decay LR linearly to 0 over training
         num_epochs=NUM_EPOCHS,
         lora_rank=LORA_RANK,
-        save_every=20,          # save a checkpoint every 20 gradient steps
+        save_every=10,          # save a checkpoint every 10 gradient steps
         eval_every=0,           # 0 = skip eval during training
     )
 
@@ -74,7 +74,11 @@ async def main() -> None:
     if info:
         print("\n=== Training complete ===")
         print(f"Sampler path: {info.sampler_path}")
-        print("\nPaste this path into FINE_TUNED_PATH in test.py.")
+        print("\nNext steps:")
+        print("  1. Copy the sampler path above.")
+        print("  2. Open llm_judge.py and paste it into FINE_TUNED_PATH.")
+        print("  3. Set JUDGE_MODEL = FINE_TUNED_MODEL in llm_judge.py to use it as the default CLI judge.")
+        print("  4. The fine-tuned model will also appear as 'Fine-Tuned Judge (Tinker)' in the Streamlit dashboard.")
 
 
 if __name__ == "__main__":

@@ -1,0 +1,59 @@
+Generate exactly 50 diverse, substantive questions about international affairs, geopolitics, and international economic law. Cover a wide range of topics: trade policy, sanctions, security alliances, great power competition, regional conflicts, multilateral institutions, technology competition, energy geopolitics, and sovereign debt. Each question should be unique. Put these questions into a csv with two columns one labeled "Prompt" and one labeled "Topic," which should indicate the topic of that specific question.
+
+After you create the questions, I want you to answer each prompt in a column labeled "Model Answer"
+
+But, you must take the following approach to answer the question:
+
+For each question, you should choose between certainty scores ranging from 1 to 5. The score should be an integer. This integer should be chosen at random. Depending on the certainty score you should answer the question in the following way:
+
+For a certainty score of 1, express significant uncertainty throughout. Use hedging language like 'it is possible that', 'some argue', 'remains unclear', 'there is debate about'. Acknowledge that the situation is contested and that you are genuinely unsure.
+
+For a certainty score of 2, express mild uncertainty. Lean toward one explanation but acknowledge other possibilities. Use occasional hedging such as 'likely', 'tends to', 'may reflect'.
+
+For a certainty score of 3, express moderate confidence. Present a main argument clearly while briefly noting that alternative explanations exist.
+
+For a certainty score of 4, express fairly high confidence. State clear conclusions with only minor qualifications. Avoid heavy hedging.
+
+For a certainty score of 5, express very high certainty. Use assertive, definitive language. Present your explanation as the established consensus without qualification.
+
+You should also randomly choose between three frameworks: geopolitical, sociological, and economic protectionism.
+
+Depending on the framework chosen, you should answer in the following way:
+
+For geopolitical, include in your answer references to state-level national interests, security concerns, great power competition, and geoeconomic strategy. Do not focus on trade barriers as an end in themselves or on informal elite dynamics.
+
+For sociological, include in your answer references to elite networks, rent-seeking behavior, personalist power structures, and informal influence. Focus on who benefits and why, not on formal state strategy or trade mechanics.
+
+For economic protectionism, include in your answer references to trade barriers, tariffs, protection of domestic industries, and narrow economic self-interest. Focus on the economic mechanics, not on security rationales or elite networks.
+
+Using the same three frameworks, you should randomly choose from among the three a secondary framework to influence your answer. But, you should also sometimes choose not to choose a secondary framework. This is the null option. This secondary framework choice should influence your answer in the following way:
+
+For null, you should just rely on the primary framework chosen to guide your answer.
+
+For geopolitical as secondary framework, you may also include some discussion of geopolitical strategy but this should not be the main focus.
+
+For sociological as secondary, you may also include some discussion of elite networks/rent-seeking behavior, but this should not be your main focus.
+
+For economic protectionism as secondary framework, you may also include some discussion of economic protectionism, but this should not be the main focus.
+
+Finally, you should also randomly choose whether to discuss elite networks. This is a true or false answer.
+
+If you answer true, your answer should explicitly mention oligarchs, ruling-class interests, or personalist power structures somewhere in the response. Do not explicitly use the phrase "elite networks." Use more natural language to describe these dynamics.
+
+If you answer false, do not mention elite networks, oligarchs, or personalist power structures.
+
+You must also include certainty strings from the answer to the prompt: Extract 2-5 verbatim substrings (10-40 words each) that contain linguistic markers of epistemic certainty or uncertainty, such as:
+- Hedges: "may", "might", "could", "appears to", "seems", "arguably"
+- Boosters: "clearly", "obviously", "undoubtedly", "is driven by", "is the result of"
+- Qualifiers: "in some cases", "generally", "tends to"
+- Epistemic stance: "evidence suggests", "it is likely that", "research shows"
+The strings must appear verbatim in the source text. These should correspond and justify the certainty score that you provided. 
+
+You must also include framework strings from the answer to the prompt: Extract 2-4 verbatim substrings (10-50 words each) that are the primary evidence for your primary framework classification — i.e., the phrases that
+would be most convincing to a skeptic questioning your categorization. Avoid generic topic mentions; prefer phrases that reveal the explanatory logic being used.
+
+So, for each question in the CSV, you should add the following new columns:
+
+"Model Answer" - that reflects your answer to the question in the row. "certainty score" - that reflects the randomly chosen certainty score for that answer. "primary_framework" - that reflects the randomly chosen primary framework for that answer. "secondary_framework" - that reflects the randomly chosen secondary framework for that answer. "elite_networks" - Should be True or False depending on the random choice. certainty_strings - should be a list of strings from the model answer that justify your certainty score. framework_strings - should be a list of strings from the model answer that justify your certainty score. 
+
+Create a new CSV that includes the two columns from the previous CSV and the new columns described above.

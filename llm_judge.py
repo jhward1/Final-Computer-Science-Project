@@ -56,11 +56,11 @@ OPENROUTER_MODELS = {
 FINE_TUNED_MODEL  = "fine-tuned"
 BASE_TINKER_MODEL = "base-llama"
 QWEN3_TINKER_MODEL = "qwen3-30b-tinker"
-FINE_TUNED_PATH   = "tinker://777867dc-d559-51ed-b9c6-2fffd1b8c878:train:0/sampler_weights/final"
+FINE_TUNED_PATH   = "tinker://0f5ea695-8ec1-5534-9260-16fade8255a1:train:0/sampler_weights/final"
 BASE_MODEL_NAME   = "meta-llama/Llama-3.1-8B-Instruct"
 QWEN3_MODEL_NAME  = "Qwen/Qwen3-30B-A3B-Instruct-2507"
 
-JUDGE_MODEL = QWEN3_MODEL_NAME  # ← change this to switch judge
+JUDGE_MODEL = QWEN3_TINKER_MODEL  # ← change this to switch judge
 
 # ──────────────────────────────────────────────────────────────────────────────
 
