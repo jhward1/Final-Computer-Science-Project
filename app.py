@@ -1,14 +1,17 @@
 import streamlit as st
 import asyncio
+import concurrent.futures
 import tempfile
 import os
 import io
 import json
 import pandas as pd
-import nest_asyncio
 
-nest_asyncio.apply()
-asyncio.set_event_loop(asyncio.new_event_loop())
+
+def run_async(coro):
+    """Run an async coroutine in a fresh thread with its own event loop."""
+    with concurrent.futures.ThreadPoolExecutor(max_workers=1) as executor:
+        return executor.submit(asyncio.run, coro).result()
 
 from prompt_ingestion import process_prompts, ModelConfig
 from llm_judge import process_prompts as run_judge, GROQ_MODELS, OPENROUTER_MODELS, FINE_TUNED_MODEL, BASE_TINKER_MODEL, QWEN3_TINKER_MODEL, split_valid_invalid
@@ -98,7 +101,7 @@ with tab1:
 
                 try:
                     with st.spinner("Running prompt ingestion (this may take a few minutes)..."):
-                        asyncio.run(process_prompts(tmp_path, models=selected_models))
+                        run_async(process_prompts(tmp_path, models=selected_models))
                     if is_configured():
                         push("model_responses.csv", "Update model_responses.csv via Streamlit")
                     st.success("Done! Results saved to model_responses.csv")
@@ -165,7 +168,7 @@ with tab1:
 
             try:
                 with st.spinner("Running additional models..."):
-                    asyncio.run(process_prompts(tmp_path, models=extra_configs))
+                    run_async(process_prompts(tmp_path, models=extra_configs))
                 if is_configured():
                     push("model_responses.csv", "Update model_responses.csv via Streamlit")
                 st.success("Done! New responses have been appended — they will appear in the Model Responses table above.")
@@ -220,7 +223,7 @@ with tab2:
 
         if st.button("Run Judge"):
             with st.spinner(f"Running judge ({selected_judge_label})..."):
-                asyncio.run(run_judge(judge_model_key=selected_judge_key))
+                run_async(run_judge(judge_model_key=selected_judge_key))
 
             judge_df = pd.read_csv("final_judge_responses.csv")
             parsed_df = parse_responses(judge_df)
