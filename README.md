@@ -10,7 +10,7 @@ This project was built for a research proposal by Professors Gregory Shaffer and
 
 The core concern is that LLMs present contested interpretations as settled facts. When asked why President Trump expressed interest in Greenland, for example, ChatGPT framed geopolitical competition as the definitive explanation without acknowledging alternatives such as personalist or rent-seeking motivations. At scale, this systematic privileging of geopolitical frameworks over sociological ones could have real "world-constructing" effects.
 
-This codebase is a tool built to investigate that bias via testing of models through user specified prompts.
+This codebase is a tool built to investigate that bias via testing of models through user-specified prompts.
 
 ---
 
@@ -74,9 +74,9 @@ The easiest way to use this tool is through the hosted Streamlit deployment, whi
 
 Open the link in any browser and proceed directly to the usage walkthrough below. No account, API key, or local setup is needed. 
 
-> **Note:** These API keys are my personal keys. OpenRouter has been preloaded with $10 so it should be enough for the research scope of this project. Tinker is still using my student allowance. 
+> **Note:** These API keys are my personal keys. OpenRouter has been preloaded with $10, so it should be enough for the research scope of this project. Tinker is still using my student allowance. 
 
-> **Note:** The hosted app syncs data to a GitHub backend between sessions, so results from a previous run (model responses, judge evaluations) will be available when you return. These are synced to a dedicated branch on my GitHub. 
+> **Note:** The hosted app syncs data to a GitHub backend between sessions, so results from a previous run (model responses, judge evaluations) will be available when you return. These are synced to a dedicated branch on my GitHub repository.
 
 ---
 
@@ -114,11 +114,11 @@ TINKER_API_KEY=your_tinker_key_here
 - **Gemini** — https://aistudio.google.com/app/apikey — Google's Gemini models
 - **Tinker** — API key provided by Thinking Machines; required only if using the Fine-Tuned Judge, Base Llama, or Qwen3 Tinker judge options
 
-You only need keys for the providers whose models you plan to use. The app will not error at startup for missing keys — it will only fail if you actually try to call a model from that provider. But, an OpenRouter key and a Tinker key are highly recommended as those are the main services for testing models and calling judges. The app will be unable to run a judge without either an OpenRouter or Tinker API key. 
+You only need keys for the providers whose models you plan to use. The app will not error at startup for missing keys — it will only fail if you actually try to call a model from that provider. An OpenRouter key and a Tinker key are highly recommended as those are the main services for testing models and calling judges. The app will be unable to run a judge without either an OpenRouter or Tinker API key.
 
 ### GitHub Sync (optional)
 
-I have a GitHub Sync setup to push and pull files to a separate Streamlit Dashboard production branch. This can also be used if you want to push and pull files into your own github. To persist data files across sessions to a GitHub repository, add these to your `.env`:
+A GitHub sync is configured to push and pull files to a dedicated deployment branch. This can also be used if you want to persist files in your own GitHub repository. To persist data files across sessions to a GitHub repository, add these to your `.env`:
 
 ```
 GITHUB_TOKEN=your_personal_access_token
@@ -155,7 +155,7 @@ Any other columns are ignored. A sample file (`test_questions.csv`) is included 
 
 ### Step 1 — Model Config (Tab 4)
 
-This tab is where you select models for availability in Tab 1 to run against the prompts held in the uploaded csv. 
+This tab is where you configure which models are available in Tab 1 to run against the prompts in the uploaded CSV.
 
 Browse the full OpenRouter model catalog, filter by provider and release date, and save your selection to `models_config.json`. Non-OpenRouter entries (Groq, Google) already in the config are always preserved. 
 
@@ -175,13 +175,12 @@ Browse the full OpenRouter model catalog, filter by provider and release date, a
 2. Select a judge model from the dropdown. Available options include:
    - **Fine-Tuned Judge (Tinker)** — a model fine-tuned specifically for this classification task (requires Tinker API access)
    - **Llama 3.1 8B Base / Qwen3 30B** via Tinker (also requires Tinker access) (These are not fine-tuned models)
-   - **Groq models** — Llama 3.1 8B and Llama 3.3 70B
-   - **OpenRouter models** — Qwen3 80B
+   - **OpenRouter models** — Qwen3 Next 80B
 3. Click **Run Judge**. The judge returns a JSON object with the primary framework, secondary framework, certainty score (1–5), whether elite networks were mentioned, and verbatim evidence and framework strings. The rubric used to instruct the judge is defined in `grading_prompt.txt` — edit that file to change the classification criteria without touching any code.
 4. Already-judged (model, prompt, judge) triples are skipped on re-runs, so you can switch judges and accumulate results from multiple judges without overwriting previous work.
 5. Results are parsed and saved to `final_judge_responses_parsed.csv`. A preview table and download button appear below.
 
-> **Note** I strongly recommend only using the Tinker based models. The openrouter models that are available do not work effectively and do not generate consistent results in a format that the program expects. The user has the option to delete rows from the judge results that error but it is easier to simply use the Tinker models. 
+> **Note:** I strongly recommend only using the Tinker-based models. The OpenRouter models that are available do not work effectively and do not generate consistent results in a format that the program expects. The user has the option to delete rows from the judge results that error but it is easier to simply use the Tinker models. 
 
 ### Step 4 — Analysis Dashboard (Tab 3)
 
@@ -243,7 +242,7 @@ The script asks for confirmation before making any API calls, showing the total 
 ### LLM Judge
 
 ```bash
-# Run the judge using the default model (set in llm_judge.py - this is defaulting to the fine-tuned model)
+# Run the judge using the default model (set in llm_judge.py — currently defaults to the fine-tuned Tinker model)
 python llm_judge.py
 
 # Run with a specific judge model
@@ -260,7 +259,7 @@ The script reads from `model_responses.csv` and writes raw judge output to `fina
 python data_cleaning.py
 ```
 
-This writes `final_judge_responses_parsed.csv`, which can be opened directly in the Streamlit dashboard or simply viewed as a CSV. The user can use excel or another spreadsheet service to view the data
+This writes `final_judge_responses_parsed.csv`, which can be opened directly in the Streamlit dashboard or viewed as a CSV in Excel or another spreadsheet application.
 
 ---
 
@@ -335,7 +334,7 @@ When training completes, the script prints a sampler path. Paste this path into 
 ## Inactive Files
 |File | Purpose |
 |---|---|
-|`grading_tool.py` | Tool to use streamlit to grade model answers - ultimately not used|
+|`grading_tool.py` | Tool to use Streamlit to grade model answers — ultimately not used |
 |`training_set_generation.py` | Attempt at generating training set data with python but abandonded for the Claude option|
 
 
@@ -373,7 +372,7 @@ The goal of this project was to give non-technical users — specifically the pr
 
 A deliberate design decision was to keep the tool usable in two modes — as a deployed web dashboard and as a set of standalone CLI scripts. I wanted to avoid bundling everything into a single application file so that a researcher comfortable with the terminal could run the pipeline without the UI layer, and so that the core logic remained testable and reusable independently. That separation added complexity and required significant work to ensure that both modes functioned correctly in tandem.
 
-The hardest parts of the project were the API integrations and the deployment infrastructure. Rate limiting, inconsistent response formats across providers, and JSON parsing failures from judge models required extensive error handling and data verification. When judge models would output unexpected formats, it would throw a variety of errors in the data visualization step. Getting the Streamlit deployment to work correctly was also difficult — because Streamlit Cloud has an ephemeral filesystem, I had to build a GitHub-based persistence layer to store data files between sessions, effectively using the GitHub API as a makeshift hosted database.
+The hardest parts of the project were the API integrations and the deployment infrastructure. Rate limiting, inconsistent response formats across providers, and JSON parsing failures from judge models required extensive error handling and data verification. When judge models would output unexpected formats, they would throw a variety of errors in the data visualization step. Getting the Streamlit deployment to work correctly was also difficult — because Streamlit Cloud has an ephemeral filesystem, I had to build a GitHub-based persistence layer to store data files between sessions, effectively using the GitHub API as a makeshift hosted database.
 
 There were also dead ends that do not appear in the final submission. I built an entire interface for manually grading LLM responses to create a fine-tuning dataset, before eventually generating that training data synthetically instead. That work shaped my understanding of what the training set needed to look like, even though it did not survive into the final version.
 
