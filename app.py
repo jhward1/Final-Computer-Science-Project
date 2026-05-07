@@ -54,9 +54,27 @@ with tab1:
     uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
 
     if uploaded_file is not None:
-        st.session_state["uploaded_csv"] = uploaded_file.read()
-
-    csv_bytes = st.session_state.get("uploaded_csv")
+        if st.session_state.get("uploaded_file_id") != uploaded_file.file_id:
+            csv_bytes = uploaded_file.read()
+            st.session_state["uploaded_csv"] = csv_bytes
+            st.session_state["uploaded_file_id"] = uploaded_file.file_id
+            with open("current_prompts.csv", "wb") as f:
+                f.write(csv_bytes)
+            if is_configured():
+                try:
+                    push("current_prompts.csv", "Update current_prompts.csv via Streamlit")
+                except Exception as e:
+                    st.warning(f"GitHub sync failed: {e}")
+        else:
+            csv_bytes = st.session_state["uploaded_csv"]
+    elif "uploaded_csv" in st.session_state:
+        csv_bytes = st.session_state["uploaded_csv"]
+    elif os.path.exists("current_prompts.csv"):
+        with open("current_prompts.csv", "rb") as f:
+            csv_bytes = f.read()
+        st.session_state["uploaded_csv"] = csv_bytes
+    else:
+        csv_bytes = None
 
     if csv_bytes is not None:
         df_preview = pd.read_csv(io.BytesIO(csv_bytes))
@@ -72,8 +90,15 @@ with tab1:
             st.error(f"CSV is missing required column(s): {', '.join(missing)}")
         else:
             st.subheader("Select Models")
+            col_all, col_none, _ = st.columns([1, 1, 8])
+            if col_all.button("Check All", key="check_all_models"):
+                st.session_state["models_all_selected"] = True
+            if col_none.button("Uncheck All", key="uncheck_all_models"):
+                st.session_state["models_all_selected"] = False
+
+            all_selected = st.session_state.get("models_all_selected", True)
             models_df = pd.DataFrame({
-                "Selected":     [True] * len(AVAILABLE_MODELS),
+                "Selected":     [all_selected] * len(AVAILABLE_MODELS),
                 "Model":        list(AVAILABLE_MODELS.keys()),
                 "Provider":     [c.provider for c in AVAILABLE_MODELS.values()],
                 "Model ID":     [c.model for c in AVAILABLE_MODELS.values()],
@@ -103,7 +128,10 @@ with tab1:
                     with st.spinner("Running prompt ingestion (this may take a few minutes)..."):
                         run_async(process_prompts(tmp_path, models=selected_models))
                     if is_configured():
-                        push("model_responses.csv", "Update model_responses.csv via Streamlit")
+                        try:
+                            push("model_responses.csv", "Update model_responses.csv via Streamlit")
+                        except Exception as e:
+                            st.warning(f"GitHub sync failed: {e}")
                     st.success("Done! Results saved to model_responses.csv")
                 finally:
                     os.unlink(tmp_path)
@@ -170,7 +198,10 @@ with tab1:
                 with st.spinner("Running additional models..."):
                     run_async(process_prompts(tmp_path, models=extra_configs))
                 if is_configured():
-                    push("model_responses.csv", "Update model_responses.csv via Streamlit")
+                    try:
+                        push("model_responses.csv", "Update model_responses.csv via Streamlit")
+                    except Exception as e:
+                        st.warning(f"GitHub sync failed: {e}")
                 st.success("Done! New responses have been appended — they will appear in the Model Responses table above.")
             finally:
                 os.unlink(tmp_path)
@@ -229,8 +260,11 @@ with tab2:
             parsed_df = parse_responses(judge_df)
             parsed_df.to_csv("final_judge_responses_parsed.csv", index=False)
             if is_configured():
-                push("final_judge_responses.csv",        "Update final_judge_responses.csv via Streamlit")
-                push("final_judge_responses_parsed.csv", "Update final_judge_responses_parsed.csv via Streamlit")
+                try:
+                    push("final_judge_responses.csv",        "Update final_judge_responses.csv via Streamlit")
+                    push("final_judge_responses_parsed.csv", "Update final_judge_responses_parsed.csv via Streamlit")
+                except Exception as e:
+                    st.warning(f"GitHub sync failed: {e}")
             st.success("Judging complete! Results parsed and saved.")
 
     if os.path.exists("final_judge_responses_parsed.csv"):
@@ -397,7 +431,10 @@ with tab4:
             with open("models_config.json", "w") as f:
                 json.dump(updated_config, f, indent=2)
             if is_configured():
-                push("models_config.json", "Update models_config.json via Streamlit")
+                try:
+                    push("models_config.json", "Update models_config.json via Streamlit")
+                except Exception as e:
+                    st.warning(f"GitHub sync failed: {e}")
 
             st.session_state["available_models"] = load_models()
 

@@ -6,6 +6,13 @@ import seaborn as sns
 
 SOURCE_FILE = 'final_judge_responses_parsed.csv'
 
+FRAMEWORK_PALETTE = {
+    "Geopolitical":          "#4C72B0",
+    "Sociological":          "#DD8452",
+    "Economic Protectionism":"#55A868",
+    "None":                  "#C0C0C0",
+}
+
 
 def render_dashboard(df: pd.DataFrame):
     df['certainty_score'] = pd.to_numeric(df['certainty_score'], errors='coerce')
@@ -86,7 +93,7 @@ def render_dashboard(df: pd.DataFrame):
                     .reset_index(name='count')
                 )
                 fig2, ax2 = plt.subplots()
-                sns.barplot(data=framework_counts, x='model', y='count', hue='framework', ax=ax2)
+                sns.barplot(data=framework_counts, x='model', y='count', hue='framework', ax=ax2, palette=FRAMEWORK_PALETTE)
                 ax2.set_xlabel("Model")
                 ax2.set_ylabel("Count")
                 ax2.tick_params(axis='x', rotation=30)
@@ -112,7 +119,7 @@ def render_dashboard(df: pd.DataFrame):
                     .reset_index(name='count')
                 )
                 fig3, ax3 = plt.subplots()
-                sns.barplot(data=sec_counts, x='model', y='count', hue='secondary_framework', ax=ax3)
+                sns.barplot(data=sec_counts, x='model', y='count', hue='secondary_framework', ax=ax3, palette=FRAMEWORK_PALETTE)
                 ax3.set_xlabel("Model")
                 ax3.set_ylabel("Count")
                 ax3.tick_params(axis='x', rotation=30)

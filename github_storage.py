@@ -6,6 +6,7 @@ import streamlit as st
 
 PERSISTED_FILES = [
     "models_config.json",
+    "current_prompts.csv",
     "model_responses.csv",
     "final_judge_responses.csv",
     "final_judge_responses_parsed.csv",
@@ -79,7 +80,8 @@ def push(path: str, message: str = "Update via Streamlit app") -> bool:
         json=payload,
         timeout=15,
     )
-    r.raise_for_status()
+    if not r.ok:
+        raise RuntimeError(f"GitHub push failed ({r.status_code}): {r.text}")
     return True
 
 
