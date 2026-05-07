@@ -8,6 +8,7 @@ import pandas as pd
 import nest_asyncio
 
 nest_asyncio.apply()
+asyncio.set_event_loop(asyncio.new_event_loop())
 
 from prompt_ingestion import process_prompts, ModelConfig
 from llm_judge import process_prompts as run_judge, GROQ_MODELS, OPENROUTER_MODELS, FINE_TUNED_MODEL, BASE_TINKER_MODEL, QWEN3_TINKER_MODEL, split_valid_invalid
