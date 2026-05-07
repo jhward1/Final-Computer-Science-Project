@@ -5,6 +5,9 @@ import os
 import io
 import json
 import pandas as pd
+import nest_asyncio
+
+nest_asyncio.apply()
 
 from prompt_ingestion import process_prompts, ModelConfig
 from llm_judge import process_prompts as run_judge, GROQ_MODELS, OPENROUTER_MODELS, FINE_TUNED_MODEL, BASE_TINKER_MODEL, QWEN3_TINKER_MODEL, split_valid_invalid
