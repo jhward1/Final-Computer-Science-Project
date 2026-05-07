@@ -347,7 +347,13 @@ When training completes, the script prints a sampler path. Paste this path into 
 
 ## Reflection on Broader Themes
 
-*[Placeholder — to be completed per assignment requirement 2: reflection on whether programming is a valuable skill for lawyers, what types of projects lawyers might find useful, and advice about the future of computer programming and the law.]*
+I came into this project with some prior programming experience — an industrial engineering undergraduate background gave me exposure to Python, R, and data analytics. But building this project pushed me well beyond that foundation. I had not worked with asynchronous programming before, had not designed a user interface, and had not dealt seriously with error handling across interconnected systems. Those were genuine gaps that this project forced me to work through.
+
+The part of the project that felt most directly connected to legal reasoning was drafting the judge rubric — the set of instructions that tells the LLM how to classify a response. That process was substantive in a way that felt familiar from legal work: it required close reading, precise language, and extended conversations with Professors Shaffer and Puig about the conceptual distinctions between frameworks. Getting the rubric right mattered because it was the methodological core of the research. A bad rubric produces bad data regardless of how well the rest of the tool works.
+
+My answer to whether lawyers should learn to code is an unqualified yes. The value was not just the ability to build something — it was the understanding I gained about how LLMs actually work and where they fall short. That understanding is increasingly necessary for anyone who uses these tools professionally, and it is very hard to develop without some hands-on experience. For lawyers specifically, I think the most useful applications are in document-intensive research, empirical legal analysis, and anything involving repeated structured tasks across large datasets — exactly the kind of work this project automates.
+
+That said, there are real concerns. Cybersecurity and client confidentiality are obvious ones — code that touches sensitive data needs to be handled carefully, and AI-assisted development can create a false sense of confidence. AI tools are good at producing plausible-looking output, but they require quality input and critical oversight. The same epistemic problem this project investigates in LLMs — authoritative-sounding answers that may not be correct — applies equally to using AI to write code.
 
 ---
 
@@ -358,4 +364,12 @@ When training completes, the script prints a sampler path. Paste this path into 
 
 
 
-*[Placeholder — to be completed per assignment requirement 3: description of the scope of the project, anything non-evident about the time and effort involved, and any design decisions worth highlighting.]*
+The goal of this project was to give non-technical users — specifically the professors and their research assistants — easy access to a tool for systematically testing how multiple LLMs respond to the same questions. In principle, anyone can create free accounts for OpenRouter, Groq, and Google and paste questions into each chatbot manually. This project makes that process streamlined, reproducible, and analytically useful: prompts go in, classified and scored responses come out, and the results are immediately visible in a dashboard.
+
+A deliberate design decision was to keep the tool usable in two modes — as a deployed web dashboard and as a set of standalone CLI scripts. I wanted to avoid bundling everything into `app.py` so that a researcher comfortable with the terminal could run the pipeline without Streamlit, and so that the core logic remained testable and reusable outside the UI. That separation added complexity but I think it was worth it for the flexibility it provides.
+
+The hardest parts were the API integrations and the deployed app infrastructure. Rate limiting, inconsistent response formats across providers, and JSON parsing failures from judge models required a lot of defensive coding. Getting the Streamlit deployment to work correctly was also unexpectedly difficult — because Streamlit Cloud has an ephemeral filesystem, I had to build a GitHub-based persistence layer to store data files between sessions, effectively using the GitHub API as a makeshift hosted database.
+
+There were also dead ends. I built an entire Streamlit interface for manually grading LLM responses to create a fine-tuning dataset, before eventually using Claude to generate that training data synthetically instead. That work didn't make it into the final project but it wasn't wasted — it clarified what the fine-tuning pipeline actually needed.
+
+If I were starting over, I would invest more time in the design phase before writing any code. I tended to fix bugs and add features on top of existing structure, which created some organizational debt over time. A clearer upfront architecture would have saved time in the long run. In terms of overall effort, this project required roughly the equivalent of 75% of the time I would have spent on a seminar paper — concentrated differently, but comparable in total commitment.
