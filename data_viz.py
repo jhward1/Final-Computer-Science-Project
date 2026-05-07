@@ -41,6 +41,8 @@ def render_dashboard(df: pd.DataFrame):
 
             min_score = float(df['certainty_score'].min()) if not df['certainty_score'].isnull().all() else 0.0
             max_score = float(df['certainty_score'].max()) if not df['certainty_score'].isnull().all() else 5.0
+            if max_score <= min_score:
+                max_score = min_score + 1.0
             score_range = st.slider("Certainty Score Range", min_score, max_score, (min_score, max_score))
 
             evidence_search = st.text_input("Search Evidence Spans (Keyword)")
