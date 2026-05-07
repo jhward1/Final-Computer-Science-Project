@@ -28,6 +28,13 @@
     "tokens_per_minute": null
   },
   {
+    "name": "Anthropic: Claude Haiku 4.5",
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-4.5",
+    "requests_per_minute": 20,
+    "tokens_per_minute": null
+  },
+  {
     "name": "Anthropic: Claude 3 Haiku",
     "provider": "openrouter",
     "model": "anthropic/claude-3-haiku",
