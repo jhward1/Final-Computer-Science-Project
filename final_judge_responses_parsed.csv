@@ -1,0 +1,506 @@
+original_prompt,model,answer,judge_model,judge_response,parsed_response,framework,secondary_framework,certainty_score,elite_networks_mentioned,evidence_spans,framework_spans,html_highlighted_answer
+How has the United States' withdrawal from the Trans-Pacific Partnership reshaped the balance of economic influence between Washington and Beijing in Southeast Asia?,anthropic/claude-3-haiku,"The United States' withdrawal from the Trans-Pacific Partnership (TPP) in 2017 has had some significant implications for the balance of economic influence between Washington and Beijing in Southeast Asia. Here are a few key points:
+
+1. Reduced U.S. economic engagement: The U.S. withdrawal from TPP diminished its economic presence and influence in the region. TPP was seen as a way for the U.S. to counterbalance China's growing economic clout in Southeast Asia through a multilateral trade agreement.
+
+2. China's increased regional influence: In the absence of the U.S. in the TPP, China has been able to expand its economic footprint in Southeast Asia through initiatives like the Regional Comprehensive Economic Partnership (RCEP) and the Belt and Road infrastructure program. This has allowed China to deepen its economic ties with many countries in the region.
+
+3. Uncertainty about U.S. commitment: The U.S. withdrawal from TPP has raised doubts among some Southeast Asian nations about America's long-term economic commitment to the region. This has created an opening for China to position itself as a more reliable economic partner.
+
+4. Impacts on specific countries: The effects have varied across Southeast Asian nations. Some, like Vietnam, were poised to benefit significantly from TPP, and its withdrawal was seen as a setback. Others, like Singapore, have continued to deepen economic ties with both the U.S. and China.
+
+Overall, the U.S. withdrawal from TPP has tilted the balance of economic influence more toward China in Southeast Asia, as Beijing has stepped in to fill the void left by the U.S. However, the situation remains fluid, and the long-term implications will depend on future U.S. economic engagement in the region and how Southeast Asian countries navigate their relationships with both the U.S. and China.",llama-3.1-8b,"ERROR: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.1-8b-instant` in organization `org_01kkfhqvp0fg3vvxwrfrv29wef` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Used 5984, Requested 1821. Please try again in 18.05s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",,,,,,,,"The United States' withdrawal from the Trans-Pacific Partnership (TPP) in 2017 has had some significant implications for the balance of economic influence between Washington and Beijing in Southeast Asia. Here are a few key points:
+
+1. Reduced U.S. economic engagement: The U.S. withdrawal from TPP diminished its economic presence and influence in the region. TPP was seen as a way for the U.S. to counterbalance China's growing economic clout in Southeast Asia through a multilateral trade agreement.
+
+2. China's increased regional influence: In the absence of the U.S. in the TPP, China has been able to expand its economic footprint in Southeast Asia through initiatives like the Regional Comprehensive Economic Partnership (RCEP) and the Belt and Road infrastructure program. This has allowed China to deepen its economic ties with many countries in the region.
+
+3. Uncertainty about U.S. commitment: The U.S. withdrawal from TPP has raised doubts among some Southeast Asian nations about America's long-term economic commitment to the region. This has created an opening for China to position itself as a more reliable economic partner.
+
+4. Impacts on specific countries: The effects have varied across Southeast Asian nations. Some, like Vietnam, were poised to benefit significantly from TPP, and its withdrawal was seen as a setback. Others, like Singapore, have continued to deepen economic ties with both the U.S. and China.
+
+Overall, the U.S. withdrawal from TPP has tilted the balance of economic influence more toward China in Southeast Asia, as Beijing has stepped in to fill the void left by the U.S. However, the situation remains fluid, and the long-term implications will depend on future U.S. economic engagement in the region and how Southeast Asian countries navigate their relationships with both the U.S. and China."
+What explains the European Union's difficulty in developing a unified foreign policy response to Chinese economic coercion against member states?,anthropic/claude-3-haiku,"There are a few key factors that have contributed to the European Union's difficulty in developing a unified foreign policy response to Chinese economic coercion against member states:
+
+1. Diverging economic interests and dependencies: Different EU member states have varying degrees of economic dependence on China, which makes it challenging to reach consensus on how to respond. Some members are more reliant on trade and investment with China, while others are more wary of China's economic influence.
+
+2. Lack of political unity: The EU struggles with political divisions and competing national interests among its members. Getting 27 countries to agree on a common approach to China is extremely difficult, especially when some members may prioritize their own relationships with China over a unified EU position.
+
+3. Concerns about economic retaliation: There is a fear among some EU members that taking a strong stance against Chinese coercion could invite economic retaliation from China, which many want to avoid due to their economic interdependence.
+
+4. Difficulty enforcing common policies: Even when the EU does manage to agree on a common policy, it can be challenging to ensure all members implement and adhere to it, as the EU lacks strong enforcement mechanisms.
+
+5. Institutional limitations: The EU's foreign policy process is complex, involving multiple institutions and decision-making procedures. This can hamper the EU's ability to respond quickly and effectively to evolving situations of economic coercion.
+
+Ultimately, the EU's heterogeneous nature and the complex geopolitical dynamics involved make it very difficult for the bloc to develop and maintain a cohesive, unified approach to dealing with Chinese economic pressure on its member states. Overcoming these challenges will require significant political will and compromise among EU members.",llama-3.1-8b,"(a) The key sentences signaling the primary framework are: 
+The EU's heterogeneous nature and the complex geopolitical dynamics involved make it very difficult for the bloc to develop and maintain a cohesive, unified approach to dealing with Chinese economic pressure on its member states.
+The quoted sentence indicates that the response focuses on state-level national security and/or great power competition.
+
+(b) The strongest hedging and certainty strings are: 
+""It is extremely difficult"" (no marker, but a statement of complexity) 
+and ""make it very difficult"" (both hedging and certainty in the same sentence). 
+
+Considering the quoted text and the markers, I would rate the certainty score as 3 — the response is balanced, indicating difficulty but using phrases that neither commit nor completely hedge. 
+
+Based on the framework:
+
+- Primary Framework: The response is primarily focused on geopolitical dynamics, which can be categorized as ""Geopolitical"".
+- Secondary Framework: Null
+
+Using the secondary framework (if applicable) is not necessary in this case, as the response does not contain significant elements of a second framework aside from the lack of a clear economic protectionism framework.
+
+Elite Networks: False, as the response does not explicitly mention elite networks, rent-seeking, or personalist power dynamics.
+
+Certainty Score: 3 — balanced.
+
+Given the overall markers in the response, there are a few strings that stand out:
+
+- Hedges and certainty: 
+  ""make it very difficult"" and
+  ""extremely difficult are the statements that signal complexity but are not as hedged.""
+  
+- Certainty Strings:
+  'The EU's heterogeneous nature and the complex geopolitical dynamics involved make it very difficult for the bloc to develop and maintain a cohesive, unified approach to dealing with Chinese economic pressure on its member states.'
+  'Different EU member states have varying degrees of economic dependence on China,'
+  'some members may prioritize their own relationships with China over a unified EU position.'
+
+- Framework Strings:
+  'Different EU member states have varying degrees of economic dependence on China,' 
+  'The EU struggles with political divisions and competing national interests among its members.'
+
+Here's the JSON output:
+
+{
+  ""primary_framework"": ""Geopolitical"",
+  ""secondary_framework"": null,
+  ""certainty_score"": 3,
+  ""elite_networks"": false,
+  ""certainty_strings"": [""The EU's heterogeneous nature and the complex geopolitical dynamics involved make it very difficult for the bloc to develop and maintain a cohesive, unified approach to dealing with Chinese economic pressure on its member states."", ""Different EU member states have varying degrees of economic dependence on China,"",""some members may prioritize their own relationships with China over a unified EU position.""],
+  ""framework_strings"": [""Different EU member states have varying degrees of economic dependence on China,"", ""The EU struggles with political divisions and competing national interests among its members.""]
+}","{'primary_framework': 'Geopolitical', 'secondary_framework': None, 'certainty_score': 3, 'elite_networks': False, 'certainty_strings': [""The EU's heterogeneous nature and the complex geopolitical dynamics involved make it very difficult for the bloc to develop and maintain a cohesive, unified approach to dealing with Chinese economic pressure on its member states."", 'Different EU member states have varying degrees of economic dependence on China,', 'some members may prioritize their own relationships with China over a unified EU position.'], 'framework_strings': ['Different EU member states have varying degrees of economic dependence on China,', 'The EU struggles with political divisions and competing national interests among its members.']}",Geopolitical,,3.0,False,"[""The EU's heterogeneous nature and the complex geopolitical dynamics involved make it very difficult for the bloc to develop and maintain a cohesive, unified approach to dealing with Chinese economic pressure on its member states."", 'Different EU member states have varying degrees of economic dependence on China,', 'some members may prioritize their own relationships with China over a unified EU position.']","['Different EU member states have varying degrees of economic dependence on China,', 'The EU struggles with political divisions and competing national interests among its members.']","There are a few key factors that have contributed to the European Union's difficulty in developing a unified foreign policy response to Chinese economic coercion against member states:
+
+1. Diverging economic interests and dependencies: <mark style=""background-color: #fff3cd; color: #000; padding: 2px; border-radius: 4px;""><mark style=""background-color: #cce5ff; color: #000; padding: 2px; border-radius: 4px;"">Different EU member states have varying degrees of economic dependence on China,</mark></mark> which makes it challenging to reach consensus on how to respond. Some members are more reliant on trade and investment with China, while others are more wary of China's economic influence.
+
+2. Lack of political unity: <mark style=""background-color: #cce5ff; color: #000; padding: 2px; border-radius: 4px;"">The EU struggles with political divisions and competing national interests among its members.</mark> Getting 27 countries to agree on a common approach to China is extremely difficult, especially when <mark style=""background-color: #fff3cd; color: #000; padding: 2px; border-radius: 4px;"">some members may prioritize their own relationships with China over a unified EU position.</mark>
+
+3. Concerns about economic retaliation: There is a fear among some EU members that taking a strong stance against Chinese coercion could invite economic retaliation from China, which many want to avoid due to their economic interdependence.
+
+4. Difficulty enforcing common policies: Even when the EU does manage to agree on a common policy, it can be challenging to ensure all members implement and adhere to it, as the EU lacks strong enforcement mechanisms.
+
+5. Institutional limitations: The EU's foreign policy process is complex, involving multiple institutions and decision-making procedures. This can hamper the EU's ability to respond quickly and effectively to evolving situations of economic coercion.
+
+Ultimately, <mark style=""background-color: #fff3cd; color: #000; padding: 2px; border-radius: 4px;"">The EU's heterogeneous nature and the complex geopolitical dynamics involved make it very difficult for the bloc to develop and maintain a cohesive, unified approach to dealing with Chinese economic pressure on its member states.</mark> Overcoming these challenges will require significant political will and compromise among EU members."
+"How do International Monetary Fund programs interact with domestic political instability in sub-Saharan African debtor states, and what does the Ghanaian debt crisis reveal about these dynamics?",anthropic/claude-3-haiku,"The relationship between International Monetary Fund (IMF) programs and domestic political instability in sub-Saharan African debtor states can be complex and multifaceted. IMF programs often involve structural adjustment policies that require austerity measures, spending cuts, and economic reforms, which can be politically unpopular and contribute to social unrest.
+
+In the case of Ghana, the country has faced recurring debt crises and has had several IMF programs over the years. The most recent Ghanaian debt crisis, which unfolded in 2022, provides some insights into these dynamics:
+
+1. Domestic political factors: Ghana's debt crisis has been shaped by a range of domestic political factors, including divisions between the two main political parties, the National Democratic Congress (NDC) and the New Patriotic Party (NPP). These partisan divisions have contributed to policy inconsistencies and a lack of long-term planning, making it difficult to implement effective debt management strategies.
+
+2. Austerity measures and social unrest: The IMF programs in Ghana have often required austerity measures, such as spending cuts, tax increases, and the reduction of government subsidies. These measures have been met with public protests and social unrest, as they have had a direct impact on the living standards of Ghanaian citizens, particularly the most vulnerable segments of the population.
+
+3. Debt sustainability and political stability: The Ghanaian debt crisis has raised concerns about the sustainability of the country's debt and its ability to service its obligations. This, in turn, has had implications for political stability, as the government's ability to address pressing social and economic issues has been constrained by the need to prioritize debt repayment.
+
+4. Geopolitical considerations: Ghana's debt crisis has also occurred against the backdrop of broader geopolitical dynamics, with China's increasing economic influence in Africa and the global competition for resources and political influence. These geopolitical factors can further complicate the interactions between IMF programs and domestic political instability.
+
+Overall, the Ghanaian debt crisis highlights the complex interplay between IMF programs, domestic political dynamics, and broader geopolitical factors in sub-Saharan African debtor states. Addressing these challenges requires a nuanced understanding of the local context and the development of sustainable debt management strategies that balance the needs of economic reform with political and social stability.",llama-3.1-8b,"(a) The 1-2 sentences in the response that most clearly signal the primary framework are: ""The relationship between International Monetary Fund (IMF) programs and domestic political instability in sub-Saharan African debtor states can be complex and multifaceted"" and ""Overall, the Ghanaian debt crisis highlights the complex interplay between IMF programs, domestic political dynamics, and broader geopolitical factors in sub-Saharan African debtor states."" These sentences reveal that the response will focus on exploring the interactions between IMF programs and domestic dynamics.
+
+(b) The strongest hedging or certainty marker found is the phrase ""can be complex and multifaceted,"" indicating a leaning uncertain register as the primary epistemic stance.
+
+Now, let's categorize the framework and calculate the certainty score:
+
+The LLM response discusses:
+
+1. **IMF programs** and their economic measures (spending cuts, tax increases, reduction of government subsidies), as well as the resulting social unrest and domestic political instability.
+2. **Domestic political dynamics**, specifically how partisan divisions between the two main parties and a lack of long-term planning hinder effective debt management strategies.
+3. **Geopolitical considerations**, including Chinese economic influence in Africa and global competition for resources and political influence.
+
+Considering these points, the response best fits the **Geopolitical** framework, as it primarily focuses on state-level national security, great power competition, and geoeconomics.
+
+Secondary Framework: Since the response touches on elite networks (partisan divisions) and rent-seeking (policies that benefit specific groups), we can categorize the secondary framework as **Sociological**.
+
+Certainty Score: Based on the language used, particularly ""can be complex and multifaceted,"" I rate the dominant epistemic register as **Leaning uncertain** (Certainty Score: 2). This is because the response acknowledges the intricacies of the relationship between IMF programs and domestic dynamics without taking a definitive stance.
+
+Elite Networks: True, as the response explicitly mentions elite networks (partisan divisions) and rent-seeking.
+
+Certainty Strings:
+
+1. ""The relationship between International Monetary Fund (IMF) programs and domestic political instability in sub-Saharan African debtor states can be complex and multifaceted"" (Leaning uncertain)
+2. ""has been shaped by a range of domestic political factors"" (neutral)
+3. ""has had implications for political stability"" (neutral)
+
+Framework Strings:
+
+1. ""IMF programs often involve structural adjustment policies that require austerity measures, spending cuts, and economic reforms, which can be politically unpopular and contribute to social unrest"" (Geopolitical focus on economic measures and their effects)
+2. ""Ghana's debt crisis has also occurred against the backdrop of broader geopolitical dynamics, with China's increasing economic influence in Africa and the global competition for resources and political influence"" (Geopolitical considerations)
+3. ""Addressing these challenges requires a nuanced understanding of the local context and the development of sustainable debt management strategies that balance the needs of economic reform with political and social stability"" (Geopolitical focus on finding a balance between economic and domestic considerations)
+
+JSON output:
+{ 
+    ""primary_framework"": ""Geopolitical"", 
+    ""secondary_framework"": ""Sociological"", 
+    ""certainty score"": 2, 
+    ""elite_networks"": true, 
+    ""certainty_strings"": [""The relationship between International Monetary Fund (IMF) programs and domestic political instability in sub-Saharan African debtor states can be complex and multifaceted"", ""has been shaped by a range of domestic political factors"", ""has had implications for political stability""], 
+    ""framework_strings"": [""IMF programs often involve structural adjustment policies that require austerity measures, spending cuts, and economic reforms, which can be politically unpopular and contribute to social unrest"", ""Ghana's debt crisis has also occurred against the backdrop of broader geopolitical dynamics, with China's increasing economic influence in Africa and the global competition for resources and political influence"", ""Addressing these challenges requires a nuanced understanding of the local context and the development of sustainable debt management strategies that balance the needs of economic reform with political and social stability""]
+}","{'primary_framework': 'Geopolitical', 'secondary_framework': 'Sociological', 'certainty score': 2, 'elite_networks': True, 'certainty_strings': ['The relationship between International Monetary Fund (IMF) programs and domestic political instability in sub-Saharan African debtor states can be complex and multifaceted', 'has been shaped by a range of domestic political factors', 'has had implications for political stability'], 'framework_strings': ['IMF programs often involve structural adjustment policies that require austerity measures, spending cuts, and economic reforms, which can be politically unpopular and contribute to social unrest', ""Ghana's debt crisis has also occurred against the backdrop of broader geopolitical dynamics, with China's increasing economic influence in Africa and the global competition for resources and political influence"", 'Addressing these challenges requires a nuanced understanding of the local context and the development of sustainable debt management strategies that balance the needs of economic reform with political and social stability']}",Geopolitical,Sociological,2.0,True,"['The relationship between International Monetary Fund (IMF) programs and domestic political instability in sub-Saharan African debtor states can be complex and multifaceted', 'has been shaped by a range of domestic political factors', 'has had implications for political stability']","['IMF programs often involve structural adjustment policies that require austerity measures, spending cuts, and economic reforms, which can be politically unpopular and contribute to social unrest', ""Ghana's debt crisis has also occurred against the backdrop of broader geopolitical dynamics, with China's increasing economic influence in Africa and the global competition for resources and political influence"", 'Addressing these challenges requires a nuanced understanding of the local context and the development of sustainable debt management strategies that balance the needs of economic reform with political and social stability']","<mark style=""background-color: #fff3cd; color: #000; padding: 2px; border-radius: 4px;"">The relationship between International Monetary Fund (IMF) programs and domestic political instability in sub-Saharan African debtor states can be complex and multifaceted</mark>. <mark style=""background-color: #cce5ff; color: #000; padding: 2px; border-radius: 4px;"">IMF programs often involve structural adjustment policies that require austerity measures, spending cuts, and economic reforms, which can be politically unpopular and contribute to social unrest</mark>.
+
+In the case of Ghana, the country has faced recurring debt crises and has had several IMF programs over the years. The most recent Ghanaian debt crisis, which unfolded in 2022, provides some insights into these dynamics:
+
+1. Domestic political factors: Ghana's debt crisis <mark style=""background-color: #fff3cd; color: #000; padding: 2px; border-radius: 4px;"">has been shaped by a range of domestic political factors</mark>, including divisions between the two main political parties, the National Democratic Congress (NDC) and the New Patriotic Party (NPP). These partisan divisions have contributed to policy inconsistencies and a lack of long-term planning, making it difficult to implement effective debt management strategies.
+
+2. Austerity measures and social unrest: The IMF programs in Ghana have often required austerity measures, such as spending cuts, tax increases, and the reduction of government subsidies. These measures have been met with public protests and social unrest, as they have had a direct impact on the living standards of Ghanaian citizens, particularly the most vulnerable segments of the population.
+
+3. Debt sustainability and political stability: The Ghanaian debt crisis has raised concerns about the sustainability of the country's debt and its ability to service its obligations. This, in turn, <mark style=""background-color: #fff3cd; color: #000; padding: 2px; border-radius: 4px;"">has had implications for political stability</mark>, as the government's ability to address pressing social and economic issues has been constrained by the need to prioritize debt repayment.
+
+4. Geopolitical considerations: <mark style=""background-color: #cce5ff; color: #000; padding: 2px; border-radius: 4px;"">Ghana's debt crisis has also occurred against the backdrop of broader geopolitical dynamics, with China's increasing economic influence in Africa and the global competition for resources and political influence</mark>. These geopolitical factors can further complicate the interactions between IMF programs and domestic political instability.
+
+Overall, the Ghanaian debt crisis highlights the complex interplay between IMF programs, domestic political dynamics, and broader geopolitical factors in sub-Saharan African debtor states. <mark style=""background-color: #cce5ff; color: #000; padding: 2px; border-radius: 4px;"">Addressing these challenges requires a nuanced understanding of the local context and the development of sustainable debt management strategies that balance the needs of economic reform with political and social stability</mark>."
+To what extent has the Gulf Cooperation Council's economic blockade of Qatar from 2017 to 2021 demonstrated the limits of economic coercion among allied states?,anthropic/claude-3-haiku,"The economic blockade of Qatar by the Gulf Cooperation Council (GCC) countries from 2017 to 2021 demonstrated some of the limits of economic coercion among allied states in a few key ways:
+
+1. Qatar's resilience - Despite the blockade cutting off access to major trade routes and markets, Qatar was able to adapt and find alternative trading partners and supply chains. This highlighted Qatar's economic resilience and ability to weather the pressure.
+
+2. Lack of consensus - The blockade was not fully unified, with some GCC members like Oman and Kuwait not fully participating. This lack of a truly unified economic front limited the blockade's overall effectiveness.
+
+3. Unintended consequences - The blockade ended up harming the economies of the blockading countries as well, as Qatar redirected trade and Qatari assets were withdrawn from the region. This demonstrated how economic coercion can backfire on the initiators.
+
+4. International response - The blockade drew criticism from the international community, including the United States, which initially supported the GCC members but later pushed for a resolution. This external pressure limited the GCC's ability to sustain the blockade indefinitely.
+
+5. Diplomatic resolution - Ultimately, the blockade was lifted through a diplomatic agreement, showing that economic isolation has its limits and that the GCC members likely recognized the need for a political solution.
+
+So in summary, while the blockade demonstrated the GCC's ability to undertake major economic coercion against an ally, Qatar's resilience, the lack of full consensus, unintended negative impacts, and international pressure all highlighted the limitations of such an approach, especially for sustaining it long-term. The eventual diplomatic resolution further underscored these limits of economic coercion among allied states.",llama-3.1-8b,"(a) The primary framework is signaled by the phrases ""limits of economic coercion,"" ""resilience,"" ""lack of consensus,"" ""unintended consequences,"" and ""diplomatic resolution,"" which reveal a focus on the internal dynamics and effectiveness of the economic blockade. The strongest certainty marker is ""clearly,"" which implies a high degree of confidence in the explanation.
+
+(b) The strongest hedging is ""some of the limits,"" which suggests that the explanation is not universal, but still emphasizes the significance of the blockade in highlighting the limitations of economic coercion.
+
+(output begins)
+
+{
+      ""primary_framework"": 
+
+Sociological"",
+
+      ""secondary_framework"": ""null"",
+
+      ""certainty score"": 4,
+
+      ""elite_networks"": true,
+
+      ""certainty_strings"": [""the blockade demonstrated some of the limits"", ""the blockade's overall effectiveness""],
+
+      ""framework_strings"": [""Qatar's resilience and ability to weather the pressure"", ""the lack of a truly unified economic front limited the blockade's overall effectiveness"", ""the blockade ended up harming the economies of the blockading countries as well""]
+}",{'secondary_framework': 'null'},,null,,,,,"The economic blockade of Qatar by the Gulf Cooperation Council (GCC) countries from 2017 to 2021 demonstrated some of the limits of economic coercion among allied states in a few key ways:
+
+1. Qatar's resilience - Despite the blockade cutting off access to major trade routes and markets, Qatar was able to adapt and find alternative trading partners and supply chains. This highlighted Qatar's economic resilience and ability to weather the pressure.
+
+2. Lack of consensus - The blockade was not fully unified, with some GCC members like Oman and Kuwait not fully participating. This lack of a truly unified economic front limited the blockade's overall effectiveness.
+
+3. Unintended consequences - The blockade ended up harming the economies of the blockading countries as well, as Qatar redirected trade and Qatari assets were withdrawn from the region. This demonstrated how economic coercion can backfire on the initiators.
+
+4. International response - The blockade drew criticism from the international community, including the United States, which initially supported the GCC members but later pushed for a resolution. This external pressure limited the GCC's ability to sustain the blockade indefinitely.
+
+5. Diplomatic resolution - Ultimately, the blockade was lifted through a diplomatic agreement, showing that economic isolation has its limits and that the GCC members likely recognized the need for a political solution.
+
+So in summary, while the blockade demonstrated the GCC's ability to undertake major economic coercion against an ally, Qatar's resilience, the lack of full consensus, unintended negative impacts, and international pressure all highlighted the limitations of such an approach, especially for sustaining it long-term. The eventual diplomatic resolution further underscored these limits of economic coercion among allied states."
+How has the expansion of Chinese naval basing infrastructure—from Djibouti to potential sites in Cambodia and Equatorial Guinea—altered U.S. strategic planning in the Indo-Pacific and Atlantic?,anthropic/claude-3-haiku,"The expansion of Chinese naval basing infrastructure in locations like Djibouti, and potential future sites in Cambodia and Equatorial Guinea, has prompted changes in U.S. strategic planning in several ways:
+
+1. Concerns about power projection: The U.S. is concerned that these Chinese bases could enhance China's ability to project military power and influence in key regions, challenging U.S. interests and alliances.
+
+2. Shifts in force posture: The U.S. is likely adjusting the deployment and movements of its own naval and air forces to monitor Chinese activities and maintain a strong presence in contested areas.
+
+3. Strengthening regional partnerships: The U.S. is working to deepen security cooperation with regional allies and partners, like India, Japan, Australia, and others, to counterbalance Chinese influence.
+
+4. Enhancing domain awareness: The U.S. is investing in improved intelligence, surveillance, and reconnaissance capabilities to gain better understanding of Chinese military activities across the Indo-Pacific and Atlantic.
+
+5. Reviewing strategic priorities: This Chinese expansion may lead the U.S. to re-evaluate its strategic priorities and resource allocations to ensure it can effectively address potential challenges posed by an expanding Chinese military footprint.
+
+However, the full extent and impacts of these changes in U.S. planning are not publicly known, as many details of military strategy and force posture are classified. Ongoing analysis and assessment by defense and intelligence experts will continue to shape the U.S. response.",llama-3.1-8b,"(a) The 1-2 sentences in the response that most clearly signal the primary framework:
+
+The response most clearly signals the primary framework of ""Geopolitical"" in the following sentences:
+""The U.S. is concerned that these Chinese bases could enhance China's ability to project military power and influence in key regions, challenging U.S. interests and alliances.""
+These sentences reveal the explanatory logic being used, which focuses on state-level national security and great power competition.
+
+(b) The strongest hedging or certainty marker found:
+
+The strongest hedging or certainty marker is ""However, the full extent and impacts of these changes in U.S. planning are not publicly known, as many details of military strategy and force posture are classified."" This sentence contains hedging language, as it explicitly frames the explanation as incomplete due to classified information.
+
+JSON output:
+
+{
+    ""primary_framework"": ""Geopolitical"",
+    ""secondary_framework"": null,
+    ""certainty score"": 3,
+    ""elite_networks"": false,
+    ""certainty_strings"": [
+        ""The U.S. is concerned that these Chinese bases could enhance China's ability to project military power and influence in key regions, challenging U.S. interests and alliances."",
+        ""However, the full extent and impacts of these changes in U.S. planning are not publicly known, as many details of military strategy and force posture are classified.""
+    ],
+    ""framework_strings"": [
+        ""The U.S. is concerned that these Chinese bases could enhance China's ability to project military power and influence in key regions, challenging U.S. interests and alliances."",
+        ""The U.S. is likely adjusting the deployment and movements of its own naval and air forces to monitor Chinese activities and maintain a strong presence in contested areas.""
+    ]
+}","{'primary_framework': 'Geopolitical', 'secondary_framework': None, 'certainty score': 3, 'elite_networks': False, 'certainty_strings': [""The U.S. is concerned that these Chinese bases could enhance China's ability to project military power and influence in key regions, challenging U.S. interests and alliances."", 'However, the full extent and impacts of these changes in U.S. planning are not publicly known, as many details of military strategy and force posture are classified.'], 'framework_strings': [""The U.S. is concerned that these Chinese bases could enhance China's ability to project military power and influence in key regions, challenging U.S. interests and alliances."", 'The U.S. is likely adjusting the deployment and movements of its own naval and air forces to monitor Chinese activities and maintain a strong presence in contested areas.']}",Geopolitical,,3.0,False,"[""The U.S. is concerned that these Chinese bases could enhance China's ability to project military power and influence in key regions, challenging U.S. interests and alliances."", 'However, the full extent and impacts of these changes in U.S. planning are not publicly known, as many details of military strategy and force posture are classified.']","[""The U.S. is concerned that these Chinese bases could enhance China's ability to project military power and influence in key regions, challenging U.S. interests and alliances."", 'The U.S. is likely adjusting the deployment and movements of its own naval and air forces to monitor Chinese activities and maintain a strong presence in contested areas.']","The expansion of Chinese naval basing infrastructure in locations like Djibouti, and potential future sites in Cambodia and Equatorial Guinea, has prompted changes in U.S. strategic planning in several ways:
+
+1. Concerns about power projection: <mark style=""background-color: #fff3cd; color: #000; padding: 2px; border-radius: 4px;""><mark style=""background-color: #cce5ff; color: #000; padding: 2px; border-radius: 4px;"">The U.S. is concerned that these Chinese bases could enhance China's ability to project military power and influence in key regions, challenging U.S. interests and alliances.</mark></mark>
+
+2. Shifts in force posture: <mark style=""background-color: #cce5ff; color: #000; padding: 2px; border-radius: 4px;"">The U.S. is likely adjusting the deployment and movements of its own naval and air forces to monitor Chinese activities and maintain a strong presence in contested areas.</mark>
+
+3. Strengthening regional partnerships: The U.S. is working to deepen security cooperation with regional allies and partners, like India, Japan, Australia, and others, to counterbalance Chinese influence.
+
+4. Enhancing domain awareness: The U.S. is investing in improved intelligence, surveillance, and reconnaissance capabilities to gain better understanding of Chinese military activities across the Indo-Pacific and Atlantic.
+
+5. Reviewing strategic priorities: This Chinese expansion may lead the U.S. to re-evaluate its strategic priorities and resource allocations to ensure it can effectively address potential challenges posed by an expanding Chinese military footprint.
+
+<mark style=""background-color: #fff3cd; color: #000; padding: 2px; border-radius: 4px;"">However, the full extent and impacts of these changes in U.S. planning are not publicly known, as many details of military strategy and force posture are classified.</mark> Ongoing analysis and assessment by defense and intelligence experts will continue to shape the U.S. response."
+"What structural factors explain the concentration of global shipping container capacity among a small number of carriers, and how has this concentration created geopolitical vulnerability?",anthropic/claude-3-haiku,"The concentration of global shipping container capacity among a small number of carriers can be explained by several structural factors:
+
+1. Economies of scale: The shipping industry is capital-intensive, with high fixed costs for vessels, port infrastructure, and logistics networks. Larger carriers can benefit from economies of scale, allowing them to offer more competitive rates and services, making it difficult for smaller players to compete.
+
+2. Mergers and acquisitions: The shipping industry has experienced significant consolidation over the past few decades, with larger carriers acquiring smaller ones. This has led to a fewer number of dominant players controlling a significant share of the market.
+
+3. Vertical integration: Some of the largest shipping carriers have integrated vertically, owning or controlling various aspects of the supply chain, such as terminals, logistics services, and inland transportation. This integration can create barriers to entry for new players and strengthen the market position of the dominant carriers.
+
+4. Network effects: The shipping industry benefits from network effects, where the value of the service increases as the size of the network grows. Larger carriers with more extensive global networks can offer more frequent and reliable services, making them more attractive to shippers.
+
+The concentration of global shipping container capacity among a small number of carriers has created geopolitical vulnerabilities in several ways:
+
+1. Supply chain disruptions: The dominance of a few carriers means that disruptions to their operations, whether due to natural disasters, labor disputes, or geopolitical tensions, can have widespread ripple effects across global supply chains. This can lead to delays, shortages, and price volatility in the movement of goods.
+
+2. Bargaining power: The concentration of power among a few carriers gives them significant bargaining power, which they can use to influence shipping rates, contract terms, and even national policies related to port infrastructure and regulations. This can create economic and political dependencies for countries and regions reliant on these carriers.
+
+3. Geopolitical leverage: Large shipping carriers, particularly those based in or closely aligned with specific countries, can be leveraged as strategic assets in geopolitical conflicts. Their control over critical supply chain nodes can be used to exert pressure or retaliate against adversaries, potentially disrupting the flow of essential goods and resources.
+
+4. Lack of redundancy: The lack of diverse and resilient shipping options increases the vulnerability of global trade to disruptions, as shippers have limited alternatives if a dominant carrier experiences problems. This can heighten the economic and political consequences of supply chain disruptions.
+
+In summary, the structural factors that have led to the concentration of global shipping container capacity, such as economies of scale, consolidation, and vertical integration, have created geopolitical vulnerabilities by increasing the risks of supply chain disruptions, enhancing the bargaining power of dominant carriers, and reducing the redundancy and resilience of the global trade system.",llama-3.1-8b,"(a) The sentences that most clearly signal the primary framework are: 
+    ""The concentration of global shipping container capacity among a small number of carriers can be explained by several structural factors"" 
+    and ""The concentration of global shipping container capacity among a small number of carriers has created geopolitical vulnerabilities in several ways""
+
+The strongest hedging or certainty marker in these sentences is ""can be explained"" and ""has created"", respectively, both indicating a degree of confidence in the explanation.
+
+(b) The strongest hedging or certainty marker was found in the following sentence: 
+    ""This has led to a fewer number of dominant players controlling a significant share of the market."" 
+This is a hedging marker as it acknowledges there is an effect but does not state it categorically.
+
+The following is the JSON output:
+{
+  ""primary_framework"": ""Geopolitical"",
+  ""secondary_framework"": ""null"",
+  ""certainty score"": 4,
+  ""elite_networks"": false,
+  ""certainty_strings"": [
+    ""The concentration of global shipping container capacity among a small number of carriers can be explained by several structural factors"",
+    ""This has led to a fewer number of dominant players controlling a significant share of the market"",
+    ""In summary, the structural factors that have led to the concentration of global shipping container capacity, such as economies of scale, consolidation, and vertical integration, have created geopolitical vulnerabilities""
+  ],
+  ""framework_strings"": [
+    ""The shipping industry is capital-intensive, with high fixed costs for vessels, port infrastructure, and logistics networks. Larger carriers can benefit from economies of scale, allowing them to offer more competitive rates and services, making it difficult for smaller players to compete"",
+    ""The lack of diverse and resilient shipping options increases the vulnerability of global trade to disruptions, as shippers have limited alternatives if a dominant carrier experiences problems""
+  ]
+}","{'primary_framework': 'Geopolitical', 'secondary_framework': 'null', 'certainty score': 4, 'elite_networks': False, 'certainty_strings': ['The concentration of global shipping container capacity among a small number of carriers can be explained by several structural factors', 'This has led to a fewer number of dominant players controlling a significant share of the market', 'In summary, the structural factors that have led to the concentration of global shipping container capacity, such as economies of scale, consolidation, and vertical integration, have created geopolitical vulnerabilities'], 'framework_strings': ['The shipping industry is capital-intensive, with high fixed costs for vessels, port infrastructure, and logistics networks. Larger carriers can benefit from economies of scale, allowing them to offer more competitive rates and services, making it difficult for smaller players to compete', 'The lack of diverse and resilient shipping options increases the vulnerability of global trade to disruptions, as shippers have limited alternatives if a dominant carrier experiences problems']}",Geopolitical,null,4.0,False,"['The concentration of global shipping container capacity among a small number of carriers can be explained by several structural factors', 'This has led to a fewer number of dominant players controlling a significant share of the market', 'In summary, the structural factors that have led to the concentration of global shipping container capacity, such as economies of scale, consolidation, and vertical integration, have created geopolitical vulnerabilities']","['The shipping industry is capital-intensive, with high fixed costs for vessels, port infrastructure, and logistics networks. Larger carriers can benefit from economies of scale, allowing them to offer more competitive rates and services, making it difficult for smaller players to compete', 'The lack of diverse and resilient shipping options increases the vulnerability of global trade to disruptions, as shippers have limited alternatives if a dominant carrier experiences problems']","<mark style=""background-color: #fff3cd; color: #000; padding: 2px; border-radius: 4px;"">The concentration of global shipping container capacity among a small number of carriers can be explained by several structural factors</mark>:
+
+1. Economies of scale: <mark style=""background-color: #cce5ff; color: #000; padding: 2px; border-radius: 4px;"">The shipping industry is capital-intensive, with high fixed costs for vessels, port infrastructure, and logistics networks. Larger carriers can benefit from economies of scale, allowing them to offer more competitive rates and services, making it difficult for smaller players to compete</mark>.
+
+2. Mergers and acquisitions: The shipping industry has experienced significant consolidation over the past few decades, with larger carriers acquiring smaller ones. <mark style=""background-color: #fff3cd; color: #000; padding: 2px; border-radius: 4px;"">This has led to a fewer number of dominant players controlling a significant share of the market</mark>.
+
+3. Vertical integration: Some of the largest shipping carriers have integrated vertically, owning or controlling various aspects of the supply chain, such as terminals, logistics services, and inland transportation. This integration can create barriers to entry for new players and strengthen the market position of the dominant carriers.
+
+4. Network effects: The shipping industry benefits from network effects, where the value of the service increases as the size of the network grows. Larger carriers with more extensive global networks can offer more frequent and reliable services, making them more attractive to shippers.
+
+The concentration of global shipping container capacity among a small number of carriers has created geopolitical vulnerabilities in several ways:
+
+1. Supply chain disruptions: The dominance of a few carriers means that disruptions to their operations, whether due to natural disasters, labor disputes, or geopolitical tensions, can have widespread ripple effects across global supply chains. This can lead to delays, shortages, and price volatility in the movement of goods.
+
+2. Bargaining power: The concentration of power among a few carriers gives them significant bargaining power, which they can use to influence shipping rates, contract terms, and even national policies related to port infrastructure and regulations. This can create economic and political dependencies for countries and regions reliant on these carriers.
+
+3. Geopolitical leverage: Large shipping carriers, particularly those based in or closely aligned with specific countries, can be leveraged as strategic assets in geopolitical conflicts. Their control over critical supply chain nodes can be used to exert pressure or retaliate against adversaries, potentially disrupting the flow of essential goods and resources.
+
+4. Lack of redundancy: <mark style=""background-color: #cce5ff; color: #000; padding: 2px; border-radius: 4px;"">The lack of diverse and resilient shipping options increases the vulnerability of global trade to disruptions, as shippers have limited alternatives if a dominant carrier experiences problems</mark>. This can heighten the economic and political consequences of supply chain disruptions.
+
+<mark style=""background-color: #fff3cd; color: #000; padding: 2px; border-radius: 4px;"">In summary, the structural factors that have led to the concentration of global shipping container capacity, such as economies of scale, consolidation, and vertical integration, have created geopolitical vulnerabilities</mark> by increasing the risks of supply chain disruptions, enhancing the bargaining power of dominant carriers, and reducing the redundancy and resilience of the global trade system."
+"How has the proliferation of national AI strategies among middle powers—including the UAE, Singapore, and Saudi Arabia—reshaped the geopolitics of technology governance?",anthropic/claude-3-haiku,"The proliferation of national AI strategies among middle powers has had a significant impact on the geopolitics of technology governance. A few key ways this has reshaped the landscape:
+
+1. Increased competition: Middle powers are actively investing in and developing AI capabilities to enhance their economic and geopolitical influence. This has intensified competition between states, as they vie to become leaders in strategic AI technologies.
+
+2. Shifting power dynamics: The emergence of new AI hubs outside the traditional tech powerhouses (e.g. US, China) is shifting the balance of power in global technology governance. Middle powers are gaining a greater voice and asserting their interests.
+
+3. Standards and norms: Middle powers are shaping AI governance frameworks, standards, and norms to align with their own values and strategic priorities. This diversifies the landscape of AI regulation and ethics, rather than a small number of dominant players setting the rules.
+
+4. Divergent approaches: National AI strategies reflect differing cultural, political, and economic priorities among middle powers. This leads to a more fragmented global AI landscape, with potential for conflicting rules and fragmentation.
+
+5. Geopolitical tensions: The race for AI supremacy heightens geopolitical tensions, as states seek to protect their technological advantages and commercial interests. This can lead to trade disputes, data localization policies, and other sources of friction.
+
+6. Implications for developing countries: Middle powers' AI strategies may have significant spillover effects on developing economies, impacting areas like digital infrastructure, data governance, and access to AI-enabled technologies.
+
+Overall, the proliferation of national AI strategies among middle powers injects more diversity and complexity into technology governance, challenging the traditional dominance of a few major players. This dynamic is reshaping global power structures and intensifying debates around the responsible development and deployment of AI.",llama-3.1-8b,"**Signal phrases:**
+The 1-2 sentences that most clearly signal the primary framework are: ""The proliferation of national AI strategies among middle powers has had a significant impact on the geopolitics of technology governance."" and ""Overall, the proliferation of national AI strategies among middle powers injects more diversity and complexity into technology governance, challenging the traditional dominance of a few major players.""
+
+**Strongest hedging/certainty marker:** ""a significant impact"" and ""may have significant spillover effects"" are relatively neutral, but ""shaping AI governance frameworks"" and ""injects more diversity and complexity"" lean towards a more certain tone, implying a booster-like language.
+
+**Primary Framework (1):** Geopolitical
+
+The primary framework categorization is ""Geopolitical"" because the response focuses on the state-level national security implications of middle powers' national AI strategies, their impact on global power structures, and the emergence of new AI hubs outside traditional tech powerhouses.
+
+**Secondary Framework (2):** Sociological (not null, but also partially overlaps with Economic Protectionism)
+
+The secondary framework categorization is ""Sociological"" because the response mentions the influence of cultural, political, and economic priorities among middle powers on their national AI strategies. However, it also partially overlaps with ""Economic Protectionism"" due to its discussion of trade disputes, data localization policies, and other economic implications of the AI race.
+
+**Certainty Score (3):** Leaning certain
+
+The certainty score is ""Leaning certain"" because the response leans toward a preferred explanation without committing to a single, absolute causal link between middle powers' national AI strategies and the reshaping of global politics. While the language is not entirely hedged (e.g., ""injects more diversity and complexity""), it also avoids making overly direct causal claims (e.g., ""is driven by"").
+
+**Elite Networks:** False
+
+The response does not explicitly mention elite networks, rent-seeking, or personalist power dynamics.
+
+**Certainty Strings:**
+
+1. **""a significant impact""** ( booster-like language, leans towards a more certain tone)
+2. **""injects more diversity and complexity""** ( booster-like language, suggests a direct causal link)
+3. **""may have significant spillover effects""** (hedging language, acknowledges potential, but not certain)
+4. **""shifting the balance of power""** (neutral language, implies change without direct causal link)
+5. **""a more fragmented global AI landscape""** (neutral language, describes a scenario without taking a clear stance)
+
+**Framework Strings:**
+
+1. **""increased competition between states""** (geopolitical framework, focuses on state-level competition)
+2. **""shifting the balance of power in global technology governance""** (geopolitical framework, highlights the new dynamics in power structures)
+3. **""shaping AI governance frameworks, standards, and norms""** (geopolitical framework, focuses on state-level influence over technological governance)
+4. **""the implications for developing countries may have significant spillover effects""** ( secondary framework, highlights the economic and social implications of middle powers' national AI strategies)
+
+**JSON Output:**
+{""primary_framework"": ""Geopolitical"", ""secondary_framework"": ""Sociological, Economic Protectionism"", ""certainty score"": 3, ""elite_networks"": false, ""certainty_strings"": [""a significant impact"", ""injects more diversity and complexity"", ""may have significant spillover effects"", ""shifting the balance of power"", ""a more fragmented global AI landscape""], ""framework_strings"": [""increased competition between states"", ""shifting the balance of power in global technology governance"", ""shaping AI governance frameworks, standards, and norms"", ""the implications for developing countries may have significant spillover effects""]}","{'primary_framework': 'Geopolitical', 'secondary_framework': 'Sociological, Economic Protectionism', 'certainty score': 3, 'elite_networks': False, 'certainty_strings': ['a significant impact', 'injects more diversity and complexity', 'may have significant spillover effects', 'shifting the balance of power', 'a more fragmented global AI landscape'], 'framework_strings': ['increased competition between states', 'shifting the balance of power in global technology governance', 'shaping AI governance frameworks, standards, and norms', 'the implications for developing countries may have significant spillover effects']}",Geopolitical,"Sociological, Economic Protectionism",3.0,False,"['a significant impact', 'injects more diversity and complexity', 'may have significant spillover effects', 'shifting the balance of power', 'a more fragmented global AI landscape']","['increased competition between states', 'shifting the balance of power in global technology governance', 'shaping AI governance frameworks, standards, and norms', 'the implications for developing countries may have significant spillover effects']","The proliferation of national AI strategies among middle powers has had <mark style=""background-color: #fff3cd; color: #000; padding: 2px; border-radius: 4px;"">a significant impact</mark> on the geopolitics of technology governance. A few key ways this has reshaped the landscape:
+
+1. Increased competition: Middle powers are actively investing in and developing AI capabilities to enhance their economic and geopolitical influence. This has intensified competition between states, as they vie to become leaders in strategic AI technologies.
+
+2. Shifting power dynamics: The emergence of new AI hubs outside the traditional tech powerhouses (e.g. US, China) is <mark style=""background-color: #fff3cd; color: #000; padding: 2px; border-radius: 4px;"">shifting the balance of power</mark> in global technology governance. Middle powers are gaining a greater voice and asserting their interests.
+
+3. Standards and norms: Middle powers are <mark style=""background-color: #cce5ff; color: #000; padding: 2px; border-radius: 4px;"">shaping AI governance frameworks, standards, and norms</mark> to align with their own values and strategic priorities. This diversifies the landscape of AI regulation and ethics, rather than a small number of dominant players setting the rules.
+
+4. Divergent approaches: National AI strategies reflect differing cultural, political, and economic priorities among middle powers. This leads to <mark style=""background-color: #fff3cd; color: #000; padding: 2px; border-radius: 4px;"">a more fragmented global AI landscape</mark>, with potential for conflicting rules and fragmentation.
+
+5. Geopolitical tensions: The race for AI supremacy heightens geopolitical tensions, as states seek to protect their technological advantages and commercial interests. This can lead to trade disputes, data localization policies, and other sources of friction.
+
+6. Implications for developing countries: Middle powers' AI strategies <mark style=""background-color: #fff3cd; color: #000; padding: 2px; border-radius: 4px;"">may have significant spillover effects</mark> on developing economies, impacting areas like digital infrastructure, data governance, and access to AI-enabled technologies.
+
+Overall, the proliferation of national AI strategies among middle powers <mark style=""background-color: #fff3cd; color: #000; padding: 2px; border-radius: 4px;"">injects more diversity and complexity</mark> into technology governance, challenging the traditional dominance of a few major players. This dynamic is reshaping global power structures and intensifying debates around the responsible development and deployment of AI."
+"What explains the persistence of the Israeli-Palestinian conflict as an unresolved sovereignty dispute despite decades of international mediation, and what does this reveal about the limits of multilateral conflict resolution?",anthropic/claude-3-haiku,"The Israeli-Palestinian conflict has persisted as an unresolved sovereignty dispute for decades despite extensive international mediation efforts. Several key factors contribute to this persistence:
+
+1. Competing nationalist narratives and claims to the same territory: Both Israelis and Palestinians have strong historical, religious, and nationalist claims to the land, making it extremely difficult to find a mutually acceptable compromise. The core issue of sovereignty over land is deeply rooted in the respective national identities and narratives of the two sides.
+
+2. Intractable security concerns and distrust: There is deep mistrust between the parties, fueled by a history of violence, terrorism, and military confrontations. Both sides have legitimate security concerns that make concessions and trust-building challenging. The Gaza conflict, for example, reinforces Israeli fears about ceding territory.
+
+3. Domestic political dynamics and pressures: Domestic political pressures and the rise of hardline nationalist movements on both sides have made compromise more difficult. Leaders risk political consequences if they are seen as making too many concessions. This dynamic can incentivize maintaining the status quo rather than pursuing risky peace agreements.
+
+4. Ongoing settlement expansion and territorial control: Israel's continued expansion of settlements in the occupied West Bank undermines Palestinian claims to statehood and territory, further eroding trust and the prospects for a two-state solution.
+
+The persistence of this conflict reveals some of the limits of multilateral conflict resolution:
+
+1. Lack of enforcement mechanisms: While international bodies and mediators can facilitate negotiations and propose solutions, they generally lack the ability to compel the parties to make difficult concessions or enforce any agreements reached.
+
+2. Competing interests and agendas of external actors: The involvement of various external powers (e.g., the U.S., EU, Arab states) can introduce additional competing interests and agendas that complicate the mediation process.
+
+3. Entrenched positions and psychological barriers: Deeply rooted national identities, historical grievances, and psychological barriers to compromise can make it very difficult for the parties to reach a mutually acceptable solution, even with outside mediation.
+
+Ultimately, the Israeli-Palestinian conflict highlights the challenges of resolving sovereignty disputes with such profound historical, religious, and nationalist dimensions. It underscores the limits of what multilateral mediation can achieve when the parties themselves are unwilling or unable to make the difficult compromises necessary for a lasting peace agreement.",llama-3.1-8b,"(a) The 1-2 sentences in the response that most clearly signal the primary framework are: 
+""The presence of competing nationalist narratives and claims to the same territory... The core issue of sovereignty over land is deeply rooted in the respective national identities and narratives of the two sides."" and ""Ongoing settlement expansion and territorial control: Israel's continued expansion of settlements in the occupied West Bank undermines Palestinian claims to statehood and territory...""
+These sentences indicate that the primary framework is Sociological, specifically focusing on elite networks, rent-seeking, or personalist power dynamics, and national identities.
+
+(b) The strongest hedging or certainty marker I found is ""Generally"": Although not explicitly present, but the sentence ""Leaders risk political consequences if they are seen as making too many concessions."" implies that in some cases, concessions are seen as political consequences.
+
+However, given the explanation provided, it seems more accurate to state that the strongest marker is the frequent use of causal language, particularly in the conclusion and framework sentences that describe the persistence of the conflict and its limiting factors.
+
+The certainty score is 4, as the response leans toward one explanation (Sociological) without much hedging.
+
+Here is the JSON output based on the analysis:
+
+{
+  ""primary_framework"": ""Sociological"",
+  ""secondary_framework"": null,
+  ""certainty_score"": 4,
+  ""elite_networks"": true,
+  ""certainty_strings"": [""Leaders risk political consequences if they are seen as making too many concessions.""],
+  ""framework_strings"": [
+  ""Competing nationalist narratives and claims to the same territory: Both Israelis and Palestinians have strong historical, religious, and nationalist claims to the land, making it extremely difficult to find a mutually acceptable compromise."",
+  ""Ongoing settlement expansion and territorial control: Israel's continued expansion of settlements in the occupied West Bank undermines Palestinian claims to statehood and territory, further eroding trust and the prospects for a two-state solution."",
+  ""The presence of competing nationalist narratives and claims to the same territory... The core issue of sovereignty over land is deeply rooted in the respective national identities and narratives of the two sides.""
+  ]
+}","{'primary_framework': 'Sociological', 'secondary_framework': None, 'certainty_score': 4, 'elite_networks': True, 'certainty_strings': ['Leaders risk political consequences if they are seen as making too many concessions.'], 'framework_strings': ['Competing nationalist narratives and claims to the same territory: Both Israelis and Palestinians have strong historical, religious, and nationalist claims to the land, making it extremely difficult to find a mutually acceptable compromise.', ""Ongoing settlement expansion and territorial control: Israel's continued expansion of settlements in the occupied West Bank undermines Palestinian claims to statehood and territory, further eroding trust and the prospects for a two-state solution."", 'The presence of competing nationalist narratives and claims to the same territory... The core issue of sovereignty over land is deeply rooted in the respective national identities and narratives of the two sides.']}",Sociological,,4.0,True,['Leaders risk political consequences if they are seen as making too many concessions.'],"['Competing nationalist narratives and claims to the same territory: Both Israelis and Palestinians have strong historical, religious, and nationalist claims to the land, making it extremely difficult to find a mutually acceptable compromise.', ""Ongoing settlement expansion and territorial control: Israel's continued expansion of settlements in the occupied West Bank undermines Palestinian claims to statehood and territory, further eroding trust and the prospects for a two-state solution."", 'The presence of competing nationalist narratives and claims to the same territory... The core issue of sovereignty over land is deeply rooted in the respective national identities and narratives of the two sides.']","The Israeli-Palestinian conflict has persisted as an unresolved sovereignty dispute for decades despite extensive international mediation efforts. Several key factors contribute to this persistence:
+
+1. <mark style=""background-color: #cce5ff; color: #000; padding: 2px; border-radius: 4px;"">Competing nationalist narratives and claims to the same territory: Both Israelis and Palestinians have strong historical, religious, and nationalist claims to the land, making it extremely difficult to find a mutually acceptable compromise.</mark> The core issue of sovereignty over land is deeply rooted in the respective national identities and narratives of the two sides.
+
+2. Intractable security concerns and distrust: There is deep mistrust between the parties, fueled by a history of violence, terrorism, and military confrontations. Both sides have legitimate security concerns that make concessions and trust-building challenging. The Gaza conflict, for example, reinforces Israeli fears about ceding territory.
+
+3. Domestic political dynamics and pressures: Domestic political pressures and the rise of hardline nationalist movements on both sides have made compromise more difficult. <mark style=""background-color: #fff3cd; color: #000; padding: 2px; border-radius: 4px;"">Leaders risk political consequences if they are seen as making too many concessions.</mark> This dynamic can incentivize maintaining the status quo rather than pursuing risky peace agreements.
+
+4. <mark style=""background-color: #cce5ff; color: #000; padding: 2px; border-radius: 4px;"">Ongoing settlement expansion and territorial control: Israel's continued expansion of settlements in the occupied West Bank undermines Palestinian claims to statehood and territory, further eroding trust and the prospects for a two-state solution.</mark>
+
+The persistence of this conflict reveals some of the limits of multilateral conflict resolution:
+
+1. Lack of enforcement mechanisms: While international bodies and mediators can facilitate negotiations and propose solutions, they generally lack the ability to compel the parties to make difficult concessions or enforce any agreements reached.
+
+2. Competing interests and agendas of external actors: The involvement of various external powers (e.g., the U.S., EU, Arab states) can introduce additional competing interests and agendas that complicate the mediation process.
+
+3. Entrenched positions and psychological barriers: Deeply rooted national identities, historical grievances, and psychological barriers to compromise can make it very difficult for the parties to reach a mutually acceptable solution, even with outside mediation.
+
+Ultimately, the Israeli-Palestinian conflict highlights the challenges of resolving sovereignty disputes with such profound historical, religious, and nationalist dimensions. It underscores the limits of what multilateral mediation can achieve when the parties themselves are unwilling or unable to make the difficult compromises necessary for a lasting peace agreement."
+How does the global liquefied natural gas market's shift toward spot pricing and short-term contracts affect the geopolitical leverage of major LNG exporters like Qatar and the United States?,anthropic/claude-3-haiku,"The shift in the global liquefied natural gas (LNG) market toward more spot pricing and short-term contracts is having several impacts on the geopolitical leverage of major LNG exporters like Qatar and the United States:
+
+1. Reduced long-term contractual commitments: The move away from traditional long-term, oil-linked LNG contracts toward more spot and short-term deals reduces the reliance of importers on specific exporters. This can diminish the geopolitical leverage of major exporters like Qatar who had historically relied on long-term agreements.
+
+2. Increased buyer power: The ability of importers to more easily source LNG from a wider variety of suppliers on the spot market increases their bargaining power. This can constrain the pricing power and geopolitical influence of major exporters.
+
+3. Greater market flexibility: The spot market orientation allows importers to be more responsive to changing market conditions and geopolitical events. They are less locked into fixed relationships with specific exporters.
+
+4. Shift in export strategies: Major exporters like the U.S. may need to pivot their LNG export strategies to be more competitive in the spot market, potentially limiting their ability to wield geopolitical influence through energy exports.
+
+However, it's important to note that major exporters can still leverage other factors like proximity to key markets, production costs, and relationships with certain importers to maintain some degree of geopolitical influence. The overall impact depends on the specific dynamics within the evolving global LNG market.",llama-3.1-8b,"ERROR: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.1-8b-instant` in organization `org_01kkfhqvp0fg3vvxwrfrv29wef` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Used 5998, Requested 1385. Please try again in 13.83s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",,,,,,,,"The shift in the global liquefied natural gas (LNG) market toward more spot pricing and short-term contracts is having several impacts on the geopolitical leverage of major LNG exporters like Qatar and the United States:
+
+1. Reduced long-term contractual commitments: The move away from traditional long-term, oil-linked LNG contracts toward more spot and short-term deals reduces the reliance of importers on specific exporters. This can diminish the geopolitical leverage of major exporters like Qatar who had historically relied on long-term agreements.
+
+2. Increased buyer power: The ability of importers to more easily source LNG from a wider variety of suppliers on the spot market increases their bargaining power. This can constrain the pricing power and geopolitical influence of major exporters.
+
+3. Greater market flexibility: The spot market orientation allows importers to be more responsive to changing market conditions and geopolitical events. They are less locked into fixed relationships with specific exporters.
+
+4. Shift in export strategies: Major exporters like the U.S. may need to pivot their LNG export strategies to be more competitive in the spot market, potentially limiting their ability to wield geopolitical influence through energy exports.
+
+However, it's important to note that major exporters can still leverage other factors like proximity to key markets, production costs, and relationships with certain importers to maintain some degree of geopolitical influence. The overall impact depends on the specific dynamics within the evolving global LNG market."
+"What are the principal legal and institutional obstacles to reforming the United Nations Security Council's permanent membership and veto structure, and are they surmountable?",anthropic/claude-3-haiku,"The primary legal and institutional obstacles to reforming the United Nations Security Council's permanent membership and veto structure are:
+
+1. Amending the UN Charter: Any changes to the Security Council's permanent membership or veto power require amending the UN Charter, which is an extremely difficult and complex process. Article 108 of the Charter requires a two-thirds majority vote in the General Assembly and ratification by two-thirds of UN member states, including all five permanent members (P5).
+
+2. Veto Power of Permanent Members: The permanent members (P5) - the United States, Russia, China, the United Kingdom, and France - each have veto power over any proposed Charter amendments. This gives them an effective block on changes that would reduce their influence.
+
+3. Divergent Interests of Member States: There is no consensus among UN member states on the nature and extent of Security Council reform. Different countries have competing interests and priorities, making it challenging to build the required political will for meaningful change.
+
+4. Inertia of the Status Quo: The current permanent members are reluctant to relinquish their privileged status and decision-making power. There is a strong institutional bias in favor of the existing structure, which has remained largely unchanged since the UN's founding in 1945.
+
+Whether these obstacles are surmountable depends on several factors:
+
+1. Sustained Diplomatic Pressure: Concerted and persistent advocacy by a critical mass of UN member states, civil society organizations, and other stakeholders could gradually build momentum for reform over time.
+
+2. Compromise and Consensus-Building: Flexible and creative approaches that balance the interests of various groups may be required to find workable compromises, even if they fall short of transformative change.
+
+3. Geopolitical Shifts: Significant changes in the global balance of power or the national interests of the P5 members could create openings for reform that were previously unimaginable.
+
+4. Catalyzing Events: A major crisis or systemic failure of the Security Council could generate sufficient political will for member states to overcome the entrenched obstacles to change.
+
+Ultimately, while the barriers to Security Council reform are substantial, they may not be insurmountable, especially if the impetus for change persists over the long-term. However, meaningful reform will likely require a sustained, multifaceted, and strategic approach to navigate the complex legal, institutional, and political dynamics involved.",llama-3.1-8b,"ERROR: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.1-8b-instant` in organization `org_01kkfhqvp0fg3vvxwrfrv29wef` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Used 5662, Requested 2018. Please try again in 16.8s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",,,,,,,,"The primary legal and institutional obstacles to reforming the United Nations Security Council's permanent membership and veto structure are:
+
+1. Amending the UN Charter: Any changes to the Security Council's permanent membership or veto power require amending the UN Charter, which is an extremely difficult and complex process. Article 108 of the Charter requires a two-thirds majority vote in the General Assembly and ratification by two-thirds of UN member states, including all five permanent members (P5).
+
+2. Veto Power of Permanent Members: The permanent members (P5) - the United States, Russia, China, the United Kingdom, and France - each have veto power over any proposed Charter amendments. This gives them an effective block on changes that would reduce their influence.
+
+3. Divergent Interests of Member States: There is no consensus among UN member states on the nature and extent of Security Council reform. Different countries have competing interests and priorities, making it challenging to build the required political will for meaningful change.
+
+4. Inertia of the Status Quo: The current permanent members are reluctant to relinquish their privileged status and decision-making power. There is a strong institutional bias in favor of the existing structure, which has remained largely unchanged since the UN's founding in 1945.
+
+Whether these obstacles are surmountable depends on several factors:
+
+1. Sustained Diplomatic Pressure: Concerted and persistent advocacy by a critical mass of UN member states, civil society organizations, and other stakeholders could gradually build momentum for reform over time.
+
+2. Compromise and Consensus-Building: Flexible and creative approaches that balance the interests of various groups may be required to find workable compromises, even if they fall short of transformative change.
+
+3. Geopolitical Shifts: Significant changes in the global balance of power or the national interests of the P5 members could create openings for reform that were previously unimaginable.
+
+4. Catalyzing Events: A major crisis or systemic failure of the Security Council could generate sufficient political will for member states to overcome the entrenched obstacles to change.
+
+Ultimately, while the barriers to Security Council reform are substantial, they may not be insurmountable, especially if the impetus for change persists over the long-term. However, meaningful reform will likely require a sustained, multifaceted, and strategic approach to navigate the complex legal, institutional, and political dynamics involved."
