@@ -14,7 +14,7 @@ def run_async(coro):
         return executor.submit(asyncio.run, coro).result()
 
 from prompt_ingestion import process_prompts, ModelConfig
-from llm_judge import process_prompts as run_judge, GROQ_MODELS, OPENROUTER_MODELS, FINE_TUNED_MODEL, BASE_TINKER_MODEL, QWEN3_TINKER_MODEL, split_valid_invalid
+from llm_judge import process_prompts as run_judge, OPENROUTER_MODELS, FINE_TUNED_MODEL, BASE_TINKER_MODEL, QWEN3_TINKER_MODEL, split_valid_invalid
 from data_cleaning import parse_responses
 from data_viz import render_dashboard
 from model_selection import fetch_openrouter_models
@@ -78,6 +78,7 @@ with tab1:
 
     if csv_bytes is not None:
         df_preview = pd.read_csv(io.BytesIO(csv_bytes))
+        df_preview.rename(columns={c: c.strip().title() for c in df_preview.columns if c.strip().lower() in ('prompt', 'topic')}, inplace=True)
         st.subheader("Preview")
         st.dataframe(
             df_preview.head(10),
@@ -212,7 +213,6 @@ JUDGE_OPTIONS = {
     "Fine-Tuned Judge (Tinker)": FINE_TUNED_MODEL,
     "Llama 3.1 8B Base (Tinker)": BASE_TINKER_MODEL,
     "Qwen3 30B A3B (Tinker)": QWEN3_TINKER_MODEL,
-    **{f"Groq — {k}": k for k in GROQ_MODELS},
     **{f"OpenRouter — {k}": k for k in OPENROUTER_MODELS},
 }
 
@@ -291,6 +291,96 @@ with tab2:
             file_name="final_judge_responses_parsed.csv",
             mime="text/csv",
         )
+
+        # ── Error row removal ─────────────────────────────────────────────────
+        VALID_FRAMEWORKS  = {"Geopolitical", "Sociological", "Economic Protectionism"}
+        VALID_SECONDARY   = VALID_FRAMEWORKS | {"None", "null", "", "nan", "NaN"}
+        VALID_ELITE       = {"true", "false", "True", "False"}
+
+        def _is_problematic(row) -> str | None:
+            reasons = []
+            fw = str(row.get("framework", "") or "").strip()
+            if not fw or fw.lower() in ("nan", "none", "null", ""):
+                reasons.append("missing primary framework")
+            sec_val = row.get("secondary_framework")
+            if pd.isna(sec_val) if isinstance(sec_val, float) else False:
+                sec = ""
+            else:
+                sec = str(sec_val or "").strip()
+            if sec and sec.lower() not in {v.lower() for v in VALID_SECONDARY}:
+                reasons.append(f"invalid secondary framework: {sec}")
+            cs = row.get("certainty_score")
+            if cs is None or (isinstance(cs, float) and pd.isna(cs)):
+                reasons.append("missing certainty score")
+            elite = str(row.get("elite_networks_mentioned", "") or "").strip()
+            if elite and elite not in VALID_ELITE:
+                reasons.append(f"invalid elite networks value: {elite}")
+            return "; ".join(reasons) if reasons else None
+
+        parsed_df["_issue"] = parsed_df.apply(_is_problematic, axis=1)
+        problem_df = parsed_df[parsed_df["_issue"].notna()].copy()
+
+        if not problem_df.empty:
+            with st.expander(f"⚠ Problematic rows ({len(problem_df)}) — review and remove", expanded=False):
+                st.caption("Check rows to remove them from the results. Only rows with parsing issues are shown here.")
+
+                p_col_all, p_col_none, _ = st.columns([1, 1, 8])
+                if p_col_all.button("Check All", key="check_all_problems"):
+                    st.session_state["problems_all_selected"] = True
+                if p_col_none.button("Uncheck All", key="uncheck_all_problems"):
+                    st.session_state["problems_all_selected"] = False
+
+                default_remove = st.session_state.get("problems_all_selected", False)
+                problem_display = problem_df[["_issue"] + [c for c in display_cols if c in problem_df.columns]].reset_index(drop=True)
+                problem_display.insert(0, "Remove", default_remove)
+                edited_problems = st.data_editor(
+                    problem_display,
+                    column_config={
+                        "Remove":  st.column_config.CheckboxColumn("Remove", width="small"),
+                        "_issue":  st.column_config.TextColumn("Issue",           width="large"),
+                        "model":   st.column_config.TextColumn("Model",           width="medium"),
+                        "framework": st.column_config.TextColumn("Primary Framework", width="medium"),
+                        "secondary_framework": st.column_config.TextColumn("Secondary Framework", width="medium"),
+                        "certainty_score": st.column_config.NumberColumn("Certainty", width="small"),
+                        "elite_networks_mentioned": st.column_config.TextColumn("Elite Networks", width="small"),
+                        "original_prompt": st.column_config.TextColumn("Prompt", width="large"),
+                    },
+                    disabled=[c for c in problem_display.columns if c != "Remove"],
+                    hide_index=True,
+                    width="stretch",
+                    key="problem_rows_editor",
+                )
+
+                rows_to_remove = edited_problems[edited_problems["Remove"]].index.tolist()
+                st.caption(f"**{len(rows_to_remove)}** row(s) selected for removal.")
+
+                if st.button("Remove Selected Rows", disabled=len(rows_to_remove) == 0):
+                    original_indices  = problem_df.iloc[rows_to_remove].index
+                    removed_keys = set(zip(
+                        parsed_df.loc[original_indices, "original_prompt"],
+                        parsed_df.loc[original_indices, "model"],
+                        parsed_df.loc[original_indices, "judge_model"],
+                    ))
+
+                    cleaned_df = parsed_df.drop(index=original_indices).drop(columns=["_issue"])
+                    cleaned_df.to_csv("final_judge_responses_parsed.csv", index=False)
+
+                    if os.path.exists("final_judge_responses.csv"):
+                        raw_df = pd.read_csv("final_judge_responses.csv")
+                        raw_df = raw_df[~raw_df.apply(
+                            lambda r: (r["original_prompt"], r["model"], r["judge_model"]) in removed_keys, axis=1
+                        )]
+                        raw_df.to_csv("final_judge_responses.csv", index=False)
+
+                    if is_configured():
+                        try:
+                            push("final_judge_responses_parsed.csv", "Remove problematic judge rows via Streamlit")
+                            push("final_judge_responses.csv",        "Remove problematic judge rows via Streamlit")
+                        except Exception as e:
+                            st.warning(f"GitHub sync failed: {e}")
+                    st.success(f"Removed {len(rows_to_remove)} row(s). Reload the tab to see updated results.")
+        else:
+            parsed_df.drop(columns=["_issue"], inplace=True)
 
 # ── Tab 3: Analysis Dashboard ──────────────────────────────────────────────────
 
