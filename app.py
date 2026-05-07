@@ -90,7 +90,7 @@ with tab1:
             st.error(f"CSV is missing required column(s): {', '.join(missing)}")
         else:
             st.subheader("Select Models")
-            col_all, col_none = st.columns([1, 1])
+            col_all, col_none, _ = st.columns([1, 1, 8])
             if col_all.button("Check All", key="check_all_models"):
                 st.session_state["models_all_selected"] = True
             if col_none.button("Uncheck All", key="uncheck_all_models"):
