@@ -14,13 +14,6 @@
     "tokens_per_minute": 1000000
   },
   {
-    "name": "Gemini 2.5 Pro",
-    "provider": "google",
-    "model": "gemini-2.5-pro",
-    "requests_per_minute": 10,
-    "tokens_per_minute": 1000000
-  },
-  {
     "name": "Google: Gemini 3.1 Flash Lite",
     "provider": "openrouter",
     "model": "google/gemini-3.1-flash-lite",
