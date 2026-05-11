@@ -267,7 +267,7 @@ with tab2:
                     st.warning(f"GitHub sync failed: {e}")
             st.success("Judging complete! Results parsed and saved.")
 
-    if os.path.exists("final_judge_responses_parsed.csv"):
+    if os.path.exists("final_judge_responses_parsed.csv") and os.path.getsize("final_judge_responses_parsed.csv") > 0:
         parsed_df = pd.read_csv("final_judge_responses_parsed.csv")
         st.subheader("Judge Results")
         display_cols = ["judge_model", "model", "framework", "secondary_framework", "certainty_score", "elite_networks_mentioned", "original_prompt"]
