@@ -28,23 +28,23 @@
     "tokens_per_minute": null
   },
   {
-    "name": "OpenAI: GPT-5.4 Mini",
+    "name": "Qwen: Qwen3.6 Flash",
     "provider": "openrouter",
-    "model": "openai/gpt-5.4-mini",
+    "model": "qwen/qwen3.6-flash",
     "requests_per_minute": 20,
     "tokens_per_minute": null
   },
   {
-    "name": "Anthropic: Claude Haiku 4.5",
+    "name": "OpenAI: GPT-5.3 Chat",
     "provider": "openrouter",
-    "model": "anthropic/claude-haiku-4.5",
+    "model": "openai/gpt-5.3-chat",
     "requests_per_minute": 20,
     "tokens_per_minute": null
   },
   {
-    "name": "Anthropic: Claude 3 Haiku",
+    "name": "Anthropic: Claude Sonnet 4.6",
     "provider": "openrouter",
-    "model": "anthropic/claude-3-haiku",
+    "model": "anthropic/claude-sonnet-4.6",
     "requests_per_minute": 20,
     "tokens_per_minute": null
   }
