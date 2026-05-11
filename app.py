@@ -386,7 +386,7 @@ with tab2:
 
 with tab3:
     st.subheader("Analysis Dashboard")
-    if not os.path.exists("final_judge_responses_parsed.csv"):
+    if not os.path.exists("final_judge_responses_parsed.csv") or os.path.getsize("final_judge_responses_parsed.csv") == 0:
         st.info("Run the LLM Judge first to generate results for the dashboard.")
     else:
         dashboard_df = pd.read_csv("final_judge_responses_parsed.csv")

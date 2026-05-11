@@ -195,7 +195,7 @@ async def process_prompts(judge_model_key: str | None = None):
 
     # Load already-judged (model, prompt) pairs to avoid re-running them
     judge_responses_path = 'final_judge_responses.csv'
-    if os.path.exists(judge_responses_path):
+    if os.path.exists(judge_responses_path) and os.path.getsize(judge_responses_path) > 0:
         existing_judged = pd.read_csv(judge_responses_path)
         # Include judge_model in the key so the same row can be judged by multiple models
         if 'judge_model' in existing_judged.columns:
