@@ -219,6 +219,13 @@ JUDGE_OPTIONS = {
 with tab2:
     st.subheader("Run LLM Judge")
 
+    # Auto-parse if raw responses exist but parsed file is missing or empty
+    raw_exists   = os.path.exists("final_judge_responses.csv") and os.path.getsize("final_judge_responses.csv") > 0
+    parsed_empty = not os.path.exists("final_judge_responses_parsed.csv") or os.path.getsize("final_judge_responses_parsed.csv") == 0
+    if raw_exists and parsed_empty:
+        _auto_df = pd.read_csv("final_judge_responses.csv")
+        parse_responses(_auto_df).to_csv("final_judge_responses_parsed.csv", index=False)
+
     if not os.path.exists("model_responses.csv"):
         st.info("Run prompt ingestion first to generate model_responses.csv.")
     else:
@@ -267,7 +274,7 @@ with tab2:
                     st.warning(f"GitHub sync failed: {e}")
             st.success("Judging complete! Results parsed and saved.")
 
-    if os.path.exists("final_judge_responses_parsed.csv"):
+    if os.path.exists("final_judge_responses_parsed.csv") and os.path.getsize("final_judge_responses_parsed.csv") > 0:
         parsed_df = pd.read_csv("final_judge_responses_parsed.csv")
         st.subheader("Judge Results")
         display_cols = ["judge_model", "model", "framework", "secondary_framework", "certainty_score", "elite_networks_mentioned", "original_prompt"]
@@ -293,7 +300,7 @@ with tab2:
         )
 
         # ── Error row removal ─────────────────────────────────────────────────
-        VALID_FRAMEWORKS  = {"Geopolitical", "Sociological", "Economic Protectionism"}
+        VALID_FRAMEWORKS  = {"Geoeconomic", "Sociological", "Economic Protectionism"}
         VALID_SECONDARY   = VALID_FRAMEWORKS | {"None", "null", "", "nan", "NaN"}
         VALID_ELITE       = {"true", "false", "True", "False"}
 
@@ -386,7 +393,7 @@ with tab2:
 
 with tab3:
     st.subheader("Analysis Dashboard")
-    if not os.path.exists("final_judge_responses_parsed.csv"):
+    if not os.path.exists("final_judge_responses_parsed.csv") or os.path.getsize("final_judge_responses_parsed.csv") == 0:
         st.info("Run the LLM Judge first to generate results for the dashboard.")
     else:
         dashboard_df = pd.read_csv("final_judge_responses_parsed.csv")

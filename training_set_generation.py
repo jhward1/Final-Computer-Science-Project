@@ -94,7 +94,7 @@ N_QUESTIONS = 50
 # 50 responses balanced across: certainty 1-5 (10 each), 3 frameworks (~17 each),
 # elite networks mentioned (25 yes / 25 no).
 
-FRAMEWORKS = ["Geopolitical", "Sociological", "Economic Protectionism"]
+FRAMEWORKS = ["Geoeconomic", "Sociological", "Economic Protectionism"]
 SECONDARY_FRAMEWORKS = [None] + FRAMEWORKS  # Allow for null secondary framework 
 
 def build_profiles(n=N_QUESTIONS):
@@ -135,7 +135,7 @@ CERTAINTY_INSTRUCTIONS = {
 }
 
 FRAMEWORK_INSTRUCTIONS = {
-    "Geopolitical": (
+    "Geoeconomic": (
         "Include in your answer references to state-level national interests, security concerns, "
         "great power competition, and geoeconomic strategy. Do not focus on trade barriers "
         "as an end in themselves or on informal elite dynamics."
@@ -153,14 +153,14 @@ FRAMEWORK_INSTRUCTIONS = {
 }
 
 SECONDARY_FRAMEWORK_INSTRUCTIONS = {
-    "Geopolitical": (
+    "Geoeconomic": (
         "You may also include some discussion of economic protectionism or elite networks/rent-seeking behavior, but this should not be the main focus."
     ),
     "Sociological": (
-        "You may also include some discussion of geopolitical strategy or economic protectionism, but this should not be the main focus."
+        "You may also include some discussion of geoeconomic strategy or economic protectionism, but this should not be the main focus."
     ),
     "Economic Protectionism": (
-        "You may also include some discussion of geopolitical strategy or elite networks, but this should not be the main focus."
+        "You may also include some discussion of geoeconomic strategy or elite networks, but this should not be the main focus."
     ),
 }
 

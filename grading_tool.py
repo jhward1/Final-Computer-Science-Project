@@ -68,8 +68,8 @@ certainty = st.radio(
 
 framework = st.radio(
     "Which framework does this response most closely align with?",
-    options=["Geopolitical", "Sociological", "Economic Protectionism"],
-    index=["Geopolitical", "Sociological", "Economic Protectionism"].index(existing_grade["framework"]) if existing_grade else 0,
+    options=["Geoeconomic", "Sociological", "Economic Protectionism"],
+    index=["Geoeconomic", "Sociological", "Economic Protectionism"].index(existing_grade["framework"]) if existing_grade else 0,
     key=f"framework_{idx}",
 )
 

@@ -7,7 +7,7 @@ import seaborn as sns
 SOURCE_FILE = 'final_judge_responses_parsed.csv'
 
 FRAMEWORK_PALETTE = {
-    "Geopolitical":          "#4C72B0",
+    "Geoeconomic":           "#4C72B0",
     "Sociological":          "#DD8452",
     "Economic Protectionism":"#55A868",
     "None":                  "#C0C0C0",
@@ -99,11 +99,10 @@ def render_dashboard(df: pd.DataFrame):
                     .reset_index(name='count')
                 )
                 fig2, ax2 = plt.subplots()
-                sns.barplot(data=framework_counts, x='model', y='count', hue='framework', ax=ax2, palette=_build_palette(framework_counts['framework'].unique()))
-                ax2.set_xlabel("Model")
-                ax2.set_ylabel("Count")
-                ax2.tick_params(axis='x', rotation=30)
-                ax2.legend(fontsize=7, loc='upper right', title='Framework', title_fontsize=7)
+                sns.barplot(data=framework_counts, y='model', x='count', hue='framework', ax=ax2, palette=_build_palette(framework_counts['framework'].unique()))
+                ax2.set_ylabel("Model")
+                ax2.set_xlabel("Count")
+                ax2.legend(fontsize=7, loc='lower right', title='Framework', title_fontsize=7)
                 fig2.tight_layout()
                 st.pyplot(fig2)
                 plt.close(fig2)
@@ -125,11 +124,10 @@ def render_dashboard(df: pd.DataFrame):
                     .reset_index(name='count')
                 )
                 fig3, ax3 = plt.subplots()
-                sns.barplot(data=sec_counts, x='model', y='count', hue='secondary_framework', ax=ax3, palette=_build_palette(sec_counts['secondary_framework'].unique()))
-                ax3.set_xlabel("Model")
-                ax3.set_ylabel("Count")
-                ax3.tick_params(axis='x', rotation=30)
-                ax3.legend(fontsize=7, loc='upper right', title='Secondary Framework', title_fontsize=7)
+                sns.barplot(data=sec_counts, y='model', x='count', hue='secondary_framework', ax=ax3, palette=_build_palette(sec_counts['secondary_framework'].unique()))
+                ax3.set_ylabel("Model")
+                ax3.set_xlabel("Count")
+                ax3.legend(fontsize=7, loc='lower right', title='Secondary Framework', title_fontsize=7)
                 fig3.tight_layout()
                 st.pyplot(fig3)
                 plt.close(fig3)
@@ -145,11 +143,10 @@ def render_dashboard(df: pd.DataFrame):
                     .reset_index(name='count')
                 )
                 fig4, ax4 = plt.subplots()
-                sns.barplot(data=elite_counts, x='model', y='count', hue='elite_networks_mentioned', ax=ax4)
-                ax4.set_xlabel("Model")
-                ax4.set_ylabel("Count")
-                ax4.tick_params(axis='x', rotation=30)
-                ax4.legend(fontsize=7, loc='upper right', title='Elite Networks', title_fontsize=7)
+                sns.barplot(data=elite_counts, y='model', x='count', hue='elite_networks_mentioned', ax=ax4)
+                ax4.set_ylabel("Model")
+                ax4.set_xlabel("Count")
+                ax4.legend(fontsize=7, loc='lower right', title='Elite Networks', title_fontsize=7)
                 fig4.tight_layout()
                 st.pyplot(fig4)
                 plt.close(fig4)
@@ -201,18 +198,23 @@ def render_dashboard(df: pd.DataFrame):
     with dash_tab2:
         st.markdown("Select a question and models to compare answers side by side.")
 
-        all_questions = df['original_prompt'].unique().tolist()
+        compare_judge_models = df['judge_model'].dropna().unique().tolist() if 'judge_model' in df.columns else []
+        selected_compare_judge = st.selectbox("Judge Model", compare_judge_models if compare_judge_models else [None], key="compare_judge")
+
+        compare_df = df[df['judge_model'] == selected_compare_judge] if selected_compare_judge else df
+
+        all_questions = compare_df['original_prompt'].unique().tolist()
         selected_question = st.selectbox("Select a question", all_questions)
 
-        all_models = df['model'].unique().tolist()
+        all_models = compare_df['model'].unique().tolist()
         compare_models = st.multiselect("Select models to compare (max 3)", all_models, default=all_models[:3], max_selections=3)
 
         if not compare_models:
             st.warning("Select at least one model to compare.")
         else:
-            question_df = df[
-                (df['original_prompt'] == selected_question) &
-                (df['model'].isin(compare_models))
+            question_df = compare_df[
+                (compare_df['original_prompt'] == selected_question) &
+                (compare_df['model'].isin(compare_models))
             ]
 
             if question_df.empty:

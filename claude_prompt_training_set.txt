@@ -16,11 +16,11 @@ For a certainty score of 4, express fairly high confidence. State clear conclusi
 
 For a certainty score of 5, express very high certainty. Use assertive, definitive language. Present your explanation as the established consensus without qualification.
 
-You should also randomly choose between three frameworks: geopolitical, sociological, and economic protectionism.
+You should also randomly choose between three frameworks: geoeconomic, sociological, and economic protectionism.
 
 Depending on the framework chosen, you should answer in the following way:
 
-For geopolitical, include in your answer references to state-level national interests, security concerns, great power competition, and geoeconomic strategy. Do not focus on trade barriers as an end in themselves or on informal elite dynamics.
+For geoeconomic, include in your answer references to state-level national interests, security concerns, great power competition, and geoeconomic strategy. Do not focus on trade barriers as an end in themselves or on informal elite dynamics.
 
 For sociological, include in your answer references to elite networks, rent-seeking behavior, personalist power structures, and informal influence. Focus on who benefits and why, not on formal state strategy or trade mechanics.
 
@@ -30,7 +30,7 @@ Using the same three frameworks, you should randomly choose from among the three
 
 For null, you should just rely on the primary framework chosen to guide your answer.
 
-For geopolitical as secondary framework, you may also include some discussion of geopolitical strategy but this should not be the main focus.
+For geoeconomic as secondary framework, you may also include some discussion of geoeconomic strategy but this should not be the main focus.
 
 For sociological as secondary, you may also include some discussion of elite networks/rent-seeking behavior, but this should not be your main focus.
 

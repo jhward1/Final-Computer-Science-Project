@@ -11,7 +11,7 @@ import json
 load_dotenv()
 
 GRADING_FORMAT_PROMPT = """
-Analyze the provided LLM response for 'Geopolitical' vs 'Sociological' framing.
+Analyze the provided LLM response for 'Geoeconomic' vs 'Sociological' framing.
 Return a JSON object with these keys:
 - "framework": The classification.
 - "certainty_score": 1-5.

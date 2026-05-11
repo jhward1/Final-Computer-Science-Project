@@ -8,7 +8,7 @@ A Streamlit web application for testing whether large language models (LLMs) exh
 
 This project was built for a research proposal by Professors Gregory Shaffer and Sergio Puig titled *"What Type of International Order Is Promoted by AI? Investigating Biases in Large Language Models through International Economic Law."*
 
-The core concern is that LLMs present contested interpretations as settled facts. When asked why President Trump expressed interest in Greenland, for example, ChatGPT framed geopolitical competition as the definitive explanation without acknowledging alternatives such as personalist or rent-seeking motivations. At scale, this systematic privileging of geopolitical frameworks over sociological ones could have real "world-constructing" effects.
+The core concern is that LLMs present contested interpretations as settled facts. When asked why President Trump expressed interest in Greenland, for example, ChatGPT framed geoeconomic competition as the definitive explanation without acknowledging alternatives such as personalist or rent-seeking motivations. At scale, this systematic privileging of geoeconomic frameworks over sociological ones could have real "world-constructing" effects.
 
 This codebase is a tool built to investigate that bias via testing of models through user-specified prompts.
 
@@ -18,9 +18,9 @@ This codebase is a tool built to investigate that bias via testing of models thr
 
 The professors' proposal identified four specific research objectives. Here is how each is addressed in the code:
 
-**1. Explanatory Bias — Whether LLMs systematically favor geopolitical explanations over sociological or elite-network-based ones**
+**1. Explanatory Bias — Whether LLMs systematically favor geoeconomic explanations over sociological or elite-network-based ones**
 
-The judge LLM is given a structured coding rubric (defined in `llm_judge.py`) that classifies every response into one of three primary frameworks: *Geopolitical* (state-level national security, great-power competition, geoeconomics), *Sociological* (elite networks, rent-seeking, personalist power), or *Economic Protectionism* (trade barriers, producer interests). A secondary framework field captures cases where a response blends two approaches. The Analysis Dashboard aggregates these classifications per model in bar charts, making systematic tendencies visible at a glance. Also, justification of the framework's selection is highlighted in blue in the detailed view of the judge model analysis. 
+The judge LLM is given a structured coding rubric (defined in `llm_judge.py`) that classifies every response into one of three primary frameworks: *Geoeconomic* (state-level national security, great-power competition, geoeconomics), *Sociological* (elite networks, rent-seeking, personalist power), or *Economic Protectionism* (trade barriers, producer interests). A secondary framework field captures cases where a response blends two approaches. The Analysis Dashboard aggregates these classifications per model in bar charts, making systematic tendencies visible at a glance. Also, justification of the framework's selection is highlighted in blue in the detailed view of the judge model analysis. 
 
 **2. Framing Effects — How LLMs present contested explanations (as hypotheses vs. settled facts)**
 
@@ -41,7 +41,7 @@ The prompt ingestion system (`prompt_ingestion.py`) queries multiple LLMs concur
 The tool works in three stages, each corresponding to a tab in the app:
 
 1. **Prompt Ingestion** — Upload a CSV of questions and run them against multiple LLMs simultaneously. Responses are saved to `model_responses.csv`.
-2. **LLM Judge** — A judge LLM reads each response and classifies it: which explanatory framework does it use (Geopolitical, Sociological, or Economic Protectionism)? How certain is the language? Are elite networks mentioned? Results are saved to `final_judge_responses_parsed.csv`.
+2. **LLM Judge** — A judge LLM reads each response and classifies it: which explanatory framework does it use (Geoeconomic, Sociological, or Economic Protectionism)? How certain is the language? Are elite networks mentioned? Results are saved to `final_judge_responses_parsed.csv`.
 3. **Analysis Dashboard** — Charts and a filterable table let you explore how different models differ in their explanatory tendencies, certainty levels, and secondary frameworks. A side-by-side model comparison view is also available.
 
 The fourth tab is a configuration tab. It lets you browse available models from OpenRouter and configure which models are available as test cases for the prompt ingestion tool.
@@ -271,7 +271,7 @@ The fine-tuned judge model was created by training a base LLM on synthetic examp
 
 `claude_prompt_training_set.txt` contains a prompt that was submitted directly to Claude. The prompt instructs Claude to generate 50 synthetic question-and-answer pairs covering geopolitics and international economic law, and to annotate each answer with:
 
-- A randomly chosen primary framework (`Geopolitical`, `Sociological`, or `Economic Protectionism`)
+- A randomly chosen primary framework (`Geoeconomic`, `Sociological`, or `Economic Protectionism`)
 - An optional secondary framework
 - A certainty score (1–5)
 - Whether elite networks are mentioned (`true`/`false`)
@@ -290,7 +290,7 @@ python csv_to_jsonl.py training_set.csv
 
 Each line in the output file looks like:
 ```json
-{"messages": [{"role": "user", "content": "Analyze the following..."}, {"role": "assistant", "content": "{\"primary_framework\": \"Geopolitical\", ...}"}]}
+{"messages": [{"role": "user", "content": "Analyze the following..."}, {"role": "assistant", "content": "{\"primary_framework\": \"Geoeconomic\", ...}"}]}
 ```
 
 ### Step 3 — Fine-tune the model
