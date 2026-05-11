@@ -201,18 +201,23 @@ def render_dashboard(df: pd.DataFrame):
     with dash_tab2:
         st.markdown("Select a question and models to compare answers side by side.")
 
-        all_questions = df['original_prompt'].unique().tolist()
+        compare_judge_models = df['judge_model'].dropna().unique().tolist() if 'judge_model' in df.columns else []
+        selected_compare_judge = st.selectbox("Judge Model", compare_judge_models if compare_judge_models else [None], key="compare_judge")
+
+        compare_df = df[df['judge_model'] == selected_compare_judge] if selected_compare_judge else df
+
+        all_questions = compare_df['original_prompt'].unique().tolist()
         selected_question = st.selectbox("Select a question", all_questions)
 
-        all_models = df['model'].unique().tolist()
+        all_models = compare_df['model'].unique().tolist()
         compare_models = st.multiselect("Select models to compare (max 3)", all_models, default=all_models[:3], max_selections=3)
 
         if not compare_models:
             st.warning("Select at least one model to compare.")
         else:
-            question_df = df[
-                (df['original_prompt'] == selected_question) &
-                (df['model'].isin(compare_models))
+            question_df = compare_df[
+                (compare_df['original_prompt'] == selected_question) &
+                (compare_df['model'].isin(compare_models))
             ]
 
             if question_df.empty:
