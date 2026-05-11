@@ -219,6 +219,13 @@ JUDGE_OPTIONS = {
 with tab2:
     st.subheader("Run LLM Judge")
 
+    # Auto-parse if raw responses exist but parsed file is missing or empty
+    raw_exists   = os.path.exists("final_judge_responses.csv") and os.path.getsize("final_judge_responses.csv") > 0
+    parsed_empty = not os.path.exists("final_judge_responses_parsed.csv") or os.path.getsize("final_judge_responses_parsed.csv") == 0
+    if raw_exists and parsed_empty:
+        _auto_df = pd.read_csv("final_judge_responses.csv")
+        parse_responses(_auto_df).to_csv("final_judge_responses_parsed.csv", index=False)
+
     if not os.path.exists("model_responses.csv"):
         st.info("Run prompt ingestion first to generate model_responses.csv.")
     else:
